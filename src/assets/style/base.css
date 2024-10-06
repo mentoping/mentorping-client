@@ -1,0 +1,14 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none; /* 링크 밑줄 제거 */
+  color: white; /* 링크 색상 흰색으로 설정 */
+}
+
+a:hover {
+  color: #aaa; /* 마우스 오버 시 색상 변경 */
+}
