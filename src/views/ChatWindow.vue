@@ -207,26 +207,6 @@ export default {
 		};
 
 		// 채팅방의 메시지 가져오기
-		// watch(
-		//   () => props.roomId,
-		//   (newRoomId) => {
-		//     if (!newRoomId) return;
-		//     const messagesCollection = collection(db, 'rooms', newRoomId, 'messages');
-		//     const q = query(messagesCollection, orderBy('timestamp'));
-
-		//     onSnapshot(q, (querySnapshot) => {
-		//       messages.value = [];
-		//       querySnapshot.forEach((doc) => {
-		//         messages.value.push(doc.data());
-		//       });
-		//       console.log('Messages:', messages.value); // 가져온 메시지 목록 확인
-		//       scrollToBottom(); // 메시지가 변경될 때마다 스크롤을 맨 아래로 이동
-
-		//     });
-		//   },
-		//   { immediate: true } // 컴포넌트가 마운트될 때 즉시 실행
-		// );
-
 		watch(
 			() => props.roomId,
 			async newRoomId => {
