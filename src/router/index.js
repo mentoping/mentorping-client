@@ -5,6 +5,8 @@ import MentoringView from '@/views/MentoringView.vue';
 import AdminView from '@/views/AdminView.vue';
 import MypageView from '@/views/MypageView.vue';
 import LoginView from '@/views/LoginView.vue';
+import QuestionDetail from '@/views/QuestionDetail.vue';
+import ChatRoom from '@/views/ChatRoom.vue';
 
 const routes = [
 	{
@@ -14,6 +16,10 @@ const routes = [
 	{
 		path: '/question',
 		component: QuestionView,
+	},
+	{
+		path: '/questiondetail',
+		component: QuestionDetail,
 	},
 	{
 		path: '/mentoring',
@@ -30,6 +36,11 @@ const routes = [
 	{
 		path: '/login',
 		component: LoginView,
+	},
+	{
+		path: '/chat',
+		name: 'ChatRoom',
+		component: ChatRoom,
 	},
 ];
 
