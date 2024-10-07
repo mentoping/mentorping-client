@@ -7,6 +7,7 @@ import MypageView from '@/views/MypageView.vue';
 import LoginView from '@/views/LoginView.vue';
 import QuestionDetail from '@/views/QuestionDetail.vue';
 import ChatRoom from '@/views/ChatRoom.vue';
+import InquiryView from '@/views/InquiryView.vue';
 
 const routes = [
 	{
@@ -41,6 +42,11 @@ const routes = [
 		path: '/chat',
 		name: 'ChatRoom',
 		component: ChatRoom,
+	},
+	{
+		path: '/inquiry',
+		name: 'Inquiry',
+		component: InquiryView,
 	},
 ];
 
