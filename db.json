@@ -1,19 +1,14 @@
 {
-	"posts": [
+	"members": [
 		{
 			"id": 1,
-			"title": "json-server",
-			"author": "typicode"
+			"role": "ROLE_MENTOR",
+      "name": "박혁진",
+      "password": "",
+      "email": "phj123@naver.com",
+      "nickname": "코사",
+      "profile": "https://picsum.photos/id/237/200/300",
+      "content": "자기소개글"
 		}
-	],
-	"comments": [
-		{
-			"id": 1,
-			"body": "some comment",
-			"postId": 1
-		}
-	],
-	"profile": {
-		"name": "typicode"
-	}
+	]
 }
