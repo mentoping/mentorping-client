@@ -1,41 +1,98 @@
-// stores/user.js
-import { defineStore } from 'pinia';
-import { ref } from 'vue';
+//src/stores/auth.js
+// Auth.js - 인증 및 토큰 관련 로직을 처리하는 모듈
 import axios from 'axios';
+import { useUserStore } from '@/stores/user';
+import { useRouter } from 'vue-router';
 
-export const useUserStore = defineStore('user', () => {
-	const isLoggedIn = ref(false);
-	const userInfo = ref(null);
+// 쿠키에서 특정 이름의 값을 가져오는 함수
+const getCookie = name => {
+	const value = `; ${document.cookie}`;
+	const parts = value.split(`; ${name}=`);
+	if (parts.length === 2) return parts.pop().split(';').shift();
+};
 
-	// 로그인 상태 설정 함수
-	function setLoginStatus(status) {
-		isLoggedIn.value = status;
-	}
+// 로그아웃 함수
+const useAuth = () => {
+	const userStore = useUserStore();
+	const router = useRouter();
 
-	// 유저 정보 설정 함수
-	function setUserInfo(info) {
-		userInfo.value = info;
-	}
+	const logout = () => {
+		document.cookie =
+			'accessToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;';
+		document.cookie =
+			'refreshToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;';
+		userStore.resetUser();
+		router.push('/login');
+	};
 
-	// JSON Server에서 유저 정보 가져오기
-	async function fetchUserInfo() {
+	const login = async provider => {
 		try {
-			const response = await axios.get('http://localhost:8089/members');
-			if (response.data) {
-				setUserInfo(response.data);
-				setLoginStatus(true);
-				console.log('로그인 정보: ', userInfo);
+			// 로그인 요청 (예: 카카오 로그인)
+			const response = await axios.post('http://localhost:8089/login', {
+				provider,
+			});
+			if (response.status === 200) {
+				document.cookie = `accessToken=${response.data.accessToken}; Path=/;`;
+				document.cookie = `refreshToken=${response.data.refreshToken}; Path=/;`;
+				userStore.setUser(response.data.user);
+				userStore.isLoggedIn = true;
 			}
 		} catch (error) {
-			console.error('Failed to fetch user info:', error);
+			console.error('로그인 에러:', error);
 		}
-	}
+	};
 
 	return {
-		isLoggedIn,
-		userInfo,
-		setLoginStatus,
-		setUserInfo,
-		fetchUserInfo,
+		getCookie,
+		logout,
+		login,
 	};
+};
+
+export default useAuth;
+
+// Axios Interceptor 설정
+const api = axios.create({
+	baseURL: 'http://localhost:8089',
 });
+
+const { logout } = useAuth();
+
+api.interceptors.request.use(
+	async config => {
+		const accessToken = getCookie('accessToken');
+		if (accessToken) {
+			config.headers.Authorization = `Bearer ${accessToken}`;
+
+			// 토큰 만료 검사 로직 추가 (임시로 항상 유효하다고 가정)
+			const isExpired = false; // 실제로는 만료 여부를 확인하는 로직 필요
+			if (isExpired) {
+				try {
+					const refreshToken = getCookie('refreshToken');
+					const response = await axios.post(
+						'http://localhost:8089/refreshToken',
+						{
+							refreshToken,
+						},
+					);
+
+					if (response.status === 200) {
+						document.cookie = `accessToken=${response.data.accessToken}; Path=/;`;
+						config.headers.Authorization = `Bearer ${response.data.accessToken}`;
+					} else {
+						logout();
+					}
+				} catch (error) {
+					console.error('토큰 갱신 에러:', error);
+					logout();
+				}
+			}
+		}
+		return config;
+	},
+	error => {
+		return Promise.reject(error);
+	},
+);
+
+export { api };
