@@ -2,18 +2,30 @@
   "login": [
     {
       "id": 1,
+      "provider": "kakao",
       "accessToken": "mockAccessToken12345",
       "refreshToken": "mockRefreshToken12345",
       "user": {
         "id": 1,
         "role": "ROLE_MENTOR",
         "name": "박혁진",
-        "password": "",
         "email": "phj123@naver.com",
         "nickname": "코사",
-        "profile": "https://picsum.photos/id/237/200/300",
+        "profile": "https://picsum.photos/id/870/200/300?grayscale&blur=2",
         "content": "자기소개글"
       }
     }
+  ],
+  "validate-token": [
+    {
+      "id": 1,
+      "role": "ROLE_MENTOR",
+      "name": "박혁진",
+      "email": "phj123@naver.com",
+      "nickname": "코사",
+      "profile": "https://picsum.photos/id/870/200/300?grayscale&blur=2",
+      "content": "자기소개글"
+    }
   ]
+  
 }
