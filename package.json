@@ -9,11 +9,12 @@
 		"preview": "vite preview",
 		"lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
 		"format": "prettier --write src/",
-		"db": "json-server --watch db.json --port 5000"
+		"db": "json-server --watch db.json --port 8089"
 	},
 	"dependencies": {
 		"axios": "^1.7.7",
 		"firebase": "^10.14.0",
+		"js-cookie": "^3.0.5",
 		"pinia": "^2.2.4",
 		"vue": "^3.4.29",
 		"vue-router": "^4.4.5"
