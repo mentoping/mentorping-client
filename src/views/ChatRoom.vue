@@ -7,7 +7,6 @@
 		<ChatRoomList @select-room="selectChatRoom" />
 
 		<!-- 채팅창 -->
-		<!-- <ChatWindow :room="selectedRoom" : roomId="selectedRoomId" :roomName="selectedRoomName" /> -->
 		<ChatWindow
 			:room="selectedRoom"
 			:roomId="selectedRoom.id"
@@ -30,22 +29,16 @@ export default {
 		ChatWindow,
 	},
 	setup() {
-		// const selectedRoomId = ref(null);
-		// const selectedRoomName = ref('');
-
 		const selectedRoom = ref({
 			id: null,
 			name: '',
 			chatRoomNames: {},
 		});
-		// 채팅방 선택 시 호출되는 함수
-		// const selectChatRoom = (roomId) => {
-		//   selectedRoomId.value = roomId;
-		//   selectedRoomName.value = `채팅방 ${roomId}`; // 예시로 채팅방 이름 설정
-		// };
 
+		// 채팅방 선택 시 호출되는 함수 (ChatRoomList에서만 이 함수를 통해 selectedRoom을 변경)
 		const selectChatRoom = room => {
 			selectedRoom.value = room; // 선택한 채팅방의 전체 정보를 전달
+			console.log('selectedRoom updated:', selectedRoom.value);
 		};
 
 		return {

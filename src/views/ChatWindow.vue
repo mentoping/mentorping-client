@@ -12,40 +12,55 @@
 			<div
 				v-for="(msg, index) in messages"
 				:key="index"
+				class="message-wrapper"
 				:class="{
-					'my-message': msg.senderId === userId,
-					'other-message': msg.senderId !== userId,
+					'my-message-wrapper': msg.senderId === userId,
+					'other-message-wrapper': msg.senderId !== userId,
 				}"
 			>
-				<!-- 프로필과 사용자 이름, 전송 시간 표시 -->
-				<div class="message-header">
-					<img
-						src="https://via.placeholder.com/40"
-						alt="Profile Picture"
-						class="profile-pic"
-					/>
-					<span class="username">{{ msg.senderName }}</span>
-					<span class="timestamp">{{ formatTimestamp(msg.timestamp) }}</span>
-				</div>
+				<!-- 읽음 여부에 따라 숫자 1 표시 -->
+				<span
+					v-if="msg.senderId === userId && !msg.isRead"
+					class="read-indicator"
+					>1</span
+				>
 				<!-- 메시지 내용 -->
-				<div class="message-content">
-					<!-- 파일 URL이 있을 경우 파일 링크를 보여줌 -->
-					<template v-if="msg.fileURL && isImageFile(msg.fileURL)">
+				<div
+					:class="{
+						'my-message': msg.senderId === userId,
+						'other-message': msg.senderId !== userId,
+					}"
+				>
+					<!-- 프로필과 사용자 이름, 전송 시간 표시 -->
+					<div class="message-header">
 						<img
-							:src="msg.fileURL"
-							:key="msg.fileURL"
-							alt="Uploaded Image"
-							class="uploaded-image"
+							src="https://via.placeholder.com/40"
+							alt="Profile Picture"
+							class="profile-pic"
 						/>
-					</template>
-					<!-- 이미지가 아닌 파일은 다운로드 링크로 표시 -->
-					<template v-else-if="msg.fileURL">
-						<a :href="msg.fileURL" target="_blank">📎 파일 다운로드</a>
-					</template>
-					<!-- 파일이 없을 경우 일반 텍스트 메시지 보여줌 -->
-					<template v-else>
-						{{ msg.content }}
-					</template>
+						<span class="username">{{ msg.senderName }}</span>
+						<span class="timestamp">{{ formatTimestamp(msg.timestamp) }}</span>
+					</div>
+					<!-- 메시지 내용 -->
+					<div class="message-content">
+						<!-- 파일 URL이 있을 경우 파일 링크를 보여줌 -->
+						<template v-if="msg.fileURL && isImageFile(msg.fileURL)">
+							<img
+								:src="msg.fileURL"
+								:key="msg.fileURL"
+								alt="Uploaded Image"
+								class="uploaded-image"
+							/>
+						</template>
+						<!-- 이미지가 아닌 파일은 다운로드 링크로 표시 -->
+						<template v-else-if="msg.fileURL">
+							<a :href="msg.fileURL" target="_blank">📎 파일 다운로드</a>
+						</template>
+						<!-- 파일이 없을 경우 일반 텍스트 메시지 보여줌 -->
+						<template v-else>
+							{{ msg.content }}
+						</template>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -79,7 +94,7 @@
 				class="hidden-file-input"
 			/>
 			<!-- 전송 버튼 -->
-			<button @click="sendMessage" class="send-button">
+			<button @click="sendMessage" class="send-button" :disabled="isSending">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					viewBox="0 0 24 24"
@@ -127,9 +142,14 @@ export default {
 	setup(props) {
 		const messages = ref([]);
 		const messageContent = ref('');
+		const isSending = ref(false); // 전송 상태 관리 변수
 		const chatMessages = ref(null); // 스크롤을 제어하기 위한 ref
 		const selectedFile = ref(null); // 업로드할 파일을 저장할 변수
 		const previewImage = ref(null); // 이미지 미리보기용 변수
+		const isReceiverInRoom = ref(false); // 상대방이 채팅방에 있는지 추적하는 상태 변수
+
+		// 현재 선택된 방 ID를 추적하는 상태 변수
+		const selectedRoomId = ref(null);
 
 		// Firebase Storage 초기화
 		const storage = getStorage();
@@ -160,11 +180,9 @@ export default {
 
 				reader.onload = () => {
 					previewImage.value = reader.result; // 파일을 미리보기용 데이터 URL로 변환
-					console.log('Preview Image URL:', previewImage.value); // 미리보기 이미지 URL 확인
 				};
 
 				reader.readAsDataURL(selectedFile.value);
-				console.log('Selected file:', selectedFile.value); // 선택된 파일 확인
 			}
 		};
 
@@ -182,7 +200,6 @@ export default {
 				const snapshot = await uploadBytes(fileRef, selectedFile.value);
 				const downloadURL = await getDownloadURL(snapshot.ref);
 				selectedFile.value = null; // 파일 업로드 후 선택 파일 초기화
-				console.log('Uploaded file URL:', downloadURL); // 업로드된 파일 URL 확인
 				return downloadURL;
 			} catch (error) {
 				console.error('Error uploading file:', error);
@@ -192,9 +209,7 @@ export default {
 
 		// 이미지 파일 여부 확인 함수
 		const isImageFile = url => {
-			const isImage = /\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i.test(url);
-			console.log('Checking if the URL is an image:', url); // URL이 이미지인지 확인
-			return isImage;
+			return /\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i.test(url);
 		};
 
 		// 스크롤을 맨 아래로 이동시키는 함수
@@ -206,40 +221,82 @@ export default {
 			});
 		};
 
-		// 채팅방의 메시지 가져오기
-		watch(
-			() => props.roomId,
-			async newRoomId => {
-				if (!newRoomId) return;
-				const messagesCollection = collection(
-					db,
-					'rooms',
-					newRoomId,
-					'messages',
-				);
-				const q = query(messagesCollection, orderBy('timestamp'));
+		// 메시지 가져오기 함수
+		const fetchMessages = async roomId => {
+			// Firestore의 'rooms' 컬렉션에서 특정 채팅방의 메시지 가져오기
+			const messagesCollection = collection(db, 'rooms', roomId, 'messages');
+			const q = query(messagesCollection, orderBy('timestamp'));
 
-				onSnapshot(q, async querySnapshot => {
-					messages.value = [];
-					querySnapshot.forEach(doc => {
-						messages.value.push({ id: doc.id, ...doc.data() });
-					});
-					console.log('Messages:', messages.value);
-					scrollToBottom();
+			// onSnapshot을 사용하여 Firestore의 실시간 업데이트 구독
+			onSnapshot(q, async querySnapshot => {
+				// 다른 방에서 온 메시지가 fetch되지 않도록 확인
+				if (selectedRoomId.value !== roomId) return;
 
-					// 메시지 읽음 상태 업데이트
-					await markMessagesAsRead(newRoomId);
+				messages.value = [];
+
+				querySnapshot.forEach(doc => {
+					const messageData = { id: doc.id, ...doc.data() };
+					messages.value.push(messageData);
 				});
+
+				// 메시지가 변경될 때마다 스크롤을 맨 아래로 이동
+				scrollToBottom();
+
+				// 현재 사용자가 들어온 방에 있는 메시지의 읽음 상태를 업데이트
+				await markMessagesAsRead(roomId);
+			});
+		};
+
+		// 채팅방 변경시
+		watch(
+			() => props.room,
+			async (newRoom, oldRoom) => {
+				// 새로운 방이 선택되었을 때만 실행
+				if (!newRoom || !newRoom.id) return;
+
+				// 이전 방과 새로운 방이 같은 경우 변경을 막고 함수 종료
+				if (oldRoom && oldRoom.id === newRoom.id) {
+					return; // 방이 변경되지 않았으므로 fetchMessages를 호출하지 않습니다.
+				}
+
+				console.log(`Current roomId: ${newRoom.id}`);
+
+				// 새로운 방이 선택되었을 때만 selectedRoomId를 업데이트
+				if (selectedRoomId.value !== newRoom.id) {
+					selectedRoomId.value = newRoom.id; // 선택한 방 ID 업데이트
+					console.log(`Current roomId: ${newRoom.id}`);
+
+					// 상대방이 채팅방에 있는지 확인하는 로직
+					const roomRef = doc(db, 'rooms', newRoom.id);
+					onSnapshot(roomRef, docSnapshot => {
+						if (docSnapshot.exists()) {
+							const roomData = docSnapshot.data();
+							isReceiverInRoom.value = roomData.receiverInRoom || false;
+						}
+					});
+
+					// 메시지 가져오기
+					await fetchMessages(newRoom.id);
+
+					// **방 입장 시에만 markMessagesAsRead 호출**
+					await markMessagesAsRead(newRoom.id);
+				}
 			},
-			{ immediate: true }, // 컴포넌트가 마운트될 때 즉시 실행
+			{ immediate: true },
 		);
 
 		// 메시지 읽음 상태 업데이트 함수
 		const markMessagesAsRead = async roomId => {
+			// 현재 선택된 방이 아닌 경우 함수 종료
+			if (selectedRoomId.value !== roomId) {
+				return;
+			}
+
 			const messagesCollection = collection(db, 'rooms', roomId, 'messages');
 			const unreadMessagesQuery = query(
 				messagesCollection,
 				where('isRead', '==', false),
+				where('senderId', '!=', userId.value), // 현재 사용자가 보낸 메시지를 제외
 			);
 
 			const unreadMessagesSnapshot = await getDocs(unreadMessagesQuery);
@@ -250,14 +307,21 @@ export default {
 
 		// 메시지 전송
 		const sendMessage = async () => {
+			// 메시지가 비어있고 파일도 선택되지 않은 경우 전송하지 않음
 			if (messageContent.value.trim() === '' && !selectedFile.value) return;
+
+			// 전송 중이면 함수 종료
+			if (isSending.value) return;
+
+			// 전송 상태를 true로 설정하여 버튼을 비활성화
+			isSending.value = true;
 
 			const message = {
 				senderId: userId.value,
 				senderName: userName.value,
 				content: messageContent.value,
 				timestamp: Date.now(),
-				isRead: false, // 메시지에 isRead 속성 추가
+				isRead: isReceiverInRoom.value, // 상대방이 채팅방에 있는지 여부에 따라 isRead 설정
 			};
 
 			// 파일이 선택되어 있다면 업로드하고 URL을 메시지에 포함
@@ -289,6 +353,9 @@ export default {
 				scrollToBottom(); // 메시지가 전송되면 스크롤을 맨 아래로 이동
 			} catch (error) {
 				console.error('Error sending message:', error);
+			} finally {
+				// 메시지 전송이 완료되면 버튼을 다시 활성화
+				isSending.value = false;
 			}
 		};
 
@@ -310,6 +377,7 @@ export default {
 			triggerFileInput,
 			isImageFile, // 이미지 파일 여부 확인
 			previewImage, // 미리보기 이미지 데이터
+			isSending,
 		};
 	},
 };
@@ -334,6 +402,18 @@ export default {
 	margin-bottom: 10px;
 	background-color: #f9f9f9;
 	border-radius: 10px;
+}
+
+.message-wrapper {
+	display: flex;
+	align-items: center; /* 메시지와 숫자 1을 수직 가운데 정렬 */
+	/* margin-bottom: 5px; 메시지 간의 간격 */
+}
+
+.read-indicator {
+	font-size: 15px;
+	color: red;
+	margin-left: 5px; /* 메시지 박스와 읽음 표시 사이의 간격 */
 }
 
 /* 입력 영역 스타일 */
@@ -413,7 +493,6 @@ export default {
 /* 메시지 스타일 */
 .my-message,
 .other-message {
-	display: block;
 	max-width: 60%;
 	padding: 10px;
 	border-radius: 15px;
@@ -425,6 +504,7 @@ export default {
 	align-self: flex-end;
 	color: white;
 	text-align: left;
+	margin-left: auto; /* 오른쪽에 정렬되도록 설정 */
 }
 
 .other-message {
@@ -432,6 +512,7 @@ export default {
 	align-self: flex-start;
 	color: black;
 	text-align: left;
+	margin-right: auto; /* 왼쪽에 정렬되도록 설정 */
 }
 
 /* 프로필 이미지와 사용자 정보 */
