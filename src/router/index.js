@@ -8,6 +8,7 @@ import LoginView from '@/views/LoginView.vue';
 import QuestionDetail from '@/views/QuestionDetail.vue';
 import ChatRoom from '@/views/ChatRoom.vue';
 import InquiryView from '@/views/InquiryView.vue';
+import CreateQuestionView from '@/views/CreateQuestionView.vue';
 
 const routes = [
 	{
@@ -47,6 +48,11 @@ const routes = [
 		path: '/inquiry',
 		name: 'Inquiry',
 		component: InquiryView,
+	},
+	{
+		path: '/create-question',
+		name: 'CreateQuestion',
+		component: CreateQuestionView,
 	},
 ];
 
