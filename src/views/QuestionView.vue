@@ -1,7 +1,7 @@
 <template>
 	<div class="question-container">
 		<div>
-			<ExplainComp>
+			<ExplainComp :button-route="'/create-question'">
 				<!-- 제목 slot -->
 				<template #title> 질문하기 </template>
 				<!-- 설명 slot -->
