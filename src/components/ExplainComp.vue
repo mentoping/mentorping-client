@@ -12,12 +12,26 @@
 
 		<!-- 버튼을 받는 slot -->
 		<div class="question-button">
-			<slot name="button"></slot>
+			<RouterLink :to="buttonRoute">
+				<slot name="button"></slot>
+			</RouterLink>
 		</div>
 	</div>
 </template>
 
-<script setup></script>
+<script setup>
+import { RouterLink } from 'vue-router';
+import { defineProps } from 'vue';
+
+const props = defineProps({
+	buttonRoute: {
+		type: String,
+		required: true,
+	},
+});
+
+const buttonRoute = props.buttonRoute;
+</script>
 
 <style scoped>
 .q-container {
