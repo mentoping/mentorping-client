@@ -1,9 +1,10 @@
 <template>
 	<div class="order"><OrderConditonComp></OrderConditonComp></div>
 	<div
-		class="question-card"
 		v-for="(question, index) in questionsContent"
 		:key="index"
+		class="question-card"
+		@click="goToQuestion(question.id)"
 	>
 		<div class="question-header">
 			<img
@@ -31,7 +32,7 @@
 				</span>
 			</div>
 			<div class="actions">
-				<span class="likes" @click="toggleLike(question)">
+				<span class="likes" @click.stop="toggleLike(question)">
 					<span v-if="isLiked(question.id)">❤️</span>
 					<span v-else>🤍</span>
 					{{ question.likeCount }}
@@ -48,6 +49,7 @@ import { storeToRefs } from 'pinia';
 import { useQuestionStore } from '@/stores/questionAndMentoringStore';
 import { useLikeStore } from '@/stores/likeStore';
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 
 const questionStore = useQuestionStore();
 const { questions } = storeToRefs(questionStore);
@@ -55,8 +57,16 @@ const { questions } = storeToRefs(questionStore);
 const authStore = useLikeStore();
 const { questionLike } = storeToRefs(authStore);
 
+// Router instance for navigation
+const router = useRouter();
+
 // Extracting content array from questions object
 const questionsContent = computed(() => questions.value.content || []);
+
+// RouterLink를 사용하면 이벤트 버블링이 멈추지 앟아
+const goToQuestion = questionId => {
+	router.push({ path: `/questiondetail/${questionId}` });
+};
 
 // Check if a question is liked by the current user
 const isLiked = questionId => {
@@ -89,6 +99,12 @@ const toggleLike = question => {
 	margin-bottom: 16px;
 	max-width: 1000px;
 	width: 70vw;
+	transition: box-shadow 0.3s ease;
+	cursor: pointer; /* 클릭 가능하다는 것을 사용자에게 시각적으로 알려줌 */
+}
+
+.question-card:hover {
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .question-header {
