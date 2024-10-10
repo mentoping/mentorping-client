@@ -17,14 +17,17 @@
 	<div class="answer-count">
 		<span>{{ currentQuestion.answerCount }}</span> 개의 답변이 달렸어요!
 	</div>
+	<QuestionAnswerComp class="shared-width answer-box"></QuestionAnswerComp>
 </template>
 
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useQuestionStore } from '@/stores/questionAndMentoringStore';
 
 import QuestionDetailComp from '@/components/QuestionDetailComp.vue';
 import TextEditorComp from '@/components/TextEditorComp.vue';
+import QuestionAnswerComp from '@/components/QuestionAnswerComp.vue';
 
 const { id } = defineProps({
 	id: {
@@ -36,7 +39,7 @@ const { id } = defineProps({
 // Pinia 스토어 사용
 const questionStore = useQuestionStore();
 
-const { currentQuestion } = questionStore;
+const { currentQuestion } = storeToRefs(questionStore);
 
 const advertiseBox = ref(null);
 
@@ -48,7 +51,7 @@ const handleScroll = () => {
 };
 
 onMounted(() => {
-	questionStore.setQuestionDetail(id);
+	questionStore.setQuestionDetail(id); //현재 질문 정보 가져오기
 	window.addEventListener('scroll', handleScroll);
 });
 
@@ -129,5 +132,9 @@ onUnmounted(() => {
 	height: 100%;
 	object-fit: cover;
 	border-radius: 20px;
+}
+
+.answer-box {
+	margin-top: 40px;
 }
 </style>

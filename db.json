@@ -150,5 +150,33 @@
       "likeCount": 3,
       "answerCount": 2,
       "selected": true
+  },
+  "answer" : {
+    "content": [
+      {
+        "id": 1,
+        "content": "집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 ",
+        "author": {
+          "id": 2,
+          "name": "장원석",
+          "profileUrl": "https://picsum.photos/seed/picsum/200/300"
+        },
+        "createdAt": "2024-10-07T22:39:08.312375",
+        "isSelected": true,
+        "selectedReview": "감사합니다 덕분에 해결되었어요"
+      },    
+      {
+        "id": 2,
+        "content": "집에가고싶어요",
+        "author": {
+          "id": 3,
+          "name": "오재혁",
+          "profileUrl": "https://picsum.photos/200/300?grayscale"
+        },
+        "createdAt": "2024-10-08T22:39:08.312375",
+        "isSelected": false,
+        "selectedReview": ""
+      }
+    ]
   }
 }
