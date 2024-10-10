@@ -12,7 +12,7 @@
 
 		<!-- 버튼을 받는 slot -->
 		<div class="question-button">
-			<RouterLink :to="buttonRoute">
+			<RouterLink :to="buttonRoute" class="button-color">
 				<slot name="button"></slot>
 			</RouterLink>
 		</div>
@@ -56,10 +56,12 @@ const buttonRoute = props.buttonRoute;
 	padding: 1vh 0; /* 세로 padding으로 버튼의 높이 조정 */
 	display: flex;
 	justify-content: center; /* 가로 중앙 정렬 */
-	align-items: center; /* 세로 중앙 정렬 */
-	color: white; /* 버튼 글자 색 */
+	align-items: center; /* 세로 중앙 정렬 */ /* 버튼 글자 색 */
 	font-weight: bold; /* 글자 굵게 */
-
 	margin-top: 2vh;
+}
+
+.button-color {
+	color: white;
 }
 </style>
