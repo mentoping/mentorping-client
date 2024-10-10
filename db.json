@@ -134,5 +134,21 @@
     "first": true,
     "numberOfElements": 5,
     "empty": false
+  },
+  "question-detail": {
+      "id": 1,
+      "title": "Dummy Question 1",
+      "content": "에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환 ",
+      "author": {
+          "id": 3,
+          "name": "홍길동",
+          "profileUrl": "https://picsum.photos/id/870/200/300?grayscale&blur=2"
+      },
+      "createdAt": "2024-10-09T22:39:08.312375",
+      "category": "디자인",
+      "hashtags": ["테스틍1","테스틍2","테스틍3"],
+      "likeCount": 3,
+      "answerCount": 2,
+      "selected": true
   }
 }
