@@ -13,12 +13,14 @@
 				/>
 				<div class="author-details">
 					<div class="author-name">{{ currentQuestion.author.name }}</div>
-					<div class="created-at">{{ currentQuestion.createdAt }}</div>
+					<div class="created-at">{{ formattedDate }}</div>
 				</div>
 				<div class="edit-delete">수정하기 / 삭제하기</div>
 			</div>
+			<div class="title">{{ currentQuestion.title }}</div>
 			<div class="content">
-				<p>{{ currentQuestion.content }}</p>
+				<!-- <p>{{ currentQuestion.content }}</p> -->
+				<p v-html="currentQuestion.content"></p>
 			</div>
 			<div class="hashtags-like">
 				<div class="hashtags">
@@ -32,7 +34,7 @@
 				</div>
 				<div class="like-count" @click.stop="toggleLike(currentQuestion)">
 					<span v-if="isLiked(currentQuestion.id)">❤️</span>
-					<span v-else>🤍</span>
+					<span v-else>♡</span>
 					{{ currentQuestion.likeCount }}
 				</div>
 			</div>
@@ -44,6 +46,7 @@
 import { useQuestionStore } from '@/stores/questionAndMentoringStore';
 import { useLikeStore } from '@/stores/likeStore';
 import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
 
 // Pinia 스토어 사용
 const questionStore = useQuestionStore();
@@ -71,19 +74,28 @@ const toggleLike = question => {
 		question.likeCount++;
 	}
 };
+
+// Format created date to display only year, month, day, hour, and minute
+const formattedDate = computed(() => {
+	if (currentQuestion.value.createdAt) {
+		const date = new Date(currentQuestion.value.createdAt);
+		return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+	}
+	return '';
+});
 </script>
 
 <style scoped>
 .question-container {
 	margin-left: 10vw;
-	margin-top: 50px;
+	margin-top: 200px;
 }
 
 .question-box {
-	border: 1px solid rgb(170, 170, 170);
+	border: 1px solid #e9e9e9;
 	padding: 16px;
 	border-radius: 8px;
-	width: 70vw;
+	width: 65vw;
 	margin-top: 25px;
 }
 
@@ -119,6 +131,7 @@ const toggleLike = question => {
 }
 
 .content {
+	margin-top: 40px;
 	margin-bottom: 16px;
 	width: 94%;
 }
@@ -141,11 +154,19 @@ const toggleLike = question => {
 	border-radius: 30px;
 	background-color: rgb(200, 200, 200);
 	padding: 5px 10px;
+	font-weight: 800;
 }
 
 .like-count {
+	margin-right: 15px;
 	font-size: 1.2em;
 	color: black;
 	cursor: pointer;
+}
+
+.title {
+	font-weight: 800;
+	margin-top: 30px;
+	font-size: 50px;
 }
 </style>

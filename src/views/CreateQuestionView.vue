@@ -3,7 +3,11 @@
 		<SelectCategoryComp></SelectCategoryComp>
 		<input type="text" class="large-input" placeholder="제목을 입력하세요" />
 		<SelectHashTagComp></SelectHashTagComp>
-		<TextEditorComp class="text-editor"></TextEditorComp>
+		<TextEditorComp
+			class="text-editor"
+			:placeholder="'질문내용을 입력해주세요'"
+			:height="600"
+		></TextEditorComp>
 		<div class="button-container">
 			<router-link to="/question">
 				<button class="cancel-button">취소</button>
@@ -51,7 +55,6 @@ import TextEditorComp from '@/components/TextEditorComp.vue';
 .text-editor {
 	margin-top: 50px;
 	width: 70%; /* TextEditorComp의 너비를 설정합니다 */
-	height: 600px;
 }
 
 .button-container {
