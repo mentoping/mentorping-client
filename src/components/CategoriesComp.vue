@@ -76,8 +76,8 @@ onMounted(() => {
 
 .category-button:disabled {
 	cursor: not-allowed;
-	background-color: #cccccc;
-	color: #666666;
+	background-color: black;
+	color: white;
 }
 
 .category-button:hover:not(:disabled) {
