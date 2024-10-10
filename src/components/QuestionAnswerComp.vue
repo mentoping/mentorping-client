@@ -3,8 +3,11 @@
 		<div
 			v-for="(answer, index) in currentAnswer"
 			:key="index"
-			class="answer-container"
+			:class="['answer-container', { 'selected-answer': answer.isSelected }]"
 		>
+			<div v-if="answer.isSelected" class="selected-banner">
+				<p>채택되었습니다</p>
+			</div>
 			<div class="answer-header">
 				<img
 					:src="answer.author.profileUrl"
@@ -27,6 +30,12 @@
 					<button class="chat-button">채팅하러 가기</button>
 				</div>
 			</div>
+			<div v-if="answer.isSelected" class="selected-review-box">
+				<p>
+					<i class="fa-solid fa-turn-up fa-rotate-90"></i>
+					&nbsp;&nbsp;&nbsp;{{ answer.selectedReview }}
+				</p>
+			</div>
 		</div>
 	</div>
 </template>
@@ -48,6 +57,10 @@ const { currentAnswer } = storeToRefs(questionStore);
 	border-radius: 10px;
 	padding: 20px;
 	margin-bottom: 50px;
+}
+.selected-answer {
+	border-color: #3b946f; /* 선택된 경우 border 색상 변경 */
+	border-width: 3px;
 }
 .answer-header {
 	display: flex;
@@ -83,7 +96,7 @@ const { currentAnswer } = storeToRefs(questionStore);
 	font-size: 20px;
 }
 .answer-content {
-	margin: 20px 0;
+	margin: 40px 0;
 	font-size: 16px;
 }
 .answer-footer {
@@ -119,5 +132,20 @@ const { currentAnswer } = storeToRefs(questionStore);
 	cursor: pointer;
 	color: green;
 	font-weight: 800;
+}
+.selected-review-box {
+	margin-top: 20px;
+	padding: 15px;
+	border: 1px solid #3b946f;
+	border-radius: 10px;
+	background-color: #f0f0f0;
+	color: #333;
+}
+
+.selected-banner {
+	color: #16a1ef;
+	font-weight: 800;
+	font-size: 20px;
+	margin-bottom: 15px;
 }
 </style>
