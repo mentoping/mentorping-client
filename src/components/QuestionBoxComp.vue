@@ -17,6 +17,9 @@
 				<div class="author">{{ question.author.name }}</div>
 			</div>
 		</div>
+		<div class="selected-icon" v-if="question.selected">
+			<i class="fas fa-check"> 채택</i>
+		</div>
 		<div class="question-content">
 			<h3 class="title">{{ question.title }}</h3>
 			<p class="content">{{ question.content }}</p>
@@ -65,7 +68,7 @@ const questionsContent = computed(() => questions.value.content || []);
 
 // RouterLink를 사용하면 이벤트 버블링이 멈추지 앟아
 const goToQuestion = questionId => {
-	router.push({ path: `/questiondetail/${questionId}` });
+	router.push({ path: `/question/${questionId}` });
 };
 
 // Check if a question is liked by the current user
@@ -101,6 +104,7 @@ const toggleLike = question => {
 	width: 70vw;
 	transition: box-shadow 0.3s ease;
 	cursor: pointer; /* 클릭 가능하다는 것을 사용자에게 시각적으로 알려줌 */
+	position: relative;
 }
 
 .question-card:hover {
@@ -189,5 +193,23 @@ const toggleLike = question => {
 
 .order {
 	margin-bottom: 2vh;
+}
+
+.selected-icon {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	background-color: green;
+	padding: 10px;
+	width: 65px;
+	height: 65px;
+	border-radius: 50%;
+	font-size: 13px;
+	text-align: center;
+	display: flex;
+	justify-content: center; /* 가로 중앙 정렬 */
+	align-items: center; /* 세로 중앙 정렬 */
+	color: white;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 </style>
