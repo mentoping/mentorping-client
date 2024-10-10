@@ -20,8 +20,9 @@ const routes = [
 		component: QuestionView,
 	},
 	{
-		path: '/questiondetail',
+		path: '/question/:id',
 		component: QuestionDetail,
+		props: true, // id를 prop으로 전달할 수 있게 설정
 	},
 	{
 		path: '/mentoring',
