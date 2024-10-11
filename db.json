@@ -204,7 +204,8 @@
             ],
             "likeCount": 0,
             "price": 50000,
-            "active": true
+            "active": true,
+            "rating": 4.222
         },
         {
             "id": 23,
@@ -224,7 +225,8 @@
             ],
             "likeCount": 0,
             "price": 50000,
-            "active": true
+            "active": true,
+            "rating": 4.222
         },
         {
             "id": 44,
@@ -246,7 +248,8 @@
             ],
             "likeCount": 0,
             "price": 0,
-            "active": true
+            "active": true,
+            "rating": 4.333
         },
         {
             "id": 45,
@@ -268,7 +271,8 @@
             ],
             "likeCount": 0,
             "price": 1000,
-            "active": true
+            "active": true,
+            "rating": 4.333
         },
         {
             "id": 46,
@@ -290,7 +294,8 @@
             ],
             "likeCount": 0,
             "price": 2000,
-            "active": true
+            "active": true,
+            "rating": 4.333
         },
         {
             "id": 47,
@@ -312,7 +317,8 @@
             ],
             "likeCount": 0,
             "price": 3000,
-            "active": true
+            "active": true,
+            "rating": 4.111
         },
         {
             "id": 48,
@@ -334,7 +340,8 @@
             ],
             "likeCount": 0,
             "price": 4000,
-            "active": true
+            "active": true,
+            "rating": 4.111
         },
         {
             "id": 49,
@@ -356,7 +363,8 @@
             ],
             "likeCount": 0,
             "price": 5000,
-            "active": true
+            "active": true,
+            "rating": 4.111
         },
         {
             "id": 50,
@@ -378,7 +386,8 @@
             ],
             "likeCount": 0,
             "price": 6000,
-            "active": true
+            "active": true,
+            "rating": 4.444
         },
         {
             "id": 51,
@@ -400,7 +409,8 @@
             ],
             "likeCount": 0,
             "price": 7000,
-            "active": true
+            "active": true,
+            "rating": 4.555
         },
         {
             "id": 52,
@@ -422,7 +432,8 @@
             ],
             "likeCount": 0,
             "price": 8000,
-            "active": true
+            "active": true,
+            "rating": 4.666
         },
         {
             "id": 53,
@@ -444,7 +455,8 @@
             ],
             "likeCount": 0,
             "price": 9000,
-            "active": true
+            "active": true,
+            "rating": 4.777
         }
     ],
     "pageable": {
