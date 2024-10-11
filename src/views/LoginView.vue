@@ -32,7 +32,7 @@ export default {
 
 		const login = async () => {
 			try {
-				const response = await axios.post('http://localhost:8089/api/login', {
+				const response = await axios.post('http://localhost:8089/login', {
 					email: email.value,
 					password: password.value,
 				});

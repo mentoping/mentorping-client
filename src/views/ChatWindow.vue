@@ -19,11 +19,11 @@
 				}"
 			>
 				<!-- 읽음 여부에 따라 숫자 1 표시 -->
-				<span
+				<!-- <span
 					v-if="msg.senderId === userId && !msg.isRead"
 					class="read-indicator"
 					>1</span
-				>
+				> -->
 				<!-- 메시지 내용 -->
 				<div
 					:class="{
@@ -94,7 +94,7 @@
 				class="hidden-file-input"
 			/>
 			<!-- 전송 버튼 -->
-			<button @click="sendMessage" class="send-button" :disabled="isSending">
+			<button @click="sendMessage" class="send-button">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					viewBox="0 0 24 24"
@@ -115,9 +115,9 @@
 </template>
 
 <script>
-import { ref, watch, nextTick } from 'vue';
+import { ref, watch, nextTick, onBeforeUnmount } from 'vue';
 import { useUserStore } from '../stores/userStore'; // Pinia의 userStore 가져오기
-import { db } from '../firebaseConfig';
+import { db, realtimeDb } from '../firebaseConfig';
 import {
 	collection,
 	addDoc,
@@ -135,6 +135,7 @@ import {
 	uploadBytes,
 	getDownloadURL,
 } from 'firebase/storage';
+import { ref as dbRef, onDisconnect, set, onValue } from 'firebase/database'; // Realtime Database에서 가져옴
 
 export default {
 	name: 'ChatWindow',
@@ -142,7 +143,6 @@ export default {
 	setup(props) {
 		const messages = ref([]);
 		const messageContent = ref('');
-		const isSending = ref(false); // 전송 상태 관리 변수
 		const chatMessages = ref(null); // 스크롤을 제어하기 위한 ref
 		const selectedFile = ref(null); // 업로드할 파일을 저장할 변수
 		const previewImage = ref(null); // 이미지 미리보기용 변수
@@ -161,6 +161,9 @@ export default {
 		const userId = ref(null);
 		const userName = ref(null);
 
+		// Firebase Realtime Database 초기화
+		const database = realtimeDb;
+
 		watch(
 			() => userStore.user,
 			newUser => {
@@ -171,6 +174,23 @@ export default {
 			},
 			{ immediate: true }, // 컴포넌트가 마운트될 때 즉시 실행
 		);
+
+		// 방에 입장할 때 Presence 상태 업데이트
+		const enterRoomPresence = async roomId => {
+			const userStatusRef = dbRef(
+				database,
+				`rooms/${roomId}/users/${userId.value}`,
+			);
+			try {
+				// 사용자가 방에 있을 때 상태를 true로 설정
+				await set(userStatusRef, true);
+
+				// 사용자가 페이지를 닫거나 나가면 상태를 false로 설정
+				onDisconnect(userStatusRef).set(false);
+			} catch (error) {
+				console.error('Error entering room presence:', error);
+			}
+		};
 
 		// 파일 선택 이벤트 핸들러
 		const onFileChange = event => {
@@ -247,6 +267,26 @@ export default {
 			});
 		};
 
+		// Presence 상태 구독 관리
+		let unsubscribePresence = null;
+
+		const subscribeToPresence = roomId => {
+			const roomRef = dbRef(database, `rooms/${roomId}/users`);
+			if (unsubscribePresence) {
+				unsubscribePresence(); // 이전 구독 해제
+			}
+			unsubscribePresence = onValue(roomRef, snapshot => {
+				const users = snapshot.val();
+				if (users) {
+					isReceiverInRoom.value = Object.keys(users).some(
+						key => key !== userId.value && users[key],
+					);
+				} else {
+					isReceiverInRoom.value = false;
+				}
+			});
+		};
+
 		// 채팅방 변경시
 		watch(
 			() => props.room,
@@ -254,36 +294,54 @@ export default {
 				// 새로운 방이 선택되었을 때만 실행
 				if (!newRoom || !newRoom.id) return;
 
-				// 이전 방과 새로운 방이 같은 경우 변경을 막고 함수 종료
-				if (oldRoom && oldRoom.id === newRoom.id) {
-					return; // 방이 변경되지 않았으므로 fetchMessages를 호출하지 않습니다.
+				// 이전 방과 새로운 방이 같을 경우 함수 종료
+				if (oldRoom && oldRoom.id === newRoom.id) return;
+
+				// 이전 방에서 나가기 처리 (Presence 상태를 false로 설정)
+				if (oldRoom && oldRoom.id) {
+					await leaveRoomPresence(oldRoom.id);
 				}
 
-				console.log(`Current roomId: ${newRoom.id}`);
+				// 새로운 방에 입장 처리
+				await enterRoomPresence(newRoom.id);
+
+				// Presence 상태 구독 시작
+				subscribeToPresence(newRoom.id);
 
 				// 새로운 방이 선택되었을 때만 selectedRoomId를 업데이트
-				if (selectedRoomId.value !== newRoom.id) {
-					selectedRoomId.value = newRoom.id; // 선택한 방 ID 업데이트
-					console.log(`Current roomId: ${newRoom.id}`);
+				selectedRoomId.value = newRoom.id;
 
-					// 상대방이 채팅방에 있는지 확인하는 로직
-					const roomRef = doc(db, 'rooms', newRoom.id);
-					onSnapshot(roomRef, docSnapshot => {
-						if (docSnapshot.exists()) {
-							const roomData = docSnapshot.data();
-							isReceiverInRoom.value = roomData.receiverInRoom || false;
-						}
-					});
+				// 메시지 가져오기
+				await fetchMessages(newRoom.id);
 
-					// 메시지 가져오기
-					await fetchMessages(newRoom.id);
-
-					// **방 입장 시에만 markMessagesAsRead 호출**
-					await markMessagesAsRead(newRoom.id);
-				}
+				// **방 입장 시에만 markMessagesAsRead 호출**
+				await markMessagesAsRead(newRoom.id);
 			},
 			{ immediate: true },
 		);
+
+		// 사용자가 컴포넌트를 떠날 때 Presence 상태 업데이트
+		onBeforeUnmount(() => {
+			if (selectedRoomId.value) {
+				leaveRoomPresence(selectedRoomId.value);
+			}
+			if (unsubscribePresence) {
+				unsubscribePresence(); // Presence 상태 구독 해제
+			}
+		});
+
+		// 방을 나갈 때 Presence 상태 업데이트 함수
+		const leaveRoomPresence = async roomId => {
+			const userStatusRef = dbRef(
+				database,
+				`rooms/${roomId}/users/${userId.value}`,
+			);
+			try {
+				await set(userStatusRef, false);
+			} catch (error) {
+				console.error('Error leaving room presence:', error);
+			}
+		};
 
 		// 메시지 읽음 상태 업데이트 함수
 		const markMessagesAsRead = async roomId => {
@@ -299,10 +357,17 @@ export default {
 				where('senderId', '!=', userId.value), // 현재 사용자가 보낸 메시지를 제외
 			);
 
-			const unreadMessagesSnapshot = await getDocs(unreadMessagesQuery);
-			unreadMessagesSnapshot.forEach(async doc => {
-				await updateDoc(doc.ref, { isRead: true });
-			});
+			try {
+				const unreadMessagesSnapshot = await getDocs(unreadMessagesQuery);
+				const updatePromises = unreadMessagesSnapshot.docs.map(doc => {
+					return updateDoc(doc.ref, { isRead: true });
+				});
+
+				// 모든 업데이트가 완료될 때까지 기다림
+				await Promise.all(updatePromises);
+			} catch (error) {
+				console.error('Error marking messages as read:', error);
+			}
 		};
 
 		// 메시지 전송
@@ -310,26 +375,55 @@ export default {
 			// 메시지가 비어있고 파일도 선택되지 않은 경우 전송하지 않음
 			if (messageContent.value.trim() === '' && !selectedFile.value) return;
 
-			// 전송 중이면 함수 종료
-			if (isSending.value) return;
+			let fileURL = null;
 
-			// 전송 상태를 true로 설정하여 버튼을 비활성화
-			isSending.value = true;
+			if (selectedFile.value) {
+				fileURL = await uploadFile();
+				if (!fileURL) {
+					console.error('File upload failed.');
+					return; // 파일 업로드가 실패하면 메시지를 전송하지 않음
+				}
+			}
 
+			// 상대방의 방 참여 여부 확인
+			// let receiverInRoom = false;
+			const roomUsersRef = dbRef(database, `rooms/${props.roomId}/users`);
+			try {
+				await new Promise(resolve => {
+					onValue(
+						roomUsersRef,
+						snapshot => {
+							const users = snapshot.val();
+							if (users) {
+								// 현재 사용자와 상대방을 구분하기 위해 상대방 ID 사용
+								const receiverId = props.room.receiverId; // 상대방의 ID가 room 객체에 있다고 가정
+
+								// 상대방이 방에 있는지 확인
+								if (users[receiverId]) {
+									// receiverInRoom = users[receiverId];
+								}
+							}
+							resolve();
+						},
+						{
+							onlyOnce: true,
+						},
+					);
+				});
+			} catch (error) {
+				console.error('Error checking receiver presence:', error);
+			}
 			const message = {
 				senderId: userId.value,
 				senderName: userName.value,
 				content: messageContent.value,
 				timestamp: Date.now(),
-				isRead: isReceiverInRoom.value, // 상대방이 채팅방에 있는지 여부에 따라 isRead 설정
+				// isRead: receiverInRoom, // 상대방이 방에 있는지 여부에 따라 isRead 설정
 			};
 
-			// 파일이 선택되어 있다면 업로드하고 URL을 메시지에 포함
-			if (selectedFile.value) {
-				const fileURL = await uploadFile();
-				if (fileURL) {
-					message.fileURL = fileURL;
-				}
+			// 파일이 있는 경우 메시지에 URL 포함
+			if (fileURL) {
+				message.fileURL = fileURL;
 			}
 
 			try {
@@ -353,9 +447,6 @@ export default {
 				scrollToBottom(); // 메시지가 전송되면 스크롤을 맨 아래로 이동
 			} catch (error) {
 				console.error('Error sending message:', error);
-			} finally {
-				// 메시지 전송이 완료되면 버튼을 다시 활성화
-				isSending.value = false;
 			}
 		};
 
@@ -377,7 +468,6 @@ export default {
 			triggerFileInput,
 			isImageFile, // 이미지 파일 여부 확인
 			previewImage, // 미리보기 이미지 데이터
-			isSending,
 		};
 	},
 };

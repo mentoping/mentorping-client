@@ -32,14 +32,16 @@
 <script>
 import { ref, onMounted, computed } from 'vue';
 import { useUserStore } from '../stores/userStore';
-import { db } from '../firebaseConfig';
+import { db, realtimeDb } from '../firebaseConfig';
 import {
 	collection,
 	query,
 	onSnapshot,
 	orderBy,
 	where,
-} from 'firebase/firestore'; //
+	getDocs,
+} from 'firebase/firestore';
+import { ref as dbRef, onValue } from 'firebase/database';
 
 export default {
 	name: 'ChatRoomList',
@@ -75,30 +77,46 @@ export default {
 			const roomsCollection = collection(db, 'rooms');
 			const q = query(roomsCollection, orderBy('lastMessageTimestamp', 'desc'));
 
-			onSnapshot(q, querySnapshot => {
+			onSnapshot(q, async querySnapshot => {
 				const updatedRooms = []; // 변경된 채팅방 목록을 저장할 임시 배열
 
-				// chatRooms.value = [];
-				querySnapshot.forEach(doc => {
-					const roomData = { id: doc.id, ...doc.data(), unreadMessages: 0 }; // 초기화
+				for (const doc of querySnapshot.docs) {
+					const roomData = {
+						id: doc.id,
+						...doc.data(),
+						unreadMessages: 0,
+						isReceiverInRoom: false,
+					};
 
 					// 각 방의 메시지에 대해 읽지 않은 메시지 수를 계산
-					const messagesCollection = collection(
-						db,
-						'rooms',
-						doc.id,
-						'messages',
-					);
-					const unreadMessagesQuery = query(
-						messagesCollection,
-						where('isRead', '==', false),
-						where('senderId', '!=', userId.value),
-					);
+					try {
+						const messagesCollection = collection(
+							db,
+							'rooms',
+							doc.id,
+							'messages',
+						);
+						const unreadMessagesQuery = query(
+							messagesCollection,
+							where('isRead', '==', false),
+							where('senderId', '!=', userId.value),
+						);
+						const unreadMessagesSnapshot = await getDocs(unreadMessagesQuery);
+						roomData.unreadMessages = unreadMessagesSnapshot.size;
+					} catch (error) {
+						console.error('Error getting unread messages count:', error);
+					}
 
-					// 메시지의 읽음 상태를 확인하고 업데이트
-
-					onSnapshot(unreadMessagesQuery, messagesSnapshot => {
-						roomData.unreadMessages = messagesSnapshot.size;
+					// Presence 상태 확인을 위한 RealTime Database 접근
+					const roomUsersRef = dbRef(realtimeDb, `rooms/${roomData.id}/users`);
+					onValue(roomUsersRef, snapshot => {
+						const users = snapshot.val();
+						if (users) {
+							const receiverId = roomData.receiverId;
+							roomData.isReceiverInRoom = !!users[receiverId];
+						} else {
+							roomData.isReceiverInRoom = false;
+						}
 
 						// 기존에 존재하는 채팅방을 업데이트하거나 추가
 						const existingRoomIndex = updatedRooms.findIndex(
@@ -115,7 +133,7 @@ export default {
 							return b.lastMessageTimestamp - a.lastMessageTimestamp;
 						});
 					});
-				});
+				}
 			});
 		});
 
@@ -141,7 +159,6 @@ export default {
 			formatTimestamp,
 			formatLastMessage,
 			userId,
-			// selectedRoomIndex,
 			selectRoom,
 			selectedRoomId, // selectedRoomId를 반환해야 합니다.
 		};

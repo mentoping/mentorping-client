@@ -76,8 +76,8 @@ export default {
 			newAnswerContent: '', // 새로운 답변의 내용
 			newAnswerUserId: '', // 새로운 답변의 사용자 ID
 			answers: [
-				{ userId: '5', content: '재혁이 일시오다.' },
-				{ userId: '9', content: '원석이 일시오다.' },
+				{ userId: '1', content: '재혁이 일시오다.' },
+				{ userId: '5', content: '원석이 일시오다.' },
 			],
 		};
 	},
