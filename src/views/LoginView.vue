@@ -8,6 +8,17 @@
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
 
+/*		const login = async () => {
+			try {
+				const response = await axios.post('http://localhost:8089/login', {
+					email: email.value,
+					password: password.value,
+				});
+				userStore.setUser(response.data); // 로그인 성공 시 사용자 정보를 Pinia 스토어에 저장
+				errorMessage.value = '';
+				console.log('Login successful:', response.data);
+*/
+
 const authStore = useAuthStore();
 const router = useRouter();
 

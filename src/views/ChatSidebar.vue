@@ -1,7 +1,7 @@
 <template>
 	<aside class="sidebar">
 		<div class="profile">
-			<img src="https://via.placeholder.com/100" alt="Profile Picture" />
+			<img :src="profileImageUrl" alt="Profile Picture" />
 			<h3>{{ userName }}</h3>
 		</div>
 		<nav>
@@ -10,7 +10,6 @@
 				<li class="menu-item"><i class="icon">👤</i> 멘티 프로필</li>
 				<li class="menu-item"><i class="icon">👥</i> 멘토 프로필</li>
 			</ul>
-			<!-- 프로필과 멘토링 섹션 사이에 간격 추가 -->
 			<div class="section-separator"></div>
 			<ul>
 				<li class="section-title">멘토링</li>
@@ -30,14 +29,18 @@ export default {
 	name: 'ChatSidebar',
 	setup() {
 		const userStore = useUserStore();
-
-		// 사용자의 이름을 가져오는 계산된 속성
-		const userName = computed(() => {
-			return userStore.user ? userStore.user.name : 'Guest';
-		});
+		const userName = computed(() =>
+			userStore.user ? userStore.user.name : 'Guest',
+		);
+		const profileImageUrl = computed(() =>
+			userStore.user
+				? userStore.user.profileImageUrl
+				: 'https://via.placeholder.com/100',
+		);
 
 		return {
 			userName,
+			profileImageUrl,
 		};
 	},
 };
@@ -51,6 +54,8 @@ export default {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border-radius: 15px;
 }
 
 .profile {
@@ -65,11 +70,13 @@ export default {
 	height: 80px;
 	border-radius: 50%;
 	margin-bottom: 10px;
+	border: 2px solid #4caf50;
 }
 
 .profile h3 {
 	font-size: 18px;
 	font-weight: bold;
+	color: #333;
 	margin: 0;
 }
 
@@ -85,6 +92,7 @@ nav ul {
 	margin: 15px 0 5px;
 	text-align: left;
 	padding-left: 10px;
+	font-weight: bold;
 }
 
 .menu-item {
@@ -97,7 +105,8 @@ nav ul {
 }
 
 .menu-item.active {
-	background: #ccc;
+	background: #4caf50;
+	color: white;
 }
 
 .menu-item:hover {
@@ -106,13 +115,9 @@ nav ul {
 
 .icon {
 	margin-right: 10px;
-}
-
-.menu-item i {
 	font-size: 18px;
 }
 
-/* 프로필과 멘토링 섹션 사이에 간격을 주는 스타일 */
 .section-separator {
 	margin: 40px 0;
 	width: 100%;
