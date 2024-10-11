@@ -7,6 +7,8 @@ import MypageView from '@/views/MypageView.vue';
 import LoginView from '@/views/LoginView.vue';
 import QuestionDetail from '@/views/QuestionDetail.vue';
 import ChatRoom from '@/views/ChatRoom.vue';
+import InquiryView from '@/views/InquiryView.vue';
+import CreateQuestionView from '@/views/CreateQuestionView.vue';
 
 const routes = [
 	{
@@ -18,8 +20,9 @@ const routes = [
 		component: QuestionView,
 	},
 	{
-		path: '/questiondetail',
+		path: '/question/:id',
 		component: QuestionDetail,
+		props: true, // id를 prop으로 전달할 수 있게 설정
 	},
 	{
 		path: '/mentoring',
@@ -41,6 +44,16 @@ const routes = [
 		path: '/chat',
 		name: 'ChatRoom',
 		component: ChatRoom,
+	},
+	{
+		path: '/inquiry',
+		name: 'Inquiry',
+		component: InquiryView,
+	},
+	{
+		path: '/create-question',
+		name: 'CreateQuestion',
+		component: CreateQuestionView,
 	},
 ];
 

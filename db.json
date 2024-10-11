@@ -1,19 +1,182 @@
 {
-	"posts": [
-		{
-			"id": 1,
-			"title": "json-server",
-			"author": "typicode"
-		}
-	],
-	"comments": [
-		{
-			"id": 1,
-			"body": "some comment",
-			"postId": 1
-		}
-	],
-	"profile": {
-		"name": "typicode"
-	}
+  "login": [
+    {
+      "id": 1,
+      "provider": "kakao",
+      "accessToken": "mockAccessToken12345",
+      "refreshToken": "mockRefreshToken12345",
+      "user": {
+        "id": 1,
+        "role": "ROLE_MENTOR",
+        "name": "박혁진",
+        "email": "phj123@naver.com",
+        "nickname": "코사",
+        "profile": "https://picsum.photos/id/870/200/300?grayscale&blur=2",
+        "content": "자기소개글"
+      }
+    }
+  ],
+  "validate-token": [
+    {
+      "id": 1,
+      "role": "ROLE_MENTOR",
+      "name": "박혁진",
+      "email": "phj123@naver.com",
+      "nickname": "코사",
+      "profile": "https://picsum.photos/id/870/200/300?grayscale&blur=2",
+      "content": "자기소개글"
+    }
+  ],
+  "q-0": {
+    "content": [
+      {
+        "id": 1,
+        "title": "Dummy Question 1",
+        "content": "테스트용으로 아주 길게 쓴 내용입니다. 어느정도 길이가 되어야 할지 모르겠어서 일단 할 수 있는데까지 최대한 길게 써보고 박스를 넘어가는듯한 모습이 보이면 ...으로 글 길이를 줄일 예정입니다. 잘 적용되었으면 좋겠네요 그럼 이만",
+        "author": {
+          "id": 1,
+          "name": "박혁진",
+          "profileUrl": "https://picsum.photos/id/870/200/300?grayscale&blur=2"
+        },
+        "createdAt": "2024-10-07T22:28:12.187929",
+        "category": "IT/SW",
+        "hashtags": ["테스틍1","테스틍2","테스틍3"],
+        "likeCount": 3,
+        "answerCount": 2,                                                        
+        "selected": true
+      },
+      {
+        "id": 2,
+        "title": "Dummy Question 2",
+        "content": "Dummy Content 2",
+        "author": {
+          "id": 2,
+          "name": "홍길동",
+          "profileUrl": null
+        },
+        "createdAt": "2024-10-07T22:28:12.250351",
+        "category": "자바",
+        "hashtags": ["테스트1","테스트2","테스트3"],
+        "likeCount": 0,
+        "answerCount": 0,
+        "selected": false
+      },
+      {
+        "id": 3,
+        "title": "Dummy Question 3",
+        "content": "Dummy Content 3",
+        "author": {
+          "id": 3,
+          "name": "홍길동",
+          "profileUrl": null
+        },
+        "createdAt": "2024-10-07T22:28:12.258351",
+        "category": "자바",
+        "hashtags": ["테스트1","테스트2","테스트3"],
+        "likeCount": 0,
+        "answerCount": 0,
+        "selected": false
+      },
+      {
+        "id": 4,
+        "title": "Dummy Question 4",
+        "content": "Dummy Content 4",
+        "author": {
+          "id": 4,
+          "name": "홍길동",
+          "profileUrl": null
+        },
+        "createdAt": "2024-10-07T22:28:12.266351",
+        "category": "자바",
+        "hashtags": ["테스트1","테스트2","테스트3"],
+        "likeCount": 0,
+        "answerCount": 0,
+        "selected": false
+      },
+      {
+        "id": 5,
+        "title": "Dummy Question 5",
+        "content": "Dummy Content 5",
+        "author": {
+          "id": 5,
+          "name": "홍길동",
+          "profileUrl": null
+        },
+        "createdAt": "2024-10-07T22:28:12.275352",
+        "category": "자바",
+        "hashtags": ["테스트1","테스트2","테스트3"],
+        "likeCount": 0,
+        "answerCount": 0,
+        "selected": false
+      }
+    ],
+    "pageable": {
+      "pageNumber": 0,
+      "pageSize": 5,
+      "sort": {
+        "empty": true,
+        "sorted": false,
+        "unsorted": true
+      },
+      "offset": 0,
+      "paged": true,
+      "unpaged": false
+    },
+    "last": false,
+    "totalElements": 32,
+    "totalPages": 7,
+    "number": 0,
+    "sort": {
+      "empty": true,
+      "sorted": false,
+      "unsorted": true
+    },
+    "first": true,
+    "numberOfElements": 5,
+    "empty": false
+  },
+  "question-detail": {
+      "id": 1,
+      "title": "Dummy Question 1",
+      "content": "<h3>에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환<h3> ",
+      "author": {
+          "id": 3,
+          "name": "홍길동",
+          "profileUrl": "https://picsum.photos/id/870/200/300?grayscale&blur=2"
+      },
+      "createdAt": "2024-10-09T22:39:08.312375",
+      "category": "디자인",
+      "hashtags": ["테스틍1","테스틍2","테스틍3"],
+      "likeCount": 3,
+      "answerCount": 2,
+      "selected": true
+  },
+  "answer" : {
+    "content": [
+      {
+        "id": 1,
+        "content": "집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 ",
+        "author": {
+          "id": 2,
+          "name": "장원석",
+          "profileUrl": "https://picsum.photos/seed/picsum/200/300"
+        },
+        "createdAt": "2024-10-07T22:39:08.312375",
+        "isSelected": true,
+        "selectedReview": "감사합니다 덕분에 해결되었어요"
+      },    
+      {
+        "id": 2,
+        "content": "집에가고싶어요",
+        "author": {
+          "id": 3,
+          "name": "오재혁",
+          "profileUrl": "https://picsum.photos/200/300?grayscale"
+        },
+        "createdAt": "2024-10-08T22:39:08.312375",
+        "isSelected": false,
+        "selectedReview": ""
+      }
+    ]
+  }
 }
