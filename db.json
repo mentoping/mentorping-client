@@ -185,248 +185,293 @@
     "selected": true
   },
   "mentorings-1":{
-    "content":[
-      {
-        "id": 1,
-        "title": "멘토링합니다1",
-        "content": "어서오세요1",
-        "thumbnailUrl": null,
-        "summary": "효율적인 멘토링",
-        "author": {
-          "id": 1,
-          "name": "김철수",
-          "profileUrl": "https://picsum.photos/200/301"
+    "content": [
+        {
+            "id": 22,
+            "title": "멘토링합니다22",
+            "content": "어서오세요22",
+            "thumbnailUrl": "https://picsum.photos/200/300",
+            "summary": "서정적인 멘토링",
+            "author": {
+                "id": 3,
+                "name": "홍길동",
+                "profileUrl": "https://picsum.photos/200/300"
+            },
+            "createdAt": "2024-10-11T11:29:42.48708",
+            "category": "MD",
+            "hashtags": [
+                "앰디"
+            ],
+            "likeCount": 0,
+            "price": 50000,
+            "active": true
         },
-        "createdAt": "2024-10-11T10:20:00.12345",
-        "category": "IT",
-        "hashtags": ["프로그래밍", "개발자", "멘토링"],
-        "likeCount": 5,
-        "price": 30000,
-        "active": true
-      },
-      {
-        "id": 2,
-        "title": "멘토링합니다2",
-        "content": "어서오세요2",
-        "thumbnailUrl": null,
-        "summary": "디자인 멘토링",
-        "author": {
-          "id": 2,
-          "name": "이영희",
-          "profileUrl": "https://picsum.photos/200/302"
+        {
+            "id": 23,
+            "title": "멘토링합니다",
+            "content": "어서오세요",
+            "thumbnailUrl": null,
+            "summary": "안정적인 멘토링",
+            "author": {
+                "id": 3,
+                "name": "홍길동",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T11:31:50.205725",
+            "category": "MD",
+            "hashtags": [
+                "MD직무"
+            ],
+            "likeCount": 0,
+            "price": 50000,
+            "active": true
         },
-        "createdAt": "2024-10-11T11:22:15.54321",
-        "category": "Design",
-        "hashtags": ["UX", "UI", "그래픽디자인"],
-        "likeCount": 10,
-        "price": 45000,
-        "active": true
-      },
-      {
-        "id": 3,
-        "title": "멘토링합니다3",
-        "content": "어서오세요3",
-        "thumbnailUrl": null,
-        "summary": "경영 전략 멘토링",
-        "author": {
-          "id": 3,
-          "name": "박수현",
-          "profileUrl": "https://picsum.photos/200/303"
+        {
+            "id": 44,
+            "title": "Mentoring Title 0",
+            "content": "Mentoring Content 0",
+            "thumbnailUrl": "https://example.com/thumbnail0.jpg",
+            "summary": "Summary of mentoring 0",
+            "author": {
+                "id": 5,
+                "name": "장원석",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T22:08:45.651963",
+            "category": "ITSW",
+            "hashtags": [
+                "tag1",
+                "tag2",
+                "tag3"
+            ],
+            "likeCount": 0,
+            "price": 0,
+            "active": true
         },
-        "createdAt": "2024-10-11T09:15:30.56789",
-        "category": "Business",
-        "hashtags": ["경영", "전략", "리더십"],
-        "likeCount": 15,
-        "price": 60000,
-        "active": true
-      },
-      {
-        "id": 4,
-        "title": "멘토링합니다4",
-        "content": "어서오세요4",
-        "thumbnailUrl": null,
-        "summary": "마케팅 전략 멘토링",
-        "author": {
-          "id": 4,
-          "name": "최준영",
-          "profileUrl": "https://picsum.photos/200/304"
+        {
+            "id": 45,
+            "title": "Mentoring Title 1",
+            "content": "Mentoring Content 1",
+            "thumbnailUrl": null,
+            "summary": "Summary of mentoring 1",
+            "author": {
+                "id": 5,
+                "name": "장원석",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T22:08:45.840547",
+            "category": "DESIGN",
+            "hashtags": [
+                "tag1",
+                "tag2",
+                "tag3"
+            ],
+            "likeCount": 0,
+            "price": 1000,
+            "active": true
         },
-        "createdAt": "2024-10-10T08:45:22.12345",
-        "category": "Marketing",
-        "hashtags": ["디지털마케팅", "브랜딩", "광고"],
-        "likeCount": 8,
-        "price": 55000,
-        "active": true
-      },
-      {
-        "id": 5,
-        "title": "멘토링합니다5",
-        "content": "어서오세요5",
-        "thumbnailUrl": null,
-        "summary": "자기계발 멘토링",
-        "author": {
-          "id": 5,
-          "name": "한지민",
-          "profileUrl": "https://picsum.photos/200/305"
+        {
+            "id": 46,
+            "title": "Mentoring Title 2",
+            "content": "Mentoring Content 2",
+            "thumbnailUrl": "https://example.com/thumbnail2.jpg",
+            "summary": "Summary of mentoring 2",
+            "author": {
+                "id": 5,
+                "name": "장원석",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T22:08:45.866349",
+            "category": "MARKETING",
+            "hashtags": [
+                "tag1",
+                "tag2",
+                "tag3"
+            ],
+            "likeCount": 0,
+            "price": 2000,
+            "active": true
         },
-        "createdAt": "2024-10-09T07:30:10.23456",
-        "category": "Self-Development",
-        "hashtags": ["시간관리", "목표설정", "자기계발"],
-        "likeCount": 3,
-        "price": 40000,
-        "active": true
-      },
-      {
-        "id": 6,
-        "title": "멘토링합니다6",
-        "content": "어서오세요6",
-        "thumbnailUrl": null,
-        "summary": "기술 컨설팅 멘토링",
-        "author": {
-          "id": 6,
-          "name": "서준혁",
-          "profileUrl": "https://picsum.photos/200/306"
+        {
+            "id": 47,
+            "title": "Mentoring Title 3",
+            "content": "Mentoring Content 3",
+            "thumbnailUrl": null,
+            "summary": "Summary of mentoring 3",
+            "author": {
+                "id": 5,
+                "name": "장원석",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T22:08:45.892733",
+            "category": "FINANCE",
+            "hashtags": [
+                "tag1",
+                "tag2",
+                "tag3"
+            ],
+            "likeCount": 0,
+            "price": 3000,
+            "active": true
         },
-        "createdAt": "2024-10-11T06:55:42.65432",
-        "category": "Tech",
-        "hashtags": ["기술", "AI", "데이터분석"],
-        "likeCount": 12,
-        "price": 70000,
-        "active": true
-      },
-      {
-        "id": 7,
-        "title": "멘토링합니다7",
-        "content": "어서오세요7",
-        "thumbnailUrl": null,
-        "summary": "법률 자문 멘토링",
-        "author": {
-          "id": 7,
-          "name": "유미정",
-          "profileUrl": "https://picsum.photos/200/307"
+        {
+            "id": 48,
+            "title": "Mentoring Title 4",
+            "content": "Mentoring Content 4",
+            "thumbnailUrl": "https://example.com/thumbnail4.jpg",
+            "summary": "Summary of mentoring 4",
+            "author": {
+                "id": 5,
+                "name": "장원석",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T22:08:45.91895",
+            "category": "MD",
+            "hashtags": [
+                "tag1",
+                "tag2",
+                "tag3"
+            ],
+            "likeCount": 0,
+            "price": 4000,
+            "active": true
         },
-        "createdAt": "2024-10-08T05:40:19.76543",
-        "category": "Law",
-        "hashtags": ["법률", "계약", "자문"],
-        "likeCount": 7,
-        "price": 50000,
-        "active": true
-      },
-      {
-        "id": 8,
-        "title": "멘토링합니다8",
-        "content": "어서오세요8",
-        "thumbnailUrl": null,
-        "summary": "음악 교육 멘토링",
-        "author": {
-          "id": 8,
-          "name": "민재훈",
-          "profileUrl": "https://picsum.photos/200/308"
+        {
+            "id": 49,
+            "title": "Mentoring Title 5",
+            "content": "Mentoring Content 5",
+            "thumbnailUrl": null,
+            "summary": "Summary of mentoring 5",
+            "author": {
+                "id": 5,
+                "name": "장원석",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T22:08:45.94634",
+            "category": "ADBERTISE",
+            "hashtags": [
+                "tag1",
+                "tag2",
+                "tag3"
+            ],
+            "likeCount": 0,
+            "price": 5000,
+            "active": true
         },
-        "createdAt": "2024-10-07T04:25:05.87654",
-        "category": "Music",
-        "hashtags": ["음악", "작곡", "연주"],
-        "likeCount": 6,
-        "price": 35000,
-        "active": true
-      },
-      {
-        "id": 9,
-        "title": "멘토링합니다9",
-        "content": "어서오세요9",
-        "thumbnailUrl": null,
-        "summary": "창업 멘토링",
-        "author": {
-          "id": 9,
-          "name": "강민수",
-          "profileUrl": "https://picsum.photos/200/309"
+        {
+            "id": 50,
+            "title": "Mentoring Title 6",
+            "content": "Mentoring Content 6",
+            "thumbnailUrl": "https://example.com/thumbnail6.jpg",
+            "summary": "Summary of mentoring 6",
+            "author": {
+                "id": 5,
+                "name": "장원석",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T22:08:45.970146",
+            "category": "PRIDUCTION",
+            "hashtags": [
+                "tag1",
+                "tag2",
+                "tag3"
+            ],
+            "likeCount": 0,
+            "price": 6000,
+            "active": true
         },
-        "createdAt": "2024-10-06T03:10:50.98765",
-        "category": "Entrepreneurship",
-        "hashtags": ["창업", "비즈니스모델", "투자"],
-        "likeCount": 14,
-        "price": 80000,
-        "active": true
-      },
-      {
-        "id": 10,
-        "title": "멘토링합니다10",
-        "content": "어서오세요10",
-        "thumbnailUrl": null,
-        "summary": "멘탈케어 멘토링",
-        "author": {
-          "id": 10,
-          "name": "조현아",
-          "profileUrl": "https://picsum.photos/200/310"
+        {
+            "id": 51,
+            "title": "Mentoring Title 7",
+            "content": "Mentoring Content 7",
+            "thumbnailUrl": null,
+            "summary": "Summary of mentoring 7",
+            "author": {
+                "id": 5,
+                "name": "장원석",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T22:08:45.989666",
+            "category": "MEDIA",
+            "hashtags": [
+                "tag1",
+                "tag2",
+                "tag3"
+            ],
+            "likeCount": 0,
+            "price": 7000,
+            "active": true
         },
-        "createdAt": "2024-10-05T02:00:45.12345",
-        "category": "Wellness",
-        "hashtags": ["멘탈케어", "스트레스관리", "마음챙김"],
-        "likeCount": 9,
-        "price": 60000,
-        "active": true
-      },
-      {
-        "id": 11,
-        "title": "멘토링합니다11",
-        "content": "어서오세요11",
-        "thumbnailUrl": null,
-        "summary": "교육 멘토링",
-        "author": {
-          "id": 11,
-          "name": "장지훈",
-          "profileUrl": "https://picsum.photos/200/311"
+        {
+            "id": 52,
+            "title": "Mentoring Title 8",
+            "content": "Mentoring Content 8",
+            "thumbnailUrl": "https://example.com/thumbnail8.jpg",
+            "summary": "Summary of mentoring 8",
+            "author": {
+                "id": 5,
+                "name": "장원석",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T22:08:46.014171",
+            "category": "ETC",
+            "hashtags": [
+                "tag1",
+                "tag2",
+                "tag3"
+            ],
+            "likeCount": 0,
+            "price": 8000,
+            "active": true
         },
-        "createdAt": "2024-10-04T01:45:30.23456",
-        "category": "Education",
-        "hashtags": ["교육", "멘토링", "학습전략"],
-        "likeCount": 11,
-        "price": 40000,
-        "active": true
-      },
-      {
-        "id": 12,
-        "title": "멘토링합니다12",
-        "content": "어서오세요12",
-        "thumbnailUrl": null,
-        "summary": "리더십 멘토링",
-        "author": {
-          "id": 12,
-          "name": "이정민",
-          "profileUrl": "https://picsum.photos/200/312"
-        },
-        "createdAt": "2024-10-03T12:30:15.34567",
-        "category": "Leadership",
-        "hashtags": ["리더십", "팀관리", "동기부여"],
-        "likeCount": 18,
-        "price": 75000,
-        "active": true
-      }
+        {
+            "id": 53,
+            "title": "Mentoring Title 9",
+            "content": "Mentoring Content 9",
+            "thumbnailUrl": null,
+            "summary": "Summary of mentoring 9",
+            "author": {
+                "id": 5,
+                "name": "장원석",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T22:08:46.038681",
+            "category": "ITSW",
+            "hashtags": [
+                "tag1",
+                "tag2",
+                "tag3"
+            ],
+            "likeCount": 0,
+            "price": 9000,
+            "active": true
+        }
     ],
     "pageable": {
-      "pageNumber": 0,
-      "pageSize": 12,
-      "sort": {
-          "empty": false,
-          "sorted": true,
-          "unsorted": false
-      },
-      "offset": 0,
-      "paged": true,
-      "unpaged": false
+        "pageNumber": 0,
+        "pageSize": 12,
+        "sort": {
+            "empty": false,
+            "sorted": true,
+            "unsorted": false
+        },
+        "offset": 0,
+        "paged": true,
+        "unpaged": false
     },
-    "last": true,
-    "totalPages": 4,
-    "totalElements": 37,
-    "size": 5,
+    "last": false,
+    "totalPages": 2,
+    "totalElements": 22,
+    "size": 12,
     "number": 0,
     "sort": {
-      "empty": false,
-      "sorted": true,
-      "unsorted": false
+        "empty": false,
+        "sorted": true,
+        "unsorted": false
     },
     "first": true,
     "numberOfElements": 12,
     "empty": false
+  
   }
 }
