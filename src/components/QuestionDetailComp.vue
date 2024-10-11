@@ -34,7 +34,7 @@
 				</div>
 				<div class="like-count" @click.stop="toggleLike(currentQuestion)">
 					<span v-if="isLiked(currentQuestion.id)">❤️</span>
-					<span v-else>♡</span>
+					<span v-else>🤍</span>
 					{{ currentQuestion.likeCount }}
 				</div>
 			</div>
@@ -43,13 +43,13 @@
 </template>
 
 <script setup>
-import { useQuestionStore } from '@/stores/questionAndMentoringStore';
+import { useQandMStore } from '@/stores/questionAndMentoringStore';
 import { useLikeStore } from '@/stores/likeStore';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 
 // Pinia 스토어 사용
-const questionStore = useQuestionStore();
+const questionStore = useQandMStore();
 const { currentQuestion } = storeToRefs(questionStore);
 
 const likeStore = useLikeStore();

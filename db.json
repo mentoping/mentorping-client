@@ -135,48 +135,355 @@
     "numberOfElements": 5,
     "empty": false
   },
+  
   "question-detail": {
-      "id": 1,
-      "title": "Dummy Question 1",
-      "content": "<h3>에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환에디터에 작성된 글이 html로저장되어있어서 반환<h3> ",
-      "author": {
-          "id": 3,
-          "name": "홍길동",
-          "profileUrl": "https://picsum.photos/id/870/200/300?grayscale&blur=2"
-      },
-      "createdAt": "2024-10-09T22:39:08.312375",
-      "category": "디자인",
-      "hashtags": ["테스틍1","테스틍2","테스틍3"],
-      "likeCount": 3,
-      "answerCount": 2,
-      "selected": true
-  },
-  "answer" : {
-    "content": [
-      {
-        "id": 1,
-        "content": "집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 집에 보내주세요 ",
-        "author": {
+    "id": 21,
+    "title": "코사는 왜 채용연계반에 채용연계를 해주지 않을까요?",
+    "content": "코사는 왜 채용연계반에 채용연계를 해주지 않을까요? 속상하네요",
+    "author": {
+        "id": 3,
+        "name": "박혁진",
+        "profileUrl": "https://picsum.photos/id/870/200/300?grayscale&blur=2"
+    },
+    "createdAt": "2024-10-11T11:15:32.549358",
+    "category": "IT/SW",
+    "hashtags": [
+        "SW", "IT", "KOSA"
+    ],
+    "likeCount": 2,
+    "answerCount": 2,
+    "answers": [
+        {
+            "id": 1,
+            "content": "싸피 지원하세요",
+            "isSelected": true,
+            "selectedReview": "감사합니다 너무 도움이 되었어요",
+            "author": {
+                "id": 4,
+                "name": "장원석",
+                "profileUrl": "https://picsum.photos/id/870/200/300?grayscale&blur=2"
+            },
+            "postId": 21,
+            "createdAt": "2024-10-10T15:14:05",
+            "updatedAt": "2024-10-10T15:14:05"
+        },
+        {
           "id": 2,
-          "name": "장원석",
-          "profileUrl": "https://picsum.photos/seed/picsum/200/300"
+          "content": "멋사 가세요",
+          "isSelected": false,
+          "selectedReview": null,
+          "author": {
+              "id": 5,
+              "name": "오재혁",
+              "profileUrl": "https://picsum.photos/id/870/200/300?grayscale&blur=2"
+          },
+          "postId": 21,
+          "createdAt": "2024-10-11T15:14:05",
+          "updatedAt": "2024-10-11T15:14:05"
+        }
+    ],
+    "selected": true
+  },
+  "mentorings-1":{
+    "content": [
+        {
+            "id": 22,
+            "title": "멘토링합니다22",
+            "content": "어서오세요22",
+            "thumbnailUrl": "https://picsum.photos/200/300",
+            "summary": "서정적인 멘토링",
+            "author": {
+                "id": 3,
+                "name": "홍길동",
+                "profileUrl": "https://picsum.photos/200/300"
+            },
+            "createdAt": "2024-10-11T11:29:42.48708",
+            "category": "MD",
+            "hashtags": [
+                "앰디", "쌈디", "쥐디"
+            ],
+            "likeCount": 0,
+            "price": 50000,
+            "active": true,
+            "rating": 4.222
         },
-        "createdAt": "2024-10-07T22:39:08.312375",
-        "isSelected": true,
-        "selectedReview": "감사합니다 덕분에 해결되었어요"
-      },    
-      {
-        "id": 2,
-        "content": "집에가고싶어요",
-        "author": {
-          "id": 3,
-          "name": "오재혁",
-          "profileUrl": "https://picsum.photos/200/300?grayscale"
+        {
+            "id": 23,
+            "title": "멘토링합니다",
+            "content": "어서오세요",
+            "thumbnailUrl": null,
+            "summary": "안정적인 멘토링",
+            "author": {
+                "id": 3,
+                "name": "홍길동",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T11:31:50.205725",
+            "category": "MD",
+            "hashtags": [
+                "MD직무"
+            ],
+            "likeCount": 0,
+            "price": 50000,
+            "active": true,
+            "rating": 4.222
         },
-        "createdAt": "2024-10-08T22:39:08.312375",
-        "isSelected": false,
-        "selectedReview": ""
-      }
-    ]
+        {
+            "id": 44,
+            "title": "Mentoring Title 0",
+            "content": "Mentoring Content 0",
+            "thumbnailUrl": null,
+            "summary": "Summary of mentoring 0",
+            "author": {
+                "id": 5,
+                "name": "장원석",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T22:08:45.651963",
+            "category": "ITSW",
+            "hashtags": [
+                "tag1",
+                "tag2",
+                "tag3"
+            ],
+            "likeCount": 0,
+            "price": 0,
+            "active": true,
+            "rating": 4.333
+        },
+        {
+            "id": 45,
+            "title": "Mentoring Title 1",
+            "content": "Mentoring Content 1",
+            "thumbnailUrl": null,
+            "summary": "Summary of mentoring 1",
+            "author": {
+                "id": 5,
+                "name": "장원석",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T22:08:45.840547",
+            "category": "DESIGN",
+            "hashtags": [
+                "tag1",
+                "tag2",
+                "tag3"
+            ],
+            "likeCount": 0,
+            "price": 1000,
+            "active": true,
+            "rating": 4.333
+        },
+        {
+            "id": 46,
+            "title": "Mentoring Title 2",
+            "content": "Mentoring Content 2",
+            "thumbnailUrl": null,
+            "summary": "Summary of mentoring 2",
+            "author": {
+                "id": 5,
+                "name": "장원석",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T22:08:45.866349",
+            "category": "MARKETING",
+            "hashtags": [
+                "tag1",
+                "tag2",
+                "tag3"
+            ],
+            "likeCount": 0,
+            "price": 2000,
+            "active": true,
+            "rating": 4.333
+        },
+        {
+            "id": 47,
+            "title": "Mentoring Title 3",
+            "content": "Mentoring Content 3",
+            "thumbnailUrl": null,
+            "summary": "Summary of mentoring 3",
+            "author": {
+                "id": 5,
+                "name": "장원석",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T22:08:45.892733",
+            "category": "FINANCE",
+            "hashtags": [
+                "tag1",
+                "tag2",
+                "tag3"
+            ],
+            "likeCount": 0,
+            "price": 3000,
+            "active": true,
+            "rating": 4.111
+        },
+        {
+            "id": 48,
+            "title": "Mentoring Title 4",
+            "content": "Mentoring Content 4",
+            "thumbnailUrl": null,
+            "summary": "Summary of mentoring 4",
+            "author": {
+                "id": 5,
+                "name": "장원석",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T22:08:45.91895",
+            "category": "MD",
+            "hashtags": [
+                "tag1",
+                "tag2",
+                "tag3"
+            ],
+            "likeCount": 0,
+            "price": 4000,
+            "active": true,
+            "rating": 4.111
+        },
+        {
+            "id": 49,
+            "title": "Mentoring Title 5",
+            "content": "Mentoring Content 5",
+            "thumbnailUrl": null,
+            "summary": "Summary of mentoring 5",
+            "author": {
+                "id": 5,
+                "name": "장원석",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T22:08:45.94634",
+            "category": "ADBERTISE",
+            "hashtags": [
+                "tag1",
+                "tag2",
+                "tag3"
+            ],
+            "likeCount": 0,
+            "price": 5000,
+            "active": true,
+            "rating": 4.111
+        },
+        {
+            "id": 50,
+            "title": "Mentoring Title 6",
+            "content": "Mentoring Content 6",
+            "thumbnailUrl": null,
+            "summary": "Summary of mentoring 6",
+            "author": {
+                "id": 5,
+                "name": "장원석",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T22:08:45.970146",
+            "category": "PRIDUCTION",
+            "hashtags": [
+                "tag1",
+                "tag2",
+                "tag3"
+            ],
+            "likeCount": 0,
+            "price": 6000,
+            "active": true,
+            "rating": 4.444
+        },
+        {
+            "id": 51,
+            "title": "Mentoring Title 7",
+            "content": "Mentoring Content 7",
+            "thumbnailUrl": null,
+            "summary": "Summary of mentoring 7",
+            "author": {
+                "id": 5,
+                "name": "장원석",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T22:08:45.989666",
+            "category": "MEDIA",
+            "hashtags": [
+                "tag1",
+                "tag2",
+                "tag3"
+            ],
+            "likeCount": 0,
+            "price": 7000,
+            "active": true,
+            "rating": 4.555
+        },
+        {
+            "id": 52,
+            "title": "Mentoring Title 8",
+            "content": "Mentoring Content 8",
+            "thumbnailUrl": null,
+            "summary": "Summary of mentoring 8",
+            "author": {
+                "id": 5,
+                "name": "장원석",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T22:08:46.014171",
+            "category": "ETC",
+            "hashtags": [
+                "tag1",
+                "tag2",
+                "tag3"
+            ],
+            "likeCount": 0,
+            "price": 8000,
+            "active": true,
+            "rating": 4.666
+        },
+        {
+            "id": 53,
+            "title": "Mentoring Title 9",
+            "content": "Mentoring Content 9",
+            "thumbnailUrl": null,
+            "summary": "Summary of mentoring 9",
+            "author": {
+                "id": 5,
+                "name": "장원석",
+                "profileUrl": null
+            },
+            "createdAt": "2024-10-11T22:08:46.038681",
+            "category": "ITSW",
+            "hashtags": [
+                "tag1",
+                "tag2",
+                "tag3"
+            ],
+            "likeCount": 0,
+            "price": 9000,
+            "active": true,
+            "rating": 4.777
+        }
+    ],
+    "pageable": {
+        "pageNumber": 0,
+        "pageSize": 12,
+        "sort": {
+            "empty": false,
+            "sorted": true,
+            "unsorted": false
+        },
+        "offset": 0,
+        "paged": true,
+        "unpaged": false
+    },
+    "last": false,
+    "totalPages": 2,
+    "totalElements": 22,
+    "size": 12,
+    "number": 0,
+    "sort": {
+        "empty": false,
+        "sorted": true,
+        "unsorted": false
+    },
+    "first": true,
+    "numberOfElements": 12,
+    "empty": false
+  
   }
 }

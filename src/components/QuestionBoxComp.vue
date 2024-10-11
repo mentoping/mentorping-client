@@ -1,5 +1,4 @@
 <template>
-	<div class="order"><OrderConditonComp></OrderConditonComp></div>
 	<div
 		v-for="(question, index) in questionsContent"
 		:key="index"
@@ -27,8 +26,8 @@
 		<div class="question-footer">
 			<div class="hashtags">
 				<span
-					v-for="hashtag in question.hashtags"
-					:key="hashtag"
+					v-for="(hashtag, index) in question.hashtags"
+					:key="index"
 					class="hashtag"
 				>
 					#{{ hashtag }}
@@ -47,15 +46,14 @@
 </template>
 
 <script setup>
-import OrderConditonComp from './OrderConditonComp.vue';
 import { storeToRefs } from 'pinia';
-import { useQuestionStore } from '@/stores/questionAndMentoringStore';
+import { useQandMStore } from '@/stores/questionAndMentoringStore';
 import { useLikeStore } from '@/stores/likeStore';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 
-const questionStore = useQuestionStore();
-const { questions } = storeToRefs(questionStore);
+const questionStore = useQandMStore();
+const { mentoringAndQuestionList } = storeToRefs(questionStore);
 
 const authStore = useLikeStore();
 const { questionLike } = storeToRefs(authStore);
@@ -64,7 +62,9 @@ const { questionLike } = storeToRefs(authStore);
 const router = useRouter();
 
 // Extracting content array from questions object
-const questionsContent = computed(() => questions.value.content || []);
+const questionsContent = computed(
+	() => mentoringAndQuestionList.value.content || [],
+);
 
 // RouterLink를 사용하면 이벤트 버블링이 멈추지 앟아
 const goToQuestion = questionId => {
@@ -189,10 +189,6 @@ const toggleLike = question => {
 	align-items: center;
 	gap: 4px;
 	cursor: pointer;
-}
-
-.order {
-	margin-bottom: 2vh;
 }
 
 .selected-icon {
