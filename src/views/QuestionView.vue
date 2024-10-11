@@ -12,6 +12,7 @@
 		</div>
 		<div><SearchComp></SearchComp></div>
 		<div><CategoriesComp></CategoriesComp></div>
+		<div class="order"><OrderConditonComp></OrderConditonComp></div>
 		<div><QuestionBoxComp></QuestionBoxComp></div>
 		<div><PagingComp></PagingComp></div>
 	</div>
@@ -21,6 +22,7 @@
 import ExplainComp from '@/components/ExplainComp.vue';
 import SearchComp from '@/components/SearchComp.vue';
 import CategoriesComp from '@/components/CategoriesComp.vue';
+import OrderConditonComp from '@/components/OrderConditonComp.vue';
 import QuestionBoxComp from '@/components/QuestionBoxComp.vue';
 import PagingComp from '@/components/PagingComp.vue';
 import { onMounted } from 'vue';
@@ -48,5 +50,10 @@ onMounted(async () => {
 	align-items: center; /* 가로 축에서 가운데 정렬 */
 	margin-top: 10vh;
 	gap: 4vh;
+}
+
+.order {
+	max-width: 1000px;
+	width: 70vw;
 }
 </style>

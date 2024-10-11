@@ -1,5 +1,4 @@
 <template>
-	<div class="order"><OrderConditonComp></OrderConditonComp></div>
 	<div
 		v-for="(question, index) in questionsContent"
 		:key="index"
@@ -27,8 +26,8 @@
 		<div class="question-footer">
 			<div class="hashtags">
 				<span
-					v-for="hashtag in question.hashtags"
-					:key="hashtag"
+					v-for="(hashtag, index) in question.hashtags"
+					:key="index"
 					class="hashtag"
 				>
 					#{{ hashtag }}
@@ -47,7 +46,6 @@
 </template>
 
 <script setup>
-import OrderConditonComp from './OrderConditonComp.vue';
 import { storeToRefs } from 'pinia';
 import { useQandMStore } from '@/stores/questionAndMentoringStore';
 import { useLikeStore } from '@/stores/likeStore';
@@ -191,10 +189,6 @@ const toggleLike = question => {
 	align-items: center;
 	gap: 4px;
 	cursor: pointer;
-}
-
-.order {
-	margin-bottom: 2vh;
 }
 
 .selected-icon {
