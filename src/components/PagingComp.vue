@@ -27,10 +27,10 @@
 
 <script setup>
 import { computed, ref } from 'vue';
-import { useQuestionStore } from '@/stores/questionAndMentoringStore';
+import { useQandMStore } from '@/stores/questionAndMentoringStore';
 import { storeToRefs } from 'pinia';
 
-const questionStore = useQuestionStore();
+const questionStore = useQandMStore();
 const { totalPages } = storeToRefs(questionStore);
 
 const currentPage = ref(1);

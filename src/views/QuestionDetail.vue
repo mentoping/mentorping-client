@@ -23,7 +23,7 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useQuestionStore } from '@/stores/questionAndMentoringStore';
+import { useQandMStore } from '@/stores/questionAndMentoringStore';
 
 import QuestionDetailComp from '@/components/QuestionDetailComp.vue';
 import TextEditorComp from '@/components/TextEditorComp.vue';
@@ -37,7 +37,7 @@ const { id } = defineProps({
 });
 
 // Pinia 스토어 사용
-const questionStore = useQuestionStore();
+const questionStore = useQandMStore();
 
 const { currentQuestion } = storeToRefs(questionStore);
 

@@ -1,7 +1,7 @@
 <template>
-	<div class="answer-list">
+	<div class="answer-list" v-if="currentQuestion && currentQuestion.answers">
 		<div
-			v-for="(answer, index) in currentAnswer"
+			v-for="(answer, index) in currentQuestion.answers"
 			:key="index"
 			:class="['answer-container', { 'selected-answer': answer.isSelected }]"
 		>
@@ -41,11 +41,11 @@
 </template>
 
 <script setup>
-import { useQuestionStore } from '@/stores/questionAndMentoringStore';
+import { useQandMStore } from '@/stores/questionAndMentoringStore';
 import { storeToRefs } from 'pinia';
 
-const questionStore = useQuestionStore();
-const { currentAnswer } = storeToRefs(questionStore);
+const questionStore = useQandMStore();
+const { currentQuestion } = storeToRefs(questionStore);
 </script>
 
 <style scoped>

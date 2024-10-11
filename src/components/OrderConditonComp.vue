@@ -10,9 +10,9 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-import { useQuestionStore } from '@/stores/questionAndMentoringStore';
+import { useQandMStore } from '@/stores/questionAndMentoringStore';
 
-const questionStore = useQuestionStore();
+const questionStore = useQandMStore();
 const selectedOrder = ref(questionStore.orderCondition);
 
 // 선택된 정렬 조건이 변경될 때 store의 orderCondition 업데이트

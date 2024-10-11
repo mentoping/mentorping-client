@@ -24,17 +24,17 @@ import CategoriesComp from '@/components/CategoriesComp.vue';
 import QuestionBoxComp from '@/components/QuestionBoxComp.vue';
 import PagingComp from '@/components/PagingComp.vue';
 import { onMounted } from 'vue';
-import { useQuestionStore } from '@/stores/questionAndMentoringStore';
+import { useQandMStore } from '@/stores/questionAndMentoringStore';
 import { fetchQuestions } from '@/api/question';
 
-const questionStore = useQuestionStore();
+const questionStore = useQandMStore();
 
 onMounted(async () => {
 	try {
 		/*현재 로그인한 유저의 좋아요 질문 목록 id들도 불러와야한다.*/
 		//전체 질문목록의 1페이지 불러오기
 		const questionsData = await fetchQuestions();
-		questionStore.setQuestions(questionsData);
+		questionStore.setMandQLists(questionsData);
 	} catch (error) {
 		console.error('Failed to fetch questions:', error);
 	}
