@@ -1,49 +1,69 @@
 <template>
-	<QuestionDetailComp class="shared-width question-detail"></QuestionDetailComp>
-	<div class="answer-explain">답변 작성</div>
-	<TextEditorComp
-		class="shared-width text-editor"
-		:placeholder="'답변을 작성해보세요.'"
-		:height="150"
-	></TextEditorComp>
-	<div ref="advertiseBox" class="advertise-box">
-		<img
-			src="C:/myproject/kosa/mentain/mentorping-client/src/assets/advertise.png"
-			alt="광고 이미지"
-			class="advertise-image"
-		/>
+	<div class="question-detail">
+		<!-- 질문 섹션 -->
+		<div class="question-section">
+			<h2>KOSA MSA 5차 과정에 대해 질문이 있습니다.</h2>
+			<p>안녕하세요. Kosa 교육을 듣고 있는 수강생입니다...</p>
+			<!-- 태그 표시 -->
+			<div class="tags">
+				<span class="tag">#해시태그1</span>
+				<span class="tag">#해시태그2</span>
+				<span class="tag">#해시태그3</span>
+			</div>
+		</div>
+
+		<!-- 답변 입력 섹션 -->
+		<div class="answer-section">
+			<input v-model="newAnswerUserId" placeholder="User ID를 입력하세요" />
+			<textarea
+				v-model="newAnswerContent"
+				placeholder="당신의 답변을 입력해 주세요"
+			></textarea>
+			<button class="submit-button" @click="goToChatRoom(userId)">
+				답변하기
+			</button>
+		</div>
+
+		<!-- 답변 목록 -->
+		<div class="answer-list">
+			<h3>{{ answers.length }}개의 답변이 달렸어요!</h3>
+
+			<!-- 개별 답변 -->
+			<div class="answer-item" v-for="(answer, index) in answers" :key="index">
+				<p>
+					{{ answer.content }} <small>(작성자: {{ answer.userId }})</small>
+				</p>
+				<button @click="goToChatRoom(answer.userId)">채팅하러 가기</button>
+			</div>
+		</div>
 	</div>
-	<button class="answer-button">답변하기</button>
-	<div class="answer-count">
-		<span>{{ currentQuestion.answerCount }}</span> 개의 답변이 달렸어요!
-	</div>
-	<QuestionAnswerComp class="shared-width answer-box"></QuestionAnswerComp>
 </template>
 
-<script setup>
-import { onMounted, onUnmounted, ref } from 'vue';
-import { storeToRefs } from 'pinia';
-import { useQuestionStore } from '@/stores/questionAndMentoringStore';
+<script>
+import { db } from '../firebaseConfig';
+import { useUserStore } from '../stores/userStore';
+import { collection, query, where, getDocs, addDoc } from 'firebase/firestore';
+import { computed } from 'vue';
 
-import QuestionDetailComp from '@/components/QuestionDetailComp.vue';
-import TextEditorComp from '@/components/TextEditorComp.vue';
-import QuestionAnswerComp from '@/components/QuestionAnswerComp.vue';
+export default {
+	name: 'QuestionDetail',
 
-const { id } = defineProps({
-	id: {
-		type: String,
-		required: true,
-	},
-});
+	setup() {
+		const userStore = useUserStore();
 
-// Pinia 스토어 사용
-const questionStore = useQuestionStore();
+		userStore.fetchUsers();
 
-const { currentQuestion } = storeToRefs(questionStore);
+		// 현재 로그인한 사용자의 정보를 가져옴
+		const userName = computed(() => {
+			return userStore.user ? userStore.user.name : 'Guest';
+		});
+		const userId = computed(() => {
+			return userStore.user ? userStore.user.id : null;
+		});
 
-const advertiseBox = ref(null);
+		console.log('Current users in store:', userStore.users);
+		console.log('Current user in store:', userStore.user);
 
-/*
 		return {
 			userStore,
 			userName,
@@ -168,101 +188,52 @@ const advertiseBox = ref(null);
 			}
 		},
 	},
-
-const handleScroll = () => {
-	if (advertiseBox.value) {
-		const offset = Math.max(265, window.scrollY + 200);
-		advertiseBox.value.style.top = `${offset}px`;
-	}
-
-*/
 };
-
-onMounted(() => {
-	questionStore.setQuestionDetail(id); //현재 질문 정보 가져오기
-	window.addEventListener('scroll', handleScroll);
-});
-
-onUnmounted(() => {
-	window.removeEventListener('scroll', handleScroll);
-});
 </script>
 
 <style scoped>
-.shared-width {
-	margin-top: 10px;
-	width: 65vw;
-	margin-left: 10vw;
-	margin-right: 20vw;
-}
-
-.answer-button {
-	margin-top: 0px;
-	margin-bottom: 50px;
-	margin-left: 69vw;
-	width: 6vw;
-	border-radius: 10px;
-	font-weight: 800;
-	color: white;
-	background-color: green;
-	padding: 8px;
-	font-size: 15px;
-	border: none;
-	cursor: pointer; /* 커서 스타일 추가 */
-	transition: background-color 0.3s ease; /* hover 시 배경색 변화 애니메이션 추가 */
-}
-
-.answer-button:hover {
-	background-color: darkgreen; /* hover 시 배경색 변경 */
-}
-
+/* 스타일 설정 */
 .question-detail {
-	height: auto;
+	padding: 20px;
+}
+
+.question-section {
+	padding: 20px;
+	border: 1px solid #ccc;
 	margin-bottom: 20px;
-	margin-top: 100px;
 }
 
-.answer-count {
-	border-radius: 10px;
-	margin-left: 10vw;
-	background-color: #f3f3f3;
-	width: 65vw;
-	padding: 10px 0 10px 30px;
-	font-weight: 800;
-	font-size: 25px;
+.tags .tag {
+	background: #eee;
+	padding: 5px;
+	margin-right: 5px;
 }
 
-.answer-explain {
-	margin-top: 30px;
-	margin-left: 10vw;
-	width: 65vw;
-	font-weight: 800;
-	font-size: 22px;
-	color: #3b946f;
+.answer-section {
+	margin-bottom: 20px;
 }
 
-.answer-count span {
-	color: #3b946f;
-}
-
-.advertise-box {
-	width: 300px;
-	height: 420px;
-	position: absolute; /* fixed에서 absolute로 변경 */
-	top: 265px;
-	left: 77vw;
-	border-radius: 20px;
-	transition: top 0.5s ease-in-out; /* 자연스러운 움직임을 위해 추가 */
-}
-
-.advertise-image {
+.answer-section input {
 	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	border-radius: 20px;
+	margin-bottom: 10px;
+	padding: 5px;
 }
 
-.answer-box {
-	margin-top: 40px;
+.answer-section textarea {
+	width: 100%;
+	height: 100px;
+}
+
+.submit-button {
+	margin-top: 10px;
+}
+
+.answer-list {
+	padding: 20px;
+	border: 1px solid #ccc;
+}
+
+.answer-item {
+	margin-bottom: 10px;
 }
 </style>
