@@ -9,6 +9,7 @@ import QuestionDetail from '@/views/QuestionDetail.vue';
 import ChatRoom from '@/views/ChatRoom.vue';
 import InquiryView from '@/views/InquiryView.vue';
 import CreateQuestionView from '@/views/CreateQuestionView.vue';
+import CreateMentoringView from '@/views/CreateMentoringView.vue';
 
 const routes = [
 	{
@@ -38,6 +39,7 @@ const routes = [
 	},
 	{
 		path: '/login',
+		name: 'Login',
 		component: LoginView,
 	},
 	{
@@ -54,6 +56,11 @@ const routes = [
 		path: '/create-question',
 		name: 'CreateQuestion',
 		component: CreateQuestionView,
+	},
+	{
+		path: '/create-mentoring',
+		name: 'CreateMentoring',
+		component: CreateMentoringView,
 	},
 ];
 
