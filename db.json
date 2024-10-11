@@ -200,7 +200,7 @@
             "createdAt": "2024-10-11T11:29:42.48708",
             "category": "MD",
             "hashtags": [
-                "앰디"
+                "앰디", "쌈디", "쥐디"
             ],
             "likeCount": 0,
             "price": 50000,
@@ -232,7 +232,7 @@
             "id": 44,
             "title": "Mentoring Title 0",
             "content": "Mentoring Content 0",
-            "thumbnailUrl": "https://example.com/thumbnail0.jpg",
+            "thumbnailUrl": null,
             "summary": "Summary of mentoring 0",
             "author": {
                 "id": 5,
@@ -278,7 +278,7 @@
             "id": 46,
             "title": "Mentoring Title 2",
             "content": "Mentoring Content 2",
-            "thumbnailUrl": "https://example.com/thumbnail2.jpg",
+            "thumbnailUrl": null,
             "summary": "Summary of mentoring 2",
             "author": {
                 "id": 5,
@@ -324,7 +324,7 @@
             "id": 48,
             "title": "Mentoring Title 4",
             "content": "Mentoring Content 4",
-            "thumbnailUrl": "https://example.com/thumbnail4.jpg",
+            "thumbnailUrl": null,
             "summary": "Summary of mentoring 4",
             "author": {
                 "id": 5,
@@ -370,7 +370,7 @@
             "id": 50,
             "title": "Mentoring Title 6",
             "content": "Mentoring Content 6",
-            "thumbnailUrl": "https://example.com/thumbnail6.jpg",
+            "thumbnailUrl": null,
             "summary": "Summary of mentoring 6",
             "author": {
                 "id": 5,
@@ -416,7 +416,7 @@
             "id": 52,
             "title": "Mentoring Title 8",
             "content": "Mentoring Content 8",
-            "thumbnailUrl": "https://example.com/thumbnail8.jpg",
+            "thumbnailUrl": null,
             "summary": "Summary of mentoring 8",
             "author": {
                 "id": 5,

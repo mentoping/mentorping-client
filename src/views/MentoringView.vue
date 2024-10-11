@@ -14,6 +14,8 @@
 		</div>
 		<div><SearchComp></SearchComp></div>
 		<div><CategoriesComp></CategoriesComp></div>
+		<div><OrderConditonComp></OrderConditonComp></div>
+		<div><MentoringCardComp></MentoringCardComp></div>
 	</div>
 </template>
 
@@ -21,6 +23,8 @@
 import ExplainComp from '@/components/ExplainComp.vue';
 import SearchComp from '@/components/SearchComp.vue';
 import CategoriesComp from '@/components/CategoriesComp.vue';
+import OrderConditonComp from '@/components/OrderConditonComp.vue';
+import MentoringCardComp from '@/components/MentoringCardComp.vue';
 
 import { useQandMStore } from '@/stores/questionAndMentoringStore';
 import { onMounted } from 'vue';
