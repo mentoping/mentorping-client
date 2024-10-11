@@ -2,12 +2,11 @@
 	<div class="chat-list">
 		<input v-model="search" placeholder="유저 이름" />
 		<ul>
-			<!-- <li v-for="(room, index) in filteredChatRooms" :key="index" @click="$emit('select-room', room.id)"
-        :class="{ 'active': index === selectedRoomIndex }"> -->
 			<li
 				v-for="(room, index) in filteredChatRooms"
 				:key="index"
-				@click="$emit('select-room', room)"
+				@click="selectRoom(room)"
+				:class="{ active: selectedRoomId === room.id }"
 			>
 				<div class="room-info">
 					<img src="https://via.placeholder.com/50" alt="User Icon" />
@@ -33,22 +32,24 @@
 <script>
 import { ref, onMounted, computed } from 'vue';
 import { useUserStore } from '../stores/userStore';
-import { db } from '../firebaseConfig';
+import { db, realtimeDb } from '../firebaseConfig';
 import {
 	collection,
 	query,
 	onSnapshot,
 	orderBy,
 	where,
-} from 'firebase/firestore'; // where를 import
+	getDocs,
+} from 'firebase/firestore';
+import { ref as dbRef, onValue } from 'firebase/database';
 
 export default {
 	name: 'ChatRoomList',
 	emits: ['select-room'],
-	setup() {
+	setup(props, { emit }) {
 		const search = ref('');
 		const chatRooms = ref([]);
-		const selectedRoomIndex = ref(null);
+		const selectedRoomId = ref(null); // 현재 선택된 채팅방 ID를 저장할 변수
 
 		// 현재 사용자 정보 가져오기
 		const userStore = useUserStore();
@@ -76,34 +77,63 @@ export default {
 			const roomsCollection = collection(db, 'rooms');
 			const q = query(roomsCollection, orderBy('lastMessageTimestamp', 'desc'));
 
-			onSnapshot(q, querySnapshot => {
-				chatRooms.value = [];
-				querySnapshot.forEach(doc => {
-					const roomData = { id: doc.id, ...doc.data(), unreadMessages: 0 }; // 초기화
+			onSnapshot(q, async querySnapshot => {
+				const updatedRooms = []; // 변경된 채팅방 목록을 저장할 임시 배열
 
-					chatRooms.value.push(roomData);
+				for (const doc of querySnapshot.docs) {
+					const roomData = {
+						id: doc.id,
+						...doc.data(),
+						unreadMessages: 0,
+						isReceiverInRoom: false,
+					};
 
 					// 각 방의 메시지에 대해 읽지 않은 메시지 수를 계산
-					const messagesCollection = collection(
-						db,
-						'rooms',
-						doc.id,
-						'messages',
-					);
-					const unreadMessagesQuery = query(
-						messagesCollection,
-						where('isRead', '==', false),
-						where('senderId', '!=', userId.value),
-					);
+					try {
+						const messagesCollection = collection(
+							db,
+							'rooms',
+							doc.id,
+							'messages',
+						);
+						const unreadMessagesQuery = query(
+							messagesCollection,
+							where('isRead', '==', false),
+							where('senderId', '!=', userId.value),
+						);
+						const unreadMessagesSnapshot = await getDocs(unreadMessagesQuery);
+						roomData.unreadMessages = unreadMessagesSnapshot.size;
+					} catch (error) {
+						console.error('Error getting unread messages count:', error);
+					}
 
-					onSnapshot(unreadMessagesQuery, messagesSnapshot => {
-						roomData.unreadMessages = messagesSnapshot.size;
-						chatRooms.value = [
-							...chatRooms.value.filter(room => room.id !== doc.id),
-							roomData,
-						];
+					// Presence 상태 확인을 위한 RealTime Database 접근
+					const roomUsersRef = dbRef(realtimeDb, `rooms/${roomData.id}/users`);
+					onValue(roomUsersRef, snapshot => {
+						const users = snapshot.val();
+						if (users) {
+							const receiverId = roomData.receiverId;
+							roomData.isReceiverInRoom = !!users[receiverId];
+						} else {
+							roomData.isReceiverInRoom = false;
+						}
+
+						// 기존에 존재하는 채팅방을 업데이트하거나 추가
+						const existingRoomIndex = updatedRooms.findIndex(
+							room => room.id === roomData.id,
+						);
+						if (existingRoomIndex !== -1) {
+							updatedRooms[existingRoomIndex] = roomData; // 이미 존재하는 경우 업데이트
+						} else {
+							updatedRooms.push(roomData); // 새로 추가된 채팅방
+						}
+
+						// 채팅방 목록을 정렬하여 업데이트 (lastMessageTimestamp 기준)
+						chatRooms.value = [...updatedRooms].sort((a, b) => {
+							return b.lastMessageTimestamp - a.lastMessageTimestamp;
+						});
 					});
-				});
+				}
 			});
 		});
 
@@ -116,6 +146,12 @@ export default {
 			});
 		});
 
+		// 방 선택 시 호출되는 함수
+		const selectRoom = room => {
+			selectedRoomId.value = room.id; // 선택된 방 ID 업데이트
+			emit('select-room', room); // 선택된 방 정보를 부모 컴포넌트로 전달
+		};
+
 		return {
 			search,
 			chatRooms,
@@ -123,7 +159,8 @@ export default {
 			formatTimestamp,
 			formatLastMessage,
 			userId,
-			selectedRoomIndex,
+			selectRoom,
+			selectedRoomId, // selectedRoomId를 반환해야 합니다.
 		};
 	},
 };
