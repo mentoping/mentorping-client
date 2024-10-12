@@ -485,5 +485,27 @@
     "numberOfElements": 12,
     "empty": false
   
+  },
+  "mentoring-detail":{
+    "id": 22,
+    "title": "멘토링합니다22",
+    "content": "어서오세요22",
+    "thumbnailUrl": "https://picsum.photos/200/300",
+    "summary": "서정적인멘토링",
+    "author": {
+      "id": 3,
+      "name": "홍길동",
+      "profileUrl": "https://picsum.photos/200/300"
+    },
+    "createdAt": "2024-10-11T11:29:42.48708",
+    "category": "MD",
+    "hashtags": [
+      "앰디", "쌈디", "쥐디"
+    ],
+    "likeCount": 1,
+    "price": 50000,
+    "rating": 4.2111,
+    "active": true,
+    "likedByCurrentUser": true
   }
 }
