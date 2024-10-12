@@ -65,8 +65,8 @@
 							@click="viewInquiryDetail(inquiry.id)"
 							class="inquiry-item"
 						>
-							<h3>{{ inquiry.username }}님의 문의</h3>
-							<p>{{ inquiry.subject }}</p>
+							<h3>{{ inquiry.userName }}님의 문의</h3>
+							<p>{{ inquiry.title }}</p>
 						</li>
 						<li v-if="inquiries.length === 0">문의 데이터가 없습니다.</li>
 					</ul>

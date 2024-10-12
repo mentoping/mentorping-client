@@ -35,10 +35,10 @@ onMounted(async () => {
 		await reportsStore.fetchReports();
 	}
 
-	// 보고서 ID 가져오기
+	// 신고 ID 가져오기
 	const reportId = Number(route.params.id);
 
-	// 보고서 리스트에서 해당 ID에 맞는 보고서 찾기
+	// 신고 리스트에서 해당 ID에 맞는 보고서 찾기
 	report.value = reportsStore.reports.find(r => r.id === reportId);
 });
 

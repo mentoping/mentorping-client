@@ -4,8 +4,8 @@
 			<button @click="goBack" class="back-button">뒤로 가기</button>
 			<h2>문의 상세 내역</h2>
 			<div v-if="inquiry" class="inquiry-info">
-				<p><strong>작성자:</strong> {{ inquiry.author }}</p>
-				<p><strong>내용:</strong> {{ inquiry.content }}</p>
+				<p><strong>작성자:</strong> {{ inquiry.userName }}</p>
+				<p><strong>내용:</strong> {{ inquiry.inquiryContent }}</p>
 				<p><strong>날짜:</strong> {{ inquiry.date }}</p>
 				<div class="reply-section">
 					<h3>관리자 답변</h3>
@@ -33,26 +33,35 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useInquiriesStore } from '@/stores/useInquiriesStore';
 import AdminLayout from './AdminLayout.vue';
 
 const route = useRoute();
 const router = useRouter();
-
+const inquiriesStore = useInquiriesStore();
 const inquiry = ref(null);
-const replies = ref([]);
+const replies = ref([]); // 초기화된 상태
 const newReply = ref('');
 
-const inquiriesData = [
-	{ id: 1, author: '사용자3', content: '문의 내용 1', date: '2024-10-11' },
-	{ id: 2, author: '사용자4', content: '문의 내용 2', date: '2024-10-12' },
-	// ... 추가 더미 데이터 ...
-];
+onMounted(async () => {
+	// 문의 데이터가 없으면 가져오기
+	if (!inquiriesStore.inquiries.length) {
+		await inquiriesStore.fetchInquiries();
+	}
 
-onMounted(() => {
+	// 문의 ID 가져오기
 	const inquiryId = Number(route.params.id);
-	inquiry.value = inquiriesData.find(i => i.id === inquiryId);
+
+	// 문의 리스트에서 해당 ID에 맞는 문의 찾기
+	inquiry.value = inquiriesStore.inquiries.find(inq => inq.id === inquiryId);
+
+	// 문의에 맞는 답변 리스트 가져오기 (replies 예시)
+	if (inquiry.value) {
+		replies.value = inquiry.value.replies || []; // 문의에 답변이 있는 경우 처리
+	}
 });
 
+// 뒤로 가기 기능
 function goBack() {
 	if (route.query.prevTab) {
 		router.push({ path: '/admin', query: { tab: route.query.prevTab } });
@@ -61,6 +70,7 @@ function goBack() {
 	}
 }
 
+// 답변 추가 기능
 function addReply() {
 	if (newReply.value.trim()) {
 		replies.value.push({
