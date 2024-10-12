@@ -39,7 +39,7 @@
 							@click="viewReportDetail(report.id)"
 							class="report-item"
 						>
-							<h3>{{ report.reporter }}님의 신고</h3>
+							<h3>{{ report.reporterName }}님의 신고</h3>
 							<p>{{ report.date }}</p>
 						</li>
 						<li v-if="reports.length === 0">신고 데이터가 없습니다.</li>
@@ -65,7 +65,8 @@
 							@click="viewInquiryDetail(inquiry.id)"
 							class="inquiry-item"
 						>
-							<h3>{{ inquiry.author }}님의 문의</h3>
+							<h3>{{ inquiry.userName }}님의 문의</h3>
+							<!-- <p>{{ inquiry.title }}</p> -->
 							<p>{{ inquiry.date }}</p>
 						</li>
 						<li v-if="inquiries.length === 0">문의 데이터가 없습니다.</li>
@@ -122,6 +123,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useReportsStore } from '@/stores/useReportsStore';
+import { useInquiriesStore } from '@/stores/useInquiriesStore';
 
 const activeTab = ref('reports');
 const route = useRoute();
@@ -131,30 +133,13 @@ const itemsPerPage = 10;
 
 // 스토어
 const reportsStore = useReportsStore();
+const inquiriesStore = useInquiriesStore();
 
 // 스토어에서 reports 가져오기
 const reports = computed(() => reportsStore.reports);
 
-const inquiries = ref([
-	{ id: 1, author: '사용자3', content: '문의 내용 1', date: '2024-10-11' },
-	{ id: 2, author: '사용자4', content: '문의 내용 2', date: '2024-10-12' },
-	{ id: 3, author: '사용자5', content: '문의 내용 3', date: '2024-10-13' },
-	{ id: 4, author: '사용자6', content: '문의 내용 4', date: '2024-10-14' },
-	{ id: 5, author: '사용자7', content: '문의 내용 5', date: '2024-10-15' },
-	{ id: 6, author: '사용자8', content: '문의 내용 6', date: '2024-10-16' },
-	{ id: 7, author: '사용자9', content: '문의 내용 7', date: '2024-10-17' },
-	{ id: 8, author: '사용자10', content: '문의 내용 8', date: '2024-10-18' },
-	{ id: 9, author: '사용자11', content: '문의 내용 9', date: '2024-10-19' },
-	{ id: 10, author: '사용자12', content: '문의 내용 10', date: '2024-10-20' },
-	{ id: 11, author: '사용자13', content: '문의 내용 11', date: '2024-10-21' },
-	{ id: 12, author: '사용자14', content: '문의 내용 12', date: '2024-10-22' },
-	{ id: 13, author: '사용자15', content: '문의 내용 13', date: '2024-10-23' },
-	{ id: 14, author: '사용자16', content: '문의 내용 14', date: '2024-10-24' },
-	{ id: 15, author: '사용자17', content: '문의 내용 15', date: '2024-10-25' },
-	{ id: 16, author: '사용자18', content: '문의 내용 16', date: '2024-10-26' },
-	{ id: 17, author: '사용자19', content: '문의 내용 17', date: '2024-10-27' },
-	{ id: 18, author: '사용자20', content: '문의 내용 18', date: '2024-10-28' },
-]);
+// 스토어에서 inquirys 가져오기
+const inquiries = computed(() => inquiriesStore.inquiries);
 
 const users = ref([
 	{
@@ -246,6 +231,7 @@ onMounted(async () => {
 		activeTab.value = route.query.tab;
 	}
 	await reportsStore.fetchReports();
+	await inquiriesStore.fetchInquiries();
 });
 </script>
 

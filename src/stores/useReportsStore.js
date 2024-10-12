@@ -4,10 +4,22 @@ import axiosInstance from '@/plugins/axios';
 export const useReportsStore = defineStore('reports', {
 	state: () => ({
 		reports: [], // 신고 리스트
-		isLoading: false, // 로딩 상태를 관리
+		isLoading: false, // 로딩 상태 관리
 		error: null, // 에러 상태 관리
 	}),
 	actions: {
+		// 날짜 포맷팅 함수 추가
+		formatDate(dateString) {
+			const date = new Date(dateString);
+			const year = date.getFullYear();
+			const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+			const day = String(date.getDate()).padStart(2, '0');
+			const hours = String(date.getHours()).padStart(2, '0');
+			const minutes = String(date.getMinutes()).padStart(2, '0');
+
+			return `${year}-${month}-${day} ${hours}:${minutes}`;
+		},
+
 		async fetchReports() {
 			this.isLoading = true; // 로딩 상태 시작
 			this.error = null; // 이전 에러 초기화
@@ -21,9 +33,10 @@ export const useReportsStore = defineStore('reports', {
 					this.reports = data.reports.map(report => ({
 						id: report.id,
 						reporter: report.reporterId, // 신고자 ID
+						reporterName: report.reporterName, // 신고자 Name
 						targetMemberId: report.targetMemberId, // 신고 대상자 ID
-						// date: new Date().toLocaleDateString(), // 임시로 현재 날짜 추가 (백엔드에서 날짜 제공 필요)
-						date: report.createAt, // 임시로 현재 날짜 추가 (백엔드에서 날짜 제공 필요)
+						targetMemberName: report.targetMemberName,
+						date: this.formatDate(report.createdAt), // 날짜 포맷 적용
 						content: report.reason, // 신고 이유
 						status: report.status, // 신고 상태
 						reportType: report.reportType, // 신고 유형
