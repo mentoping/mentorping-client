@@ -15,6 +15,9 @@
 				class="mentoring-thumbnail"
 			/>
 			<div class="card-contents">
+				<div class="mentoring-category">
+					{{ getCategoryLabel(mentoring.category) }}
+				</div>
 				<div class="hashtags">
 					<span
 						v-for="(hashtag, index) in mentoring.hashtags"
@@ -64,6 +67,7 @@
 <script setup>
 import { useQandMStore } from '@/stores/questionAndMentoringStore';
 import { useLikeStore } from '@/stores/likeStore';
+import { useCategoryStore } from '@/stores/category';
 
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
@@ -104,6 +108,14 @@ const toggleLike = mentoring => {
 		mentoring.likeCount++;
 	}
 };
+
+const categoryStore = useCategoryStore();
+const { categories } = storeToRefs(categoryStore);
+
+const getCategoryLabel = value => {
+	const category = categories.value.find(cat => cat.value === value);
+	return category ? category.label : value;
+};
 </script>
 
 <style scoped>
@@ -119,13 +131,18 @@ const toggleLike = mentoring => {
 	overflow: hidden;
 	cursor: pointer;
 	transition: transform 0.2s;
-	height: 400px;
+	height: 450px;
 	display: flex;
 	flex-direction: column;
 }
 
 .mentoring-card:hover {
 	transform: scale(1.05);
+}
+
+.mentoring-category {
+	color: #3b946f;
+	font-weight: 600;
 }
 
 .mentoring-thumbnail {
@@ -172,6 +189,7 @@ const toggleLike = mentoring => {
 	font-size: 13px;
 	color: #444;
 	margin-bottom: 26px;
+	margin-left: 5px;
 }
 
 .author-info {
