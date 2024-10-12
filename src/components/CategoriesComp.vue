@@ -67,6 +67,7 @@ onMounted(() => {
 	text-align: center;
 	box-sizing: border-box;
 	border-radius: 30px;
+	font-size: 17px;
 }
 
 .category-button.active {
