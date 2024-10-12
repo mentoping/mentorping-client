@@ -48,6 +48,7 @@ export const useQandMStore = defineStore('questionStore', () => {
 		currentPage,
 		orderCondition,
 		currentQuestion,
+		currentMentoring,
 		setMandQLists,
 		setQuestionDetail,
 		setMentoringDetail,

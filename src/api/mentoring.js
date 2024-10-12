@@ -15,10 +15,7 @@ export const fetchMentorings = async () => {
 
 export const fetchDetailMentoring = async mentoringId => {
 	try {
-		const response = await axios.get(
-			// `http://localhost:3000/question-detail/${questionId}`,
-			'http://localhost:8089/mentoring-detail',
-		);
+		const response = await axios.get(`${BASE_URL}/mentoring-detail/`);
 		console.log(mentoringId); //에러 때문에 넣어본거. 잘 넘어오는지 확인
 		return response.data;
 	} catch (error) {
