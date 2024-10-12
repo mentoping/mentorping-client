@@ -21,7 +21,9 @@ export const useReportsStore = defineStore('reports', {
 					this.reports = data.reports.map(report => ({
 						id: report.id,
 						reporter: report.reporterId, // 신고자 ID
+						reporterName: report.reporterName, // 신고자 Name
 						targetMemberId: report.targetMemberId, // 신고 대상자 ID
+						targetMemberName: report.targetMemberName,
 						// date: new Date().toLocaleDateString(), // 임시로 현재 날짜 추가 (백엔드에서 날짜 제공 필요)
 						date: report.createAt, // 임시로 현재 날짜 추가 (백엔드에서 날짜 제공 필요)
 						content: report.reason, // 신고 이유

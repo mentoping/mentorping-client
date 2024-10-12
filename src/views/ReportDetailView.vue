@@ -3,8 +3,10 @@
 		<div class="report-detail">
 			<h2>신고 상세 내역</h2>
 			<div v-if="report" class="report-info">
-				<p><strong>신고자:</strong> {{ report.reporter }}</p>
-				<p><strong>신고 당한 자:</strong> {{ report.targetMemberId }}</p>
+				<p><strong>신고자 ID:</strong> {{ report.reporter }}</p>
+				<p><strong>신고자 이름:</strong> {{ report.reporterName }}</p>
+				<p><strong>신고 당한 자 ID:</strong> {{ report.targetMemberId }}</p>
+				<p><strong>신고 당한 자 이름:</strong> {{ report.targetMemberName }}</p>
 				<p><strong>내용:</strong> {{ report.content }}</p>
 				<p><strong>신고 타입:</strong> {{ report.reportType }}</p>
 				<button @click="deleteReport" class="delete-button">신고 삭제</button>
