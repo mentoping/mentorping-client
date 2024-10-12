@@ -14,8 +14,11 @@
 		</div>
 		<div><SearchComp></SearchComp></div>
 		<div><CategoriesComp></CategoriesComp></div>
-		<div><OrderConditonComp></OrderConditonComp></div>
-		<div><MentoringCardComp></MentoringCardComp></div>
+		<div class="order"><OrderConditonComp></OrderConditonComp></div>
+		<div class="card-view">
+			<MentoringCardComp></MentoringCardComp>
+		</div>
+		<div class="page-move"><PagingComp></PagingComp></div>
 	</div>
 </template>
 
@@ -25,10 +28,11 @@ import SearchComp from '@/components/SearchComp.vue';
 import CategoriesComp from '@/components/CategoriesComp.vue';
 import OrderConditonComp from '@/components/OrderConditonComp.vue';
 import MentoringCardComp from '@/components/MentoringCardComp.vue';
+import PagingComp from '@/components/PagingComp.vue';
 
 import { useQandMStore } from '@/stores/questionAndMentoringStore';
 import { onMounted } from 'vue';
-import { fetchMentorings } from '@/api/question';
+import { fetchMentorings } from '@/api/mentoring';
 
 const questionStore = useQandMStore();
 
@@ -51,5 +55,17 @@ onMounted(async () => {
 	align-items: center; /* 가로 축에서 가운데 정렬 */
 	margin-top: 10vh;
 	gap: 4vh;
+}
+
+.card-view {
+	width: 80vw;
+}
+
+.order {
+	width: 80vw;
+}
+
+.page-move {
+	margin-bottom: 60px;
 }
 </style>

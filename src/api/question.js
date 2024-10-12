@@ -13,17 +13,6 @@ export const fetchQuestions = async () => {
 	}
 };
 
-export const fetchMentorings = async () => {
-	//멘토링 목록 불러오기
-	try {
-		const response = await axios.get(`${BASE_URL}/mentorings-1`);
-		return response.data;
-	} catch (error) {
-		console.error('Failed to fetch Mentorings:', error);
-		throw error;
-	}
-};
-
 //디테일 페이지에서 현재 페이지의 질문 정보를 가져오는(질문만)
 export const fetchDetailQuestion = async questionId => {
 	try {

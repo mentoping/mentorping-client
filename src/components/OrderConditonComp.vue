@@ -28,13 +28,13 @@ watch(selectedOrder, newOrder => {
 	right: 8px;
 	transform: translateY(-50%);
 	pointer-events: none;
-	font-size: 1em;
+	font-size: 15px;
 	color: #888;
 }
 
 select {
 	width: auto;
-	font-size: 1.2em;
+	font-size: 15px;
 	padding: 12px 40px 12px 12px;
 	border-radius: 12px;
 	border: 1px solid #ccc;
