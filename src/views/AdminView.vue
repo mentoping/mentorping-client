@@ -121,6 +121,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { useReportsStore } from '@/stores/useReportsStore';
 
 const activeTab = ref('reports');
 const route = useRoute();
@@ -128,29 +129,39 @@ const router = useRouter();
 const currentPage = ref(1);
 const itemsPerPage = 10;
 
+// 스토어
+const reportsStore = useReportsStore();
+
+// const reports = ref([]);
+
+// 스토어에서 reports 가져오기
+const reports = computed(() => reportsStore.reports);
+// const isLoading = computed(() => reportsStore.isLoading);
+// const error = computed(() => reportsStore.error);
+
 // 임시 더미 데이터로 UI 구성
-const reports = ref([
-	{ id: 1, reporter: '사용자1', content: '신고 내용 1', date: '2024-10-11' },
-	{ id: 2, reporter: '사용자2', content: '신고 내용 2', date: '2024-10-12' },
-	{ id: 3, reporter: '사용자3', content: '신고 내용 3', date: '2024-10-13' },
-	{ id: 4, reporter: '사용자4', content: '신고 내용 4', date: '2024-10-14' },
-	{ id: 5, reporter: '사용자5', content: '신고 내용 5', date: '2024-10-15' },
-	{ id: 6, reporter: '사용자6', content: '신고 내용 6', date: '2024-10-16' },
-	{ id: 7, reporter: '사용자7', content: '신고 내용 7', date: '2024-10-17' },
-	{ id: 8, reporter: '사용자8', content: '신고 내용 8', date: '2024-10-18' },
-	{ id: 9, reporter: '사용자9', content: '신고 내용 9', date: '2024-10-19' },
-	{ id: 10, reporter: '사용자10', content: '신고 내용 10', date: '2024-10-20' },
-	{ id: 11, reporter: '사용자11', content: '신고 내용 11', date: '2024-10-21' },
-	{ id: 12, reporter: '사용자12', content: '신고 내용 12', date: '2024-10-22' },
-	{ id: 13, reporter: '사용자13', content: '신고 내용 13', date: '2024-10-23' },
-	{ id: 14, reporter: '사용자14', content: '신고 내용 14', date: '2024-10-24' },
-	{ id: 15, reporter: '사용자15', content: '신고 내용 15', date: '2024-10-25' },
-	{ id: 16, reporter: '사용자16', content: '신고 내용 16', date: '2024-10-26' },
-	{ id: 17, reporter: '사용자17', content: '신고 내용 17', date: '2024-10-27' },
-	{ id: 18, reporter: '사용자18', content: '신고 내용 18', date: '2024-10-28' },
-	{ id: 19, reporter: '사용자19', content: '신고 내용 19', date: '2024-10-29' },
-	{ id: 20, reporter: '사용자20', content: '신고 내용 20', date: '2024-10-30' },
-]);
+// const reports = ref([
+// 	{ id: 1, reporter: '사용자1', content: '신고 내용 1', date: '2024-10-11' },
+// 	{ id: 2, reporter: '사용자2', content: '신고 내용 2', date: '2024-10-12' },
+// 	{ id: 3, reporter: '사용자3', content: '신고 내용 3', date: '2024-10-13' },
+// 	{ id: 4, reporter: '사용자4', content: '신고 내용 4', date: '2024-10-14' },
+// 	{ id: 5, reporter: '사용자5', content: '신고 내용 5', date: '2024-10-15' },
+// 	{ id: 6, reporter: '사용자6', content: '신고 내용 6', date: '2024-10-16' },
+// 	{ id: 7, reporter: '사용자7', content: '신고 내용 7', date: '2024-10-17' },
+// 	{ id: 8, reporter: '사용자8', content: '신고 내용 8', date: '2024-10-18' },
+// 	{ id: 9, reporter: '사용자9', content: '신고 내용 9', date: '2024-10-19' },
+// 	{ id: 10, reporter: '사용자10', content: '신고 내용 10', date: '2024-10-20' },
+// 	{ id: 11, reporter: '사용자11', content: '신고 내용 11', date: '2024-10-21' },
+// 	{ id: 12, reporter: '사용자12', content: '신고 내용 12', date: '2024-10-22' },
+// 	{ id: 13, reporter: '사용자13', content: '신고 내용 13', date: '2024-10-23' },
+// 	{ id: 14, reporter: '사용자14', content: '신고 내용 14', date: '2024-10-24' },
+// 	{ id: 15, reporter: '사용자15', content: '신고 내용 15', date: '2024-10-25' },
+// 	{ id: 16, reporter: '사용자16', content: '신고 내용 16', date: '2024-10-26' },
+// 	{ id: 17, reporter: '사용자17', content: '신고 내용 17', date: '2024-10-27' },
+// 	{ id: 18, reporter: '사용자18', content: '신고 내용 18', date: '2024-10-28' },
+// 	{ id: 19, reporter: '사용자19', content: '신고 내용 19', date: '2024-10-29' },
+// 	{ id: 20, reporter: '사용자20', content: '신고 내용 20', date: '2024-10-30' },
+// ]);
 
 const inquiries = ref([
 	{ id: 1, author: '사용자3', content: '문의 내용 1', date: '2024-10-11' },
@@ -257,10 +268,12 @@ function nextPage() {
 	}
 }
 
-onMounted(() => {
+// 컴포넌트가 마운트되었을 때 신고 데이터 가져오기
+onMounted(async () => {
 	if (route.query.tab) {
-		activeTab.value = route.query.tab; // 쿼리 파라미터의 탭으로 설정
+		activeTab.value = route.query.tab;
 	}
+	await reportsStore.fetchReports();
 });
 </script>
 
