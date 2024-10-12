@@ -9,6 +9,9 @@ import QuestionDetail from '@/views/QuestionDetail.vue';
 import ChatRoom from '@/views/ChatRoom.vue';
 import InquiryView from '@/views/InquiryView.vue';
 import CreateQuestionView from '@/views/CreateQuestionView.vue';
+import ReportDetailView from '@/views/ReportDetailView.vue';
+import InquiryDetailView from '@/views/InquiryDetailView.vue';
+import UserDetailView from '@/views/UserDetailView.vue';
 import CreateMentoringView from '@/views/CreateMentoringView.vue';
 import MentoringDetail from '@/views/MentoringDetail.vue';
 
@@ -67,6 +70,24 @@ const routes = [
 		path: '/mentoring/:id',
 		name: 'MentoringDetail',
 		component: MentoringDetail,
+		props: true, // id를 prop으로 전달할 수 있게 설정
+	},
+	{
+		path: '/report-detail/:id',
+		name: 'ReportDetail',
+		component: ReportDetailView,
+		props: true, // id를 prop으로 전달할 수 있게 설정
+	},
+	{
+		path: '/inquiry-detail/:id',
+		name: 'InquiryDetailView',
+		component: InquiryDetailView,
+		props: true, // id를 prop으로 전달할 수 있게 설정
+	},
+	{
+		path: '/user-detail/:id',
+		name: 'UserDetailView',
+		component: UserDetailView,
 		props: true, // id를 prop으로 전달할 수 있게 설정
 	},
 ];
