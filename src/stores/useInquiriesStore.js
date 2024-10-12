@@ -27,7 +27,17 @@ export const useInquiriesStore = defineStore('inquiries', () => {
 					title: inquiry.subject,
 					date: formatDate(inquiry.createdAt), // 날짜 포맷 적용
 					inquiryContent: inquiry.inquiryContent,
-					answerContent: inquiry.answerContent,
+					// answerContent: inquiry.answerContent,
+					replies: inquiry.answerContent // answerContent를 replies로 변환
+						? [
+								{
+									id: 1,
+									content: inquiry.answerContent,
+									date: formatDate(inquiry.updatedAt || inquiry.createdAt),
+								},
+							]
+						: [], // 답변이 없을 경우 빈 배열
+					// replies: inquiry.replies || [], // 서버에서 replies 데이터가 존재하는지 확인
 				}));
 			} else {
 				console.error('API 응답 데이터 형식이 예상과 다릅니다:', data);

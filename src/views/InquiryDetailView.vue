@@ -7,6 +7,10 @@
 				<p><strong>작성자:</strong> {{ inquiry.userName }}</p>
 				<p><strong>내용:</strong> {{ inquiry.inquiryContent }}</p>
 				<p><strong>날짜:</strong> {{ inquiry.date }}</p>
+
+				<!-- 삭제 버튼 -->
+				<button @click="deleteInquiry" class="delete-button">문의 삭제</button>
+
 				<div class="reply-section">
 					<h3>관리자 답변</h3>
 					<ul>
@@ -43,11 +47,10 @@ const inquiry = ref(null);
 const replies = ref([]); // 초기화된 상태
 const newReply = ref('');
 
+// 컴포넌트가 마운트되었을 때 문의 데이터를 불러오기
 onMounted(async () => {
-	// 문의 데이터가 없으면 가져오기
-	if (!inquiriesStore.inquiries.length) {
-		await inquiriesStore.fetchInquiries();
-	}
+	// 문의 데이터를 다시 가져와서 최신화
+	await inquiriesStore.fetchInquiries();
 
 	// 문의 ID 가져오기
 	const inquiryId = Number(route.params.id);
@@ -55,7 +58,7 @@ onMounted(async () => {
 	// 문의 리스트에서 해당 ID에 맞는 문의 찾기
 	inquiry.value = inquiriesStore.inquiries.find(inq => inq.id === inquiryId);
 
-	// 문의에 맞는 답변 리스트 가져오기 (replies 예시)
+	// 문의에 맞는 답변 리스트 가져오기
 	if (inquiry.value) {
 		replies.value = inquiry.value.replies || []; // 문의에 답변이 있는 경우 처리
 	}
@@ -71,14 +74,33 @@ function goBack() {
 }
 
 // 답변 추가 기능
-function addReply() {
+async function addReply() {
 	if (newReply.value.trim()) {
-		replies.value.push({
+		// 새로운 답변을 추가
+		const reply = {
 			id: replies.value.length + 1,
 			content: newReply.value,
 			date: new Date().toLocaleString(),
-		});
+		};
+		replies.value.push(reply);
+
+		// 답변을 서버에 업데이트 (inquiriesStore 사용)
+		await inquiriesStore.updateInquiryAnswer(inquiry.value.id, reply.content);
+
+		// 답변 입력창 초기화
 		newReply.value = '';
+	}
+}
+
+// 문의 삭제 기능
+async function deleteInquiry() {
+	// 삭제 전에 확인 메시지를 보여줌
+	const isConfirmed = confirm('정말로 삭제하시겠습니까?');
+
+	// 사용자가 확인을 누르면 삭제 진행
+	if (isConfirmed && inquiry.value) {
+		await inquiriesStore.deleteInquiry(inquiry.value.id);
+		router.push('/admin?tab=inquiries'); // 삭제 후 문의 관리 페이지로 이동
 	}
 }
 </script>
@@ -88,7 +110,8 @@ function addReply() {
 	padding: 20px;
 }
 
-.back-button {
+.back-button,
+.delete-button {
 	margin-bottom: 20px;
 	padding: 10px;
 	background-color: #4caf50;
@@ -97,8 +120,17 @@ function addReply() {
 	cursor: pointer;
 }
 
-.back-button:hover {
+.delete-button {
+	background-color: #f44336; /* 삭제 버튼의 색상 */
+}
+
+.back-button:hover,
+.delete-button:hover {
 	background-color: #45a049;
+}
+
+.delete-button:hover {
+	background-color: #e53935; /* 삭제 버튼 hover 색상 */
 }
 
 .inquiry-info {
