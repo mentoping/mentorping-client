@@ -8,7 +8,7 @@
 	></TextEditorComp>
 	<div ref="advertiseBox" class="advertise-box">
 		<img
-			src="C:/myproject/kosa/mentain/mentorping-client/src/assets/advertise.png"
+			src="@/assets/advertise.png"
 			alt="광고 이미지"
 			class="advertise-image"
 		/>
