@@ -82,7 +82,7 @@ onMounted(() => {
 }
 
 .mento-firstline {
-	margin-top: 30px;
+	margin-top: 50px;
 	width: 100%;
 	display: grid;
 	grid-template-columns: 1fr auto 1fr; /* 세 개의 컬럼: 왼쪽, 중앙, 오른쪽 */
@@ -171,7 +171,7 @@ input:checked + .slider:before {
 
 .mento-summary {
 	width: 60%;
-	margin-top: 20px;
+	margin-top: 30px;
 	font-size: 20px;
 	color: #878787;
 	text-align: center;
@@ -181,6 +181,7 @@ input:checked + .slider:before {
 }
 
 .mento-price {
+	margin-top: 30px;
 	font-weight: 600;
 	padding: 10px 0;
 	font-size: 18px;
@@ -194,7 +195,7 @@ input:checked + .slider:before {
 	justify-content: center;
 	align-items: center; /* 세로 가운데 정렬 */
 	width: 100%; /* 전체 너비 사용 */
-	margin-top: 10px; /* 상단에 약간의 여백 추가 */
+	margin-top: 30px; /* 상단에 약간의 여백 추가 */
 }
 
 .hashtag-container {
