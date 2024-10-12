@@ -1,7 +1,8 @@
 //불러온 질문 목록을 저장할 store
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { fetchDetailQuestion } from '@/api/question'; // API 함수 불러오기
+import { fetchDetailQuestion } from '@/api/question';
+import { fetchDetailMentoring } from '@/api/mentoring';
 
 export const useQandMStore = defineStore('questionStore', () => {
 	const mentoringAndQuestionList = ref([]); //질문, 멘토링 리스트 받아올 변수
@@ -12,6 +13,7 @@ export const useQandMStore = defineStore('questionStore', () => {
 	const orderCondition = ref('createdAt'); //정렬 기준
 
 	const currentQuestion = ref({}); //상세 질문 페이지에 현재 해당하는 question객체
+	const currentMentoring = ref({}); //상세 멘토링 페이지에 현재 해당하는 mentoring객체
 
 	const setMandQLists = newQuestions => {
 		mentoringAndQuestionList.value = newQuestions;
@@ -31,6 +33,15 @@ export const useQandMStore = defineStore('questionStore', () => {
 		}
 	};
 
+	const setMentoringDetail = async mentoringId => {
+		try {
+			const detailMentoring = await fetchDetailMentoring(mentoringId); //상세페이지 멘토링에 대한 API호출
+			currentMentoring.value = detailMentoring;
+		} catch (error) {
+			console.error('Error fetching mentoring detail:', error);
+		}
+	};
+
 	return {
 		mentoringAndQuestionList,
 		totalPages,
@@ -39,5 +50,6 @@ export const useQandMStore = defineStore('questionStore', () => {
 		currentQuestion,
 		setMandQLists,
 		setQuestionDetail,
+		setMentoringDetail,
 	};
 });

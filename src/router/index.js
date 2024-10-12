@@ -10,6 +10,7 @@ import ChatRoom from '@/views/ChatRoom.vue';
 import InquiryView from '@/views/InquiryView.vue';
 import CreateQuestionView from '@/views/CreateQuestionView.vue';
 import CreateMentoringView from '@/views/CreateMentoringView.vue';
+import MentoringDetail from '@/views/MentoringDetail.vue';
 
 const routes = [
 	{
@@ -61,6 +62,12 @@ const routes = [
 		path: '/create-mentoring',
 		name: 'CreateMentoring',
 		component: CreateMentoringView,
+	},
+	{
+		path: '/mentoring/:id',
+		name: 'MentoringDetail',
+		component: MentoringDetail,
+		props: true, // id를 prop으로 전달할 수 있게 설정
 	},
 ];
 

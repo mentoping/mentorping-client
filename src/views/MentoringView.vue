@@ -32,7 +32,7 @@ import PagingComp from '@/components/PagingComp.vue';
 
 import { useQandMStore } from '@/stores/questionAndMentoringStore';
 import { onMounted } from 'vue';
-import { fetchMentorings } from '@/api/question';
+import { fetchMentorings } from '@/api/mentoring';
 
 const questionStore = useQandMStore();
 
