@@ -41,5 +41,22 @@ export const useReportsStore = defineStore('reports', {
 				this.isLoading = false; // 로딩 상태 종료
 			}
 		},
+
+		// 신고 삭제하기
+		async deleteReport(reportId) {
+			this.isLoading = true;
+			this.error = null;
+
+			try {
+				await axiosInstance.delete(`/admin/reports/${reportId}`);
+				// 스토어에서 삭제된 신고 제거
+				this.reports = this.reports.filter(report => report.id !== reportId);
+			} catch (error) {
+				this.error = error;
+				console.error('Failed to delete report:', error);
+			} finally {
+				this.isLoading = false;
+			}
+		},
 	},
 });

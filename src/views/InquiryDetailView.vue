@@ -1,36 +1,39 @@
 <template>
-	<div class="inquiry-detail">
-		<button @click="goBack" class="back-button">뒤로 가기</button>
-		<h2>문의 상세 내역</h2>
-		<div v-if="inquiry" class="inquiry-info">
-			<p><strong>작성자:</strong> {{ inquiry.author }}</p>
-			<p><strong>내용:</strong> {{ inquiry.content }}</p>
-			<p><strong>날짜:</strong> {{ inquiry.date }}</p>
-			<div class="reply-section">
-				<h3>관리자 답변</h3>
-				<ul>
-					<li v-for="reply in replies" :key="reply.id" class="reply-item">
-						<p>{{ reply.content }}</p>
-						<p class="reply-date">{{ reply.date }}</p>
-					</li>
-				</ul>
-				<textarea
-					v-model="newReply"
-					placeholder="답변을 입력하세요"
-					class="reply-textarea"
-				></textarea>
-				<button @click="addReply" class="reply-button">답변 달기</button>
+	<AdminLayout>
+		<div class="inquiry-detail">
+			<button @click="goBack" class="back-button">뒤로 가기</button>
+			<h2>문의 상세 내역</h2>
+			<div v-if="inquiry" class="inquiry-info">
+				<p><strong>작성자:</strong> {{ inquiry.author }}</p>
+				<p><strong>내용:</strong> {{ inquiry.content }}</p>
+				<p><strong>날짜:</strong> {{ inquiry.date }}</p>
+				<div class="reply-section">
+					<h3>관리자 답변</h3>
+					<ul>
+						<li v-for="reply in replies" :key="reply.id" class="reply-item">
+							<p>{{ reply.content }}</p>
+							<p class="reply-date">{{ reply.date }}</p>
+						</li>
+					</ul>
+					<textarea
+						v-model="newReply"
+						placeholder="답변을 입력하세요"
+						class="reply-textarea"
+					></textarea>
+					<button @click="addReply" class="reply-button">답변 달기</button>
+				</div>
+			</div>
+			<div v-else>
+				<p>문의 데이터를 불러오는 중입니다...</p>
 			</div>
 		</div>
-		<div v-else>
-			<p>문의 데이터를 불러오는 중입니다...</p>
-		</div>
-	</div>
+	</AdminLayout>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import AdminLayout from './AdminLayout.vue';
 
 const route = useRoute();
 const router = useRouter();
