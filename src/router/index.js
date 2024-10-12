@@ -7,7 +7,7 @@ import MypageView from '@/views/MypageView.vue';
 import LoginView from '@/views/LoginView.vue';
 import QuestionDetail from '@/views/QuestionDetail.vue';
 import ChatRoom from '@/views/ChatRoom.vue';
-import InquiryView from '@/views/InquiryView.vue';
+import CreateInquiryView from '@/views/CreateInquiryView.vue';
 import CreateQuestionView from '@/views/CreateQuestionView.vue';
 import ReportDetailView from '@/views/ReportDetailView.vue';
 import InquiryDetailView from '@/views/InquiryDetailView.vue';
@@ -54,7 +54,7 @@ const routes = [
 	{
 		path: '/inquiry',
 		name: 'Inquiry',
-		component: InquiryView,
+		component: CreateInquiryView,
 	},
 	{
 		path: '/create-question',
