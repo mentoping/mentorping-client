@@ -213,7 +213,6 @@ input:checked + .slider:before {
 }
 
 .mento-thumbnail {
-	border: 1px solid black;
 	margin-top: 30px;
 	width: 50vw;
 	height: 23vw;
@@ -223,6 +222,7 @@ input:checked + .slider:before {
 	width: 100%;
 	height: 100%;
 	object-fit: fill; /* 이미지가 컨테이너 크기에 맞게 들어가도록 설정 */
+	border-radius: 10px;
 }
 
 .mento-content {
