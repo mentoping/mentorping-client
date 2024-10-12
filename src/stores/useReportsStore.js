@@ -22,7 +22,8 @@ export const useReportsStore = defineStore('reports', {
 						id: report.id,
 						reporter: report.reporterId, // 신고자 ID
 						targetMemberId: report.targetMemberId, // 신고 대상자 ID
-						date: new Date().toLocaleDateString(), // 임시로 현재 날짜 추가 (백엔드에서 날짜 제공 필요)
+						// date: new Date().toLocaleDateString(), // 임시로 현재 날짜 추가 (백엔드에서 날짜 제공 필요)
+						date: report.createAt, // 임시로 현재 날짜 추가 (백엔드에서 날짜 제공 필요)
 						content: report.reason, // 신고 이유
 						status: report.status, // 신고 상태
 						reportType: report.reportType, // 신고 유형
