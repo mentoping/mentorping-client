@@ -4,7 +4,8 @@ import QuestionView from '@/views/QuestionView.vue';
 import MentoringView from '@/views/MentoringView.vue';
 import AdminView from '@/views/AdminView.vue';
 import MypageView from '@/views/MypageView.vue';
-import LoginView from '@/views/LoginView.vue';
+import CommonUserLoginView from '@/views/CommonUserLoginView.vue';
+import AdminUserLoginView from '@/views/AdminUserLoginView.vue';
 import QuestionDetail from '@/views/QuestionDetail.vue';
 import ChatRoom from '@/views/ChatRoom.vue';
 import CreateInquiryView from '@/views/CreateInquiryView.vue';
@@ -44,7 +45,12 @@ const routes = [
 	{
 		path: '/login',
 		name: 'Login',
-		component: LoginView,
+		component: CommonUserLoginView,
+	},
+	{
+		path: '/admin-login',
+		name: 'AdminLogin',
+		component: AdminUserLoginView,
 	},
 	{
 		path: '/chat',
