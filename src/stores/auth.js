@@ -50,11 +50,16 @@ export const useAuthStore = defineStore('auth', () => {
 		}
 	};
 
+	function setProfile(newProfile) {
+		userInfo.value.profile = newProfile;
+	}
+
 	return {
 		isLoggedIn,
 		userInfo,
 		login,
 		logout,
 		initializeAuth,
+		setProfile,
 	};
 });

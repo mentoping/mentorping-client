@@ -16,6 +16,8 @@ import UserDetailView from '@/views/UserDetailView.vue';
 import CreateMentoringView from '@/views/CreateMentoringView.vue';
 import MentoringDetail from '@/views/MentoringDetail.vue';
 
+import MyPageMenteeProfile from '@/components/mypage/MyPageMenteeProfile.vue';
+
 const routes = [
 	{
 		path: '/',
@@ -41,6 +43,13 @@ const routes = [
 	{
 		path: '/mypage',
 		component: MypageView,
+		children: [
+			{
+				path: '',
+				name: 'Mentee',
+				component: MyPageMenteeProfile,
+			},
+		],
 	},
 	{
 		path: '/login',
