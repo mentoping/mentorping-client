@@ -67,5 +67,10 @@ onMounted(async () => {
 
 .page-move {
 	margin-bottom: 60px;
+	display: flex;
+	justify-content: center; /* 가로 가운데 정렬 */
+	align-items: center; /* 세로 가운데 정렬 (필요에 따라 추가) */
+	width: 100%; /* 부모 요소의 너비를 전체로 설정 */
+	height: 100%; /* 부모 요소의 높이를 필요에 따라 설정 */
 }
 </style>

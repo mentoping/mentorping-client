@@ -29,12 +29,14 @@
 				</div>
 				<h3 class="mentoring-title">
 					{{ mentoring.title }}
+					<!-- 좋아요 여부를 question.likedByCurrentUser로 판별 -->
 					<span
 						class="likes"
 						@click.stop="toggleLike(mentoring)"
 						style="margin-left: auto"
 					>
-						<span v-if="isLiked(mentoring.id)">❤️</span>
+						<!-- 좋아요 상태가 true면 ❤️ 아이콘, false면 🤍 아이콘을 표시 -->
+						<span v-if="mentoring.likedByCurrentUser">❤️</span>
 						<span v-else>🤍</span>
 						{{ mentoring.likeCount }}
 					</span>
@@ -66,15 +68,10 @@
 
 <script setup>
 import { useQandMStore } from '@/stores/questionAndMentoringStore';
-import { useLikeStore } from '@/stores/likeStore';
 import { useCategoryStore } from '@/stores/category';
-
-import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
 import { computed } from 'vue';
-
-const authStore = useLikeStore();
-const { questionLike } = storeToRefs(authStore);
+import { storeToRefs } from 'pinia';
 
 const mentoringStore = useQandMStore();
 const { mentoringList } = storeToRefs(mentoringStore);
@@ -83,30 +80,24 @@ const router = useRouter();
 
 const mentoringsContent = computed(() => mentoringList.value.content || []);
 
+// 클릭 시 멘토링 상세 페이지로 이동
 const goToMentoring = mentoringId => {
 	router.push({ path: `/mentoring/${mentoringId}` });
 };
 
-// Check if a question is liked by the current user
-const isLiked = mentoringId => {
-	return questionLike.value.includes(String(mentoringId));
-};
-
-// Toggle the like status of a question and update the like count
+// 좋아요 상태를 question.likedByCurrentUser로 판별하고 토글하는 함수
 const toggleLike = mentoring => {
-	const mentoringId = String(mentoring.id);
-	if (isLiked(mentoringId)) {
-		const index = questionLike.value.indexOf(mentoringId);
-		if (index > -1) {
-			questionLike.value.splice(index, 1);
-			mentoring.likeCount--;
-		}
+	// 현재 좋아요 상태를 변경
+	if (mentoring.likedByCurrentUser) {
+		mentoring.likedByCurrentUser = false;
+		mentoring.likeCount--;
 	} else {
-		questionLike.value.push(mentoringId);
+		mentoring.likedByCurrentUser = true;
 		mentoring.likeCount++;
 	}
 };
 
+// 카테고리 이름을 가져오는 함수
 const categoryStore = useCategoryStore();
 const { categories } = storeToRefs(categoryStore);
 
@@ -146,7 +137,7 @@ const getCategoryLabel = value => {
 .mentoring-thumbnail {
 	width: 100%;
 	height: 50%;
-	object-fit: cover;
+	object-fit: fill;
 	border-radius: 5px;
 	margin-bottom: 6px;
 }

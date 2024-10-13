@@ -35,7 +35,7 @@
 			</div>
 			<div class="actions">
 				<span class="likes" @click.stop="toggleLike(question)">
-					<span v-if="isLiked(question.id)">❤️</span>
+					<span v-if="question.likedByCurrentUser">❤️</span>
 					<span v-else>🤍</span>
 					{{ question.likeCount }}
 				</span>
@@ -48,15 +48,11 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { useQandMStore } from '@/stores/questionAndMentoringStore';
-import { useLikeStore } from '@/stores/likeStore';
-import { computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { computed } from 'vue';
 
 const questionStore = useQandMStore();
 const { questionList } = storeToRefs(questionStore);
-
-const authStore = useLikeStore();
-const { questionLike } = storeToRefs(authStore);
 
 // Router instance for navigation
 const router = useRouter();
@@ -64,27 +60,18 @@ const router = useRouter();
 // Extracting content array from questions object
 const questionsContent = computed(() => questionList.value.content || []);
 
-// RouterLink를 사용하면 이벤트 버블링이 멈추지 앟아
+// RouterLink를 사용하면 이벤트 버블링이 멈추지 않음
 const goToQuestion = questionId => {
 	router.push({ path: `/question/${questionId}` });
 };
 
-// Check if a question is liked by the current user
-const isLiked = questionId => {
-	return questionLike.value.includes(String(questionId));
-};
-
 // Toggle the like status of a question and update the like count
 const toggleLike = question => {
-	const questionId = String(question.id);
-	if (isLiked(questionId)) {
-		const index = questionLike.value.indexOf(questionId);
-		if (index > -1) {
-			questionLike.value.splice(index, 1);
-			question.likeCount--;
-		}
+	if (question.likedByCurrentUser) {
+		question.likedByCurrentUser = false;
+		question.likeCount--;
 	} else {
-		questionLike.value.push(questionId);
+		question.likedByCurrentUser = true;
 		question.likeCount++;
 	}
 };
@@ -97,9 +84,9 @@ const toggleLike = question => {
 	padding: 16px;
 	background-color: #ffffff;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	margin-bottom: 16px;
+	margin-bottom: 30px;
 	max-width: 1000px;
-	width: 70vw;
+	width: 80vw;
 	transition: box-shadow 0.3s ease;
 	cursor: pointer; /* 클릭 가능하다는 것을 사용자에게 시각적으로 알려줌 */
 	position: relative;

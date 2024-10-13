@@ -41,17 +41,28 @@
 			<div class="section">
 				<div class="tilte-header">참여 멘토링</div>
 				<div class="description">참여했던 멘토링 목록을 확인해보세요</div>
-				<div></div>
+				<div class="question-list">
+					<MentoringCardComp></MentoringCardComp>
+					<MentoringPagingComp></MentoringPagingComp>
+				</div>
 			</div>
 			<div class="section">
 				<div class="tilte-header">질문 목록</div>
 				<div class="description">질문했던 내용을 확인해보세요</div>
+				<div class="question-list">
+					<QuestionBoxComp></QuestionBoxComp>
+					<QuestionPagingComp></QuestionPagingComp>
+				</div>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script setup>
+import QuestionBoxComp from '../QuestionBoxComp.vue';
+import QuestionPagingComp from '../QuestionPagingComp.vue';
+import MentoringCardComp from '../MentoringCardComp.vue';
+import MentoringPagingComp from '../MentoringPagingComp.vue';
 import { useAuthStore } from '@/stores/auth';
 
 import { storeToRefs } from 'pinia';
@@ -75,8 +86,9 @@ const handleImageChange = event => {
 <style scoped>
 .profile-container {
 	width: 85%;
+	margin: 0 auto; /* 가로 가운데 정렬 */
 	display: flex;
-	flex-direction: column; /* 자식 요소들을 세로 방향으로 배치 */
+	flex-direction: column;
 }
 
 .mypage-header {
@@ -89,9 +101,12 @@ const handleImageChange = event => {
 .content-body {
 	flex: 1;
 	overflow: auto;
-	padding: 250px;
 	background-color: #f5f7f6; /* 배경 색상 */
 	border-radius: 10px; /* 둥근 모서리 */
+	display: flex;
+	flex-direction: column;
+	align-items: center; /* 자식 요소들을 가로로 가운데 정렬 */
+	margin-top: 60px;
 }
 
 .content-body::-webkit-scrollbar {
@@ -102,6 +117,7 @@ const handleImageChange = event => {
 	display: flex;
 	align-items: center;
 	margin-bottom: 100px;
+	width: 1000px;
 }
 
 .profile-image-container {
@@ -174,6 +190,7 @@ const handleImageChange = event => {
 	border-radius: 10px;
 	font-size: 18px;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	width: 1000px;
 }
 
 .tilte-header {
@@ -182,5 +199,17 @@ const handleImageChange = event => {
 	display: flex;
 	align-items: center;
 	margin-top: 150px;
+}
+
+.question-list {
+	margin-top: 30px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-items: center;
+}
+
+.section {
+	width: 1000px;
 }
 </style>
