@@ -5,22 +5,33 @@ import { fetchDetailQuestion } from '@/api/question';
 import { fetchDetailMentoring } from '@/api/mentoring';
 
 export const useQandMStore = defineStore('questionStore', () => {
-	const mentoringAndQuestionList = ref([]); //질문, 멘토링 리스트 받아올 변수
+	const questionList = ref([]); //질문 리스트 받아올 변수
+	const mentoringList = ref([]); //멘토링 리스트 받아올 변수
 
-	const currentPage = ref('null'); //현재 페이지
-	const totalPages = ref('null'); //전체 몇페이지인지
+	const currentQuestionPage = ref('null'); //현재 질문 페이지
+	const currentQuestionTotalPages = ref('null'); //전체 질문 몇페이지인지
+	const currentMentoringPage = ref('null'); //현재 질문 페이지
+	const currentMentoringTotalPages = ref('null'); //전체 질문 몇페이지인지
 
 	const orderCondition = ref('createdAt'); //정렬 기준
 
 	const currentQuestion = ref({}); //상세 질문 페이지에 현재 해당하는 question객체
 	const currentMentoring = ref({}); //상세 멘토링 페이지에 현재 해당하는 mentoring객체
 
-	const setMandQLists = newQuestions => {
-		mentoringAndQuestionList.value = newQuestions;
-		currentPage.value = String(
-			Number(mentoringAndQuestionList.value.pageable.pageNumber) + 1,
+	const setQuestionList = newQuestions => {
+		questionList.value = newQuestions;
+		currentQuestionPage.value = String(
+			Number(questionList.value.pageable.pageNumber) + 1,
 		);
-		totalPages.value = mentoringAndQuestionList.value.totalPages;
+		currentQuestionTotalPages.value = questionList.value.totalPages;
+	};
+
+	const setMentoringList = newQuestions => {
+		mentoringList.value = newQuestions;
+		currentMentoringPage.value = String(
+			Number(mentoringList.value.pageable.pageNumber) + 1,
+		);
+		currentMentoringTotalPages.value = mentoringList.value.totalPages;
 	};
 
 	// API에서 특정 질문을 받아와 currentQuestion에 저장하는 함수
@@ -43,13 +54,17 @@ export const useQandMStore = defineStore('questionStore', () => {
 	};
 
 	return {
-		mentoringAndQuestionList,
-		totalPages,
-		currentPage,
+		questionList,
+		mentoringList,
+		currentQuestionTotalPages,
+		currentQuestionPage,
+		currentMentoringPage,
+		currentMentoringTotalPages,
 		orderCondition,
 		currentQuestion,
 		currentMentoring,
-		setMandQLists,
+		setQuestionList,
+		setMentoringList,
 		setQuestionDetail,
 		setMentoringDetail,
 	};

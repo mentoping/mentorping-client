@@ -17,7 +17,7 @@
 		</button>
 		<button
 			class="pagination-button"
-			:disabled="currentPage === totalPages"
+			:disabled="currentPage === currentMentoringTotalPages"
 			@click="nextPage"
 		>
 			&gt;
@@ -31,7 +31,7 @@ import { useQandMStore } from '@/stores/questionAndMentoringStore';
 import { storeToRefs } from 'pinia';
 
 const questionStore = useQandMStore();
-const { totalPages } = storeToRefs(questionStore);
+const { currentMentoringTotalPages } = storeToRefs(questionStore);
 
 const currentPage = ref(1);
 const maxVisiblePages = 5;
@@ -39,7 +39,7 @@ const maxVisiblePages = 5;
 // Calculate the visible page numbers based on currentPage and maxVisiblePages
 const visiblePages = computed(() => {
 	const pages = [];
-	const total = parseInt(totalPages.value) || 1;
+	const total = parseInt(currentMentoringTotalPages.value) || 1;
 	let startPage =
 		Math.floor((currentPage.value - 1) / maxVisiblePages) * maxVisiblePages + 1;
 	let endPage = Math.min(startPage + maxVisiblePages - 1, total);
@@ -64,7 +64,7 @@ const prevPage = () => {
 
 // Go to the next page
 const nextPage = () => {
-	if (currentPage.value < totalPages.value) {
+	if (currentPage.value < currentMentoringTotalPages.value) {
 		currentPage.value++;
 	}
 };
@@ -89,7 +89,7 @@ const nextPage = () => {
 }
 
 .pagination-button.active {
-	background-color: #28a745;
+	background-color: #28a745 !important; /* 현재 페이지의 배경색 */
 	color: white;
 	font-weight: bold;
 }

@@ -53,7 +53,7 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 const questionStore = useQandMStore();
-const { mentoringAndQuestionList } = storeToRefs(questionStore);
+const { questionList } = storeToRefs(questionStore);
 
 const authStore = useLikeStore();
 const { questionLike } = storeToRefs(authStore);
@@ -62,9 +62,7 @@ const { questionLike } = storeToRefs(authStore);
 const router = useRouter();
 
 // Extracting content array from questions object
-const questionsContent = computed(
-	() => mentoringAndQuestionList.value.content || [],
-);
+const questionsContent = computed(() => questionList.value.content || []);
 
 // RouterLink를 사용하면 이벤트 버블링이 멈추지 앟아
 const goToQuestion = questionId => {

@@ -77,13 +77,11 @@ const authStore = useLikeStore();
 const { questionLike } = storeToRefs(authStore);
 
 const mentoringStore = useQandMStore();
-const { mentoringAndQuestionList } = storeToRefs(mentoringStore);
+const { mentoringList } = storeToRefs(mentoringStore);
 
 const router = useRouter();
 
-const mentoringsContent = computed(
-	() => mentoringAndQuestionList.value.content || [],
-);
+const mentoringsContent = computed(() => mentoringList.value.content || []);
 
 const goToMentoring = mentoringId => {
 	router.push({ path: `/mentoring/${mentoringId}` });
