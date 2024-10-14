@@ -24,7 +24,7 @@
       "email": "phj123@naver.com",
       "nickname": "코사",
       "profile": "https://picsum.photos/id/870/200/300?grayscale&blur=2",
-      "content": "자기소개글"
+      "content": "자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글자기소개글"
     }
   ],
   "q-0": {
@@ -43,7 +43,8 @@
         "hashtags": ["테스틍1","테스틍2","테스틍3"],
         "likeCount": 3,
         "answerCount": 2,                                                        
-        "selected": true
+        "selected": true,
+        "likedByCurrentUser": true
       },
       {
         "id": 2,
@@ -59,7 +60,8 @@
         "hashtags": ["테스트1","테스트2","테스트3"],
         "likeCount": 0,
         "answerCount": 0,
-        "selected": false
+        "selected": false,
+        "likedByCurrentUser": false
       },
       {
         "id": 3,
@@ -75,7 +77,8 @@
         "hashtags": ["테스트1","테스트2","테스트3"],
         "likeCount": 0,
         "answerCount": 0,
-        "selected": false
+        "selected": false,
+        "likedByCurrentUser": false
       },
       {
         "id": 4,
@@ -91,7 +94,8 @@
         "hashtags": ["테스트1","테스트2","테스트3"],
         "likeCount": 0,
         "answerCount": 0,
-        "selected": false
+        "selected": false,
+        "likedByCurrentUser": false
       },
       {
         "id": 5,
@@ -107,7 +111,8 @@
         "hashtags": ["테스트1","테스트2","테스트3"],
         "likeCount": 0,
         "answerCount": 0,
-        "selected": false
+        "selected": false,
+        "likedByCurrentUser": false
       }
     ],
     "pageable": {
