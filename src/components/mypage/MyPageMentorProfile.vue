@@ -1,13 +1,13 @@
 <template>
-	<div class="profile-container" v-if="userInfo">
+	<div class="profile-container" v-if="mentorInfo">
 		<div class="mypage-header">
-			<i class="fa-solid fa-user"></i>&nbsp;&nbsp;멘티 프로필
+			<i class="fa-solid fa-user-tie"></i>&nbsp;&nbsp;멘토 프로필
 		</div>
 		<div class="content-body">
 			<div class="profile-section">
 				<div class="profile-image-container">
 					<img
-						:src="userInfo.profile"
+						:src="mentorInfo.profile"
 						alt="프로필 이미지"
 						class="profile-image"
 					/>
@@ -23,32 +23,52 @@
 				</div>
 				<div class="profile-info">
 					<div class="profile-name">
-						{{ userInfo.nickname }}
+						{{ mentorInfo.nickname }}
 						<i class="fa-solid fa-pen edit-icon"></i>
 					</div>
 				</div>
 			</div>
 			<div class="intro-section">
 				<div class="intro-header">
-					자기소개
+					전문가 소개
 					<i class="fa-solid fa-pen edit-icon"></i>
 				</div>
-				<div class="description">자신에 대해 간략하게 소개해 보세요</div>
+				<div class="description">멘토 소개</div>
 				<div class="intro-content">
-					{{ userInfo.content }}
+					{{ mentorInfo.content }}
+				</div>
+			</div>
+			<div class="intro-section">
+				<div class="intro-header">
+					활동분야
+					<i class="fa-solid fa-pen edit-icon"></i>
+				</div>
+				<div class="description">멘토가 전문성을 가지고 있는 분야입니다.</div>
+				<div class="intro-content">
+					{{ mentorInfo.content }}
+				</div>
+			</div>
+			<div class="intro-section">
+				<div class="intro-header">
+					연락처 및 SNS
+					<i class="fa-solid fa-pen edit-icon"></i>
+				</div>
+				<div class="description">멘토의 연락처 및 SNS</div>
+				<div class="intro-content">
+					{{ mentorInfo.content }}
 				</div>
 			</div>
 			<div class="section">
-				<div class="tilte-header">참여 멘토링</div>
-				<div class="description">참여했던 멘토링 목록을 확인해보세요</div>
+				<div class="tilte-header">개설 멘토링 목록</div>
+				<div class="description">본인이 개설한 멘토링 목록을 확인해보세요</div>
 				<div class="question-list">
 					<MentoringCardComp></MentoringCardComp>
 					<MentoringPagingComp></MentoringPagingComp>
 				</div>
 			</div>
 			<div class="section">
-				<div class="tilte-header">질문 목록</div>
-				<div class="description">질문했던 내용을 확인해보세요</div>
+				<div class="tilte-header">답변 목록</div>
+				<div class="description">답변했던 내용을 확인해보세요</div>
 				<div class="question-list">
 					<QuestionBoxComp></QuestionBoxComp>
 					<QuestionPagingComp></QuestionPagingComp>
@@ -59,16 +79,15 @@
 </template>
 
 <script setup>
-import QuestionBoxComp from '../QuestionBoxComp.vue';
-import QuestionPagingComp from '../QuestionPagingComp.vue';
+import { useAuthStore } from '@/stores/auth';
+import { storeToRefs } from 'pinia';
 import MentoringCardComp from '../MentoringCardComp.vue';
 import MentoringPagingComp from '../MentoringPagingComp.vue';
-import { useAuthStore } from '@/stores/auth';
-
-import { storeToRefs } from 'pinia';
+import QuestionBoxComp from '../QuestionBoxComp.vue';
+import QuestionPagingComp from '../QuestionPagingComp.vue';
 
 const authStore = useAuthStore();
-const { userInfo } = storeToRefs(authStore);
+const { mentorInfo } = storeToRefs(authStore);
 
 // 이미지 변경 핸들러
 const handleImageChange = event => {
@@ -168,6 +187,7 @@ const handleImageChange = event => {
 
 .intro-section {
 	margin-top: 20px;
+	margin-bottom: 50px;
 }
 
 .intro-header {

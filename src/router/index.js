@@ -17,6 +17,7 @@ import CreateMentoringView from '@/views/CreateMentoringView.vue';
 import MentoringDetail from '@/views/MentoringDetail.vue';
 
 import MyPageMenteeProfile from '@/components/mypage/MyPageMenteeProfile.vue';
+import MyPageMentorProfile from '@/components/mypage/MyPageMentorProfile.vue';
 
 const routes = [
 	{
@@ -48,6 +49,11 @@ const routes = [
 				path: '',
 				name: 'Mentee',
 				component: MyPageMenteeProfile,
+			},
+			{
+				path: 'mentor',
+				name: 'MyPageMentorProfile',
+				component: MyPageMentorProfile,
 			},
 		],
 	},

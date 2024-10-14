@@ -5,7 +5,8 @@ import Cookies from 'js-cookie';
 
 export const useAuthStore = defineStore('auth', () => {
 	const isLoggedIn = ref(false);
-	const userInfo = ref(null);
+	const userInfo = ref(null); //일반 유저 정보
+	const mentorInfo = ref(null); //내 멘토 정보
 
 	// JSON Server URL
 	const apiUrl = 'http://localhost:8089';
@@ -43,6 +44,7 @@ export const useAuthStore = defineStore('auth', () => {
 				if (response.status === 200) {
 					isLoggedIn.value = true;
 					userInfo.value = response.data[0];
+					mentorInfo.value = response.data[0]; //임시로 일단널어. rolementor면 해야할듯
 				}
 			}
 		} catch (error) {
@@ -57,6 +59,7 @@ export const useAuthStore = defineStore('auth', () => {
 	return {
 		isLoggedIn,
 		userInfo,
+		mentorInfo,
 		login,
 		logout,
 		initializeAuth,

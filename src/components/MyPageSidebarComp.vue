@@ -35,9 +35,11 @@
 
 <script setup>
 import { useRoute } from 'vue-router';
+import { computed } from 'vue';
 
 const route = useRoute();
-const currentRoute = route.path; // 현재 경로
+
+const currentRoute = computed(() => route.path); // 현재 경로
 </script>
 
 <style scoped>
