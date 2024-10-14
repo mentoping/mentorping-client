@@ -1,7 +1,32 @@
 <template>
-	<h2>마이페이지 뷰 입니다.</h2>
+	<div class="back-color">
+		<div class="mypage-container">
+			<MyPageSidebarComp></MyPageSidebarComp>
+			<RouterView></RouterView>
+		</div>
+	</div>
 </template>
 
-<script setup></script>
+<script setup>
+import MyPageSidebarComp from '@/components/MyPageSidebarComp.vue';
+</script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.back-color {
+	background-color: #bcbcbc;
+	width: 100vw;
+	height: 90vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.mypage-container {
+	width: 97%;
+	height: 95%;
+	background-color: white;
+	border-radius: 15px;
+	display: flex;
+	flex-direction: row;
+}
+</style>
