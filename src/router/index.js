@@ -20,6 +20,7 @@ import MyPageMenteeProfile from '@/components/mypage/MyPageMenteeProfile.vue';
 import MyPageMentorProfile from '@/components/mypage/MyPageMentorProfile.vue';
 import MyPageLikeQuestion from '@/components/mypage/MyPageLikeQuestion.vue';
 import MyPageLikeMentoring from '@/components/mypage/MyPageLikeMentoring.vue';
+import MyPageApplyMentoring from '@/components/mypage/MyPageApplyMentoring.vue';
 
 const routes = [
 	{
@@ -66,6 +67,11 @@ const routes = [
 				path: 'like-mentoring',
 				name: 'LikeMentoring',
 				component: MyPageLikeMentoring,
+			},
+			{
+				path: 'apply-mentoring',
+				name: 'ApplyMentoring',
+				component: MyPageApplyMentoring,
 			},
 		],
 	},
