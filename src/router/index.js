@@ -18,6 +18,7 @@ import MentoringDetail from '@/views/MentoringDetail.vue';
 
 import MyPageMenteeProfile from '@/components/mypage/MyPageMenteeProfile.vue';
 import MyPageMentorProfile from '@/components/mypage/MyPageMentorProfile.vue';
+import MyPageLikeQuestion from '@/components/mypage/MyPageLikeQuestion.vue';
 
 const routes = [
 	{
@@ -47,13 +48,18 @@ const routes = [
 		children: [
 			{
 				path: '',
-				name: 'Mentee',
+				name: 'MenteeProfile',
 				component: MyPageMenteeProfile,
 			},
 			{
 				path: 'mentor',
-				name: 'MyPageMentorProfile',
+				name: 'MentorProfile',
 				component: MyPageMentorProfile,
+			},
+			{
+				path: 'like-question',
+				name: 'LikeQuestion',
+				component: MyPageLikeQuestion,
 			},
 		],
 	},
