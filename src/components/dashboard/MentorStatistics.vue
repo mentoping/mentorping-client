@@ -1,0 +1,9 @@
+<template>
+	<h2>멘토 통계</h2>
+</template>
+
+<script>
+export default {};
+</script>
+
+<style lang="scss" scoped></style>

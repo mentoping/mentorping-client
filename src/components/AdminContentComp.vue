@@ -29,7 +29,7 @@ import InquiryList from '@/components/InquiryListComp.vue';
 import InquiryDetail from '@/components/InquiryDetailComp.vue';
 
 import Dashboard from '@/components/DashboardComp.vue';
-// import UserManagement from '@/components/UserManagementComp.vue';
+import UserManagement from '@/components/UserManagementListComp.vue';
 
 const adminStore = useAdminStore();
 const activeTab = computed(() => adminStore.activeTab);
