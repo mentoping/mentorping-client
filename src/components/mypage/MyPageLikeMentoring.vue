@@ -1,15 +1,15 @@
 <template>
 	<div class="profile-container">
 		<div class="mypage-header">
-			<i class="fa-solid fa-heart"></i>&nbsp;&nbsp;좋아요한 질문
+			<i class="fa-solid fa-heart"></i>&nbsp;&nbsp;좋아요한 멘토링
 		</div>
 		<div class="content-body">
 			<div class="section">
 				<div class="tilte-header">좋아요 목록</div>
-				<div class="description">좋아요했던 질문들을 확인해보세요</div>
+				<div class="description">좋아요한 멘토링들을 확인해보세요</div>
 				<div class="question-list">
-					<QuestionBoxComp></QuestionBoxComp>
-					<QuestionPagingComp></QuestionPagingComp>
+					<MentoringCardComp></MentoringCardComp>
+					<MentoringPagingComp></MentoringPagingComp>
 				</div>
 			</div>
 		</div>
@@ -17,8 +17,8 @@
 </template>
 
 <script setup>
-import QuestionBoxComp from '../QuestionBoxComp.vue';
-import QuestionPagingComp from '../QuestionPagingComp.vue';
+import MentoringCardComp from '../MentoringCardComp.vue';
+import MentoringPagingComp from '../MentoringPagingComp.vue';
 </script>
 
 <style scoped>

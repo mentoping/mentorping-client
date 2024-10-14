@@ -32,7 +32,16 @@
 				:class="{ active: currentRoute === '/mypage/like-question' }"
 				><i class="fa-solid fa-heart"></i>&nbsp;&nbsp;좋아요한 질문</router-link
 			>
-			<div><i class="fa-solid fa-heart"></i>&nbsp;&nbsp;좋아요한 멘토링</div>
+			<router-link
+				to="/mypage/like-mentoring"
+				class="link-item"
+				:class="{ active: currentRoute === '/mypage/like-mentoring' }"
+				><i class="fa-solid fa-heart"></i>&nbsp;&nbsp;좋아요한
+				멘토링</router-link
+			>
+			<div>
+				<i class="fa-solid fa-thumbtack"></i>&nbsp;&nbsp;지원중인 멘토링
+			</div>
 			<div><i class="fa-solid fa-question"></i>&nbsp;&nbsp;문의 내역</div>
 		</div>
 	</div>
