@@ -35,11 +35,17 @@
 			</div>
 			<div class="actions">
 				<span class="likes" @click.stop="toggleLike(question)">
-					<span v-if="question.likedByCurrentUser">❤️</span>
-					<span v-else>🤍</span>
+					<span v-if="question.likedByCurrentUser"
+						><i class="fa-solid fa-heart" style="color: #c21919"></i
+					></span>
+					<span v-else
+						><i class="fa-regular fa-heart" style="color: #000000"></i
+					></span>
 					{{ question.likeCount }}
 				</span>
-				<span class="answers"> 💬 {{ question.answerCount }} </span>
+				<span class="answers">
+					<i class="fa-regular fa-comment-dots"></i> {{ question.answerCount }}
+				</span>
 			</div>
 		</div>
 	</div>
@@ -85,11 +91,16 @@ const toggleLike = question => {
 	background-color: #ffffff;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	margin-bottom: 30px;
-	max-width: 1000px;
+	max-width: 1200px;
 	width: 80vw;
+	height: 15vw;
 	transition: box-shadow 0.3s ease;
 	cursor: pointer; /* 클릭 가능하다는 것을 사용자에게 시각적으로 알려줌 */
 	position: relative;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
 }
 
 .question-card:hover {
@@ -99,12 +110,12 @@ const toggleLike = question => {
 .question-header {
 	display: flex;
 	align-items: center;
-	margin-bottom: 16px;
+	height: 30%;
 }
 
 .profile-img {
-	width: 50px;
-	height: 50px;
+	height: 80%;
+	aspect-ratio: 1 / 1;
 	border-radius: 50%;
 	margin-right: 16px;
 }
@@ -115,34 +126,37 @@ const toggleLike = question => {
 }
 
 .category {
-	font-size: 14px;
+	font-size: 15px;
+	font-weight: 600;
 	color: #888;
 }
 
 .author {
-	font-size: 16px;
-	font-weight: bold;
+	font-size: 17px;
+	font-weight: 700;
 }
 
 .question-content {
-	margin-bottom: 16px;
+	height: 50%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
 }
 
 .title {
-	font-size: 18px;
-	font-weight: bold;
-	margin-bottom: 8px;
+	font-size: 30px;
+	font-weight: 800;
 }
 
 .content {
-	font-size: 16px;
-	color: #333;
+	font-size: 18px;
+	color: #646464;
 	display: -webkit-box;
 	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	max-width: 75%;
+	max-width: 80%;
 }
 
 .question-footer {
@@ -158,8 +172,12 @@ const toggleLike = question => {
 }
 
 .hashtag {
-	font-size: 14px;
-	color: #007bff;
+	padding: 3px 6px;
+	font-size: 15px;
+	font-weight: 600;
+	color: black;
+	background-color: rgb(188, 188, 188);
+	border-radius: 10px;
 }
 
 .actions {
@@ -169,7 +187,7 @@ const toggleLike = question => {
 
 .likes,
 .answers {
-	font-size: 16px;
+	font-size: 23px;
 	display: flex;
 	align-items: center;
 	gap: 4px;

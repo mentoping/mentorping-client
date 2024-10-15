@@ -53,7 +53,7 @@ onMounted(async () => {
 }
 
 .order {
-	max-width: 1000px;
-	width: 70vw;
+	max-width: 1200px;
+	width: 80vw;
 }
 </style>
