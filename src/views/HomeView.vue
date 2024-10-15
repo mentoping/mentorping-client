@@ -54,7 +54,9 @@
 					궁금한 사항은 채팅을 통해 물어볼 수 있습니다
 				</div>
 				<div class="section-button">
-					<button>질문 보러가기</button>
+					<router-link to="/question" class="route-button"
+						>질문 보러가기</router-link
+					>
 				</div>
 			</div>
 			<div class="section-body">
@@ -109,7 +111,9 @@
 					멘토링을 개설하여 멘티들의 성장을 돕는 멘토로 활약할 수 있습니다.
 				</div>
 				<div class="section-button">
-					<button>멘토링 보러 가기</button>
+					<router-link to="/mentoring" class="route-button"
+						>멘토링 보러가기</router-link
+					>
 				</div>
 			</div>
 			<div class="section-body"></div>
@@ -251,7 +255,10 @@
 	justify-content: end;
 }
 
-.section-button button {
+.route-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	width: 70%;
 	height: 25%;
 	border-radius: 20px;
