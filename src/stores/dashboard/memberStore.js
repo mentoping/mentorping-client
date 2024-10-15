@@ -13,11 +13,6 @@ export const useRoleCountStore = defineStore('rolecount', {
 				const data = await response.json();
 				this.menteeCount = data.menteeCount;
 				this.mentorCount = data.mentorCount;
-				console.log(
-					'member rollllllllllll:: ',
-					this.menteeCount,
-					this.mentorCount,
-				);
 			} catch (error) {
 				console.error('Error fetching role counts:', error);
 			}

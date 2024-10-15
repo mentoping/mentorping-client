@@ -1,14 +1,22 @@
 <template>
 	<div class="chart">
 		<h3>회원 통계</h3>
-		<BarChart :data="chartData" :options="chartOptions" />
+		<div class="chart-wrapper">
+			<div class="chart-container">
+				<DoughnutChart :data="chartData" :options="chartOptions" />
+			</div>
+			<div class="chart-text">
+				<p>멘티:{{ roleCountStore.menteeCount }}</p>
+				<p>멘토:{{ roleCountStore.mentorCount }}</p>
+			</div>
+		</div>
 	</div>
 </template>
 
 <script setup>
 import { computed, onMounted } from 'vue';
 import { useRoleCountStore } from '@/stores/dashboard/memberStore';
-import BarChart from '@/components/charts/BarChart.vue';
+import DoughnutChart from '@/components/charts/DoughnutElement.vue';
 
 const roleCountStore = useRoleCountStore();
 
@@ -25,6 +33,8 @@ const chartData = computed(() => ({
 
 const chartOptions = {
 	responsive: true,
+	maintainAspectRatio: false, // 사이즈를 직접 조정할 수 있게 설정
+	cutout: '60%',
 };
 
 onMounted(() => {
@@ -42,5 +52,19 @@ onMounted(() => {
 	padding: 20px;
 	border-radius: 8px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.chart-wrapper {
+	display: flex;
+	align-items: center;
+}
+
+.chart-container {
+	width: 300px;
+	height: 300px;
+}
+
+.chart-text {
+	margin-left: 20px;
 }
 </style>
