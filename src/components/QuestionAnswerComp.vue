@@ -27,7 +27,12 @@
 				<button class="adopt-button">채택하기</button>
 				<div class="footer-right">
 					<p class="footer-text">더 자세한 사항을 멘토와 상의해보세요</p>
-					<button class="chat-button">채팅하러 가기</button>
+					<button
+						class="chat-button"
+						@click="goToChatRoom(answer.author.id, answer.author.name)"
+					>
+						채팅하러 가기
+					</button>
 				</div>
 			</div>
 			<div v-if="answer.isSelected" class="selected-review-box">
@@ -44,8 +49,76 @@
 import { useQandMStore } from '@/stores/questionAndMentoringStore';
 import { storeToRefs } from 'pinia';
 
+import { useRouter } from 'vue-router';
+import { db } from '@/firebaseConfig';
+import { useAuthStore } from '@/stores/auth';
+import { collection, query, where, getDocs, addDoc } from 'firebase/firestore';
+
+const router = useRouter();
+
 const questionStore = useQandMStore();
 const { currentQuestion } = storeToRefs(questionStore);
+
+const authStore = useAuthStore();
+const { userInfo } = storeToRefs(authStore);
+
+async function goToChatRoom(mentorId, mentorName) {
+	try {
+		const receiverId = mentorId;
+		const receiverName = mentorName; //받는사람 이름 설정
+		const senderId = userInfo.value.id;
+		const senderName = userInfo.value.name; // 보내는사람(로그인유저)이름 설정
+		console.log(senderName);
+		// Firestore의 'rooms' 컬렉션에서 senderId와 receiverId 조합의 방을 검색
+		const roomsCollection = collection(db, 'rooms');
+		let q = query(
+			roomsCollection,
+			where('receiverId', '==', parseInt(receiverId)),
+			where('senderId', '==', parseInt(senderId)),
+		);
+		let querySnapshot = await getDocs(q);
+		// 방을 찾지 못했다면 반대 조합으로도 검색
+		if (querySnapshot.empty) {
+			q = query(
+				roomsCollection,
+				where('receiverId', '==', parseInt(senderId)),
+				where('senderId', '==', parseInt(receiverId)),
+			);
+			querySnapshot = await getDocs(q);
+		}
+		// 쿼리 결과 디버깅
+		console.log('Query results:', querySnapshot.docs);
+		querySnapshot.forEach(doc => {
+			console.log('Found room:', doc.data());
+		});
+		if (querySnapshot.empty) {
+			// 채팅방이 존재하지 않으면 새 채팅방 생성
+			const newRoom = await addDoc(roomsCollection, {
+				senderId: parseInt(senderId), // 현재 사용자 ID를 senderId로 저장
+				receiverId: parseInt(receiverId), // 답변 작성자의 ID를 receiverId로 저장
+				// name: `${receiverName}와의 채팅방`, // 채팅방 이름 설정
+				chatRoomNames: {
+					[senderId]: `${receiverName}`, // 현재 사용자가 볼 이름
+					[receiverId]: `${senderName}`, // 상대방이 볼 이름
+				},
+				lastMessage: '',
+				lastMessageTimestamp: Date.now(),
+				createdAt: Date.now(),
+			});
+			console.log('new rooommmmmmmmm ::  ', newRoom);
+			// 새로 생성한 채팅방으로 이동
+			router.push({
+				path: '/mypage/chatting',
+			});
+		} else {
+			router.push({
+				path: '/mypage/chatting',
+			});
+		}
+	} catch (error) {
+		console.error('Error accessing or creating chat room:', error);
+	}
+}
 </script>
 
 <style scoped>
