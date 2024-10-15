@@ -21,7 +21,12 @@
 
 		<div class="mypage-category">
 			<p>채팅</p>
-			<div><i class="fa-solid fa-comments"></i>&nbsp;&nbsp;채팅</div>
+			<router-link
+				to="/mypage/chatting"
+				class="link-item"
+				:class="{ active: currentRoute === '/mypage/chatting' }"
+				><i class="fa-solid fa-comments"></i>&nbsp;&nbsp;채팅
+			</router-link>
 		</div>
 
 		<div class="mypage-category">
@@ -79,7 +84,7 @@ const currentRoute = computed(() => route.path); // 현재 경로
 }
 
 .mypage-category {
-	margin-top: 30px;
+	margin-top: 20px;
 	width: 100%;
 }
 
