@@ -4,15 +4,32 @@
 			<i class="fa-solid fa-comments"></i>&nbsp;&nbsp;채팅
 		</div>
 		<div class="content-body">
-			<ChattingListComp></ChattingListComp>
-			<ChattingRoomComp></ChattingRoomComp>
+			<ChattingListComp @select-room="selectChatRoom"></ChattingListComp>
+			<ChatWindow
+				:room="selectedRoom"
+				:roomId="selectedRoom.id"
+				:roomName="selectedRoom.name"
+			/>
 		</div>
 	</div>
 </template>
 
 <script setup>
 import ChattingListComp from './chat/ChattingListComp.vue';
-import ChattingRoomComp from './chat/ChattingRoomComp.vue';
+import ChatWindow from '@/views/ChatWindow.vue';
+
+import { ref } from 'vue';
+
+const selectedRoom = ref({
+	id: null,
+	name: '',
+	chatRoomNames: {},
+});
+
+const selectChatRoom = room => {
+	selectedRoom.value = room; // 선택한 채팅방의 전체 정보를 전달
+	console.log('selectedRoom updated:', selectedRoom.value);
+};
 </script>
 
 <style scoped>

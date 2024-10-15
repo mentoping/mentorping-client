@@ -1,12 +1,12 @@
 <template>
 	<div class="chat-container">
-		<h3>
+		<div class="chat-header">
 			{{
 				room.chatRoomNames && room.chatRoomNames[userId]
 					? room.chatRoomNames[userId]
 					: room.name
 			}}
-		</h3>
+		</div>
 		<div class="chat-messages" ref="chatMessages">
 			<!-- 메시지 목록 -->
 			<div
@@ -116,8 +116,9 @@
 
 <script>
 import { ref, watch, nextTick, onBeforeUnmount } from 'vue';
-import { useUserStore } from '../stores/userStore'; // Pinia의 userStore 가져오기
-import { db, realtimeDb } from '../firebaseConfig';
+// import { useUserStore } from '../stores/userStore'; // Pinia의 userStore 가져오기
+import { useAuthStore } from '@/stores/auth';
+import { db, realtimeDb } from '@/firebaseConfig';
 import {
 	collection,
 	addDoc,
@@ -155,7 +156,7 @@ export default {
 		const storage = getStorage();
 
 		// Pinia의 userStore에서 사용자 정보 가져오기
-		const userStore = useUserStore();
+		const userStore = useAuthStore();
 
 		// 사용자 정보 감시
 		const userId = ref(null);
@@ -165,7 +166,7 @@ export default {
 		const database = realtimeDb;
 
 		watch(
-			() => userStore.user,
+			() => userStore.userInfo,
 			newUser => {
 				if (newUser) {
 					userId.value = newUser.id;
@@ -461,6 +462,7 @@ export default {
 			messageContent,
 			sendMessage,
 			userId,
+			userName,
 			formatTimestamp,
 			scrollToBottom,
 			chatMessages,
@@ -480,6 +482,7 @@ export default {
 	display: flex;
 	flex-direction: column;
 	padding: 2px;
+	height: 97%;
 }
 
 .chat-messages {
@@ -489,7 +492,7 @@ export default {
 	padding: 10px;
 	display: flex;
 	flex-direction: column;
-	margin-bottom: 10px;
+	margin-bottom: 4px;
 	background-color: #f9f9f9;
 	border-radius: 10px;
 }
@@ -511,9 +514,8 @@ export default {
 	display: flex;
 	align-items: center;
 	padding: 10px;
-	border-top: 1px solid #ccc;
 	background-color: #fff;
-	border-radius: 0 0 15px 15px;
+	border-radius: 15px;
 }
 
 .chat-input {
@@ -641,5 +643,18 @@ export default {
 	max-height: 200px;
 	border-radius: 8px;
 	margin-top: 10px;
+}
+
+.chat-header {
+	font-weight: 800;
+	height: 58px;
+	background-color: white;
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+	padding-left: 20px;
+	margin-bottom: 3px;
+	margin-top: 2px;
+	border: 1px solid rgb(198, 198, 198);
 }
 </style>
