@@ -74,7 +74,7 @@ const { isLoggedIn } = storeToRefs(authStore);
 }
 
 .logo span {
-	font-size: 1.5rem;
+	font-size: 1.7rem;
 	font-weight: bold;
 	color: #333;
 	vertical-align: middle;
@@ -82,11 +82,11 @@ const { isLoggedIn } = storeToRefs(authStore);
 
 .center-menu {
 	display: flex;
-	gap: 90px;
+	gap: 160px;
 }
 
 .center-menu li {
-	font-size: 1rem;
+	font-size: 1.5rem;
 	font-weight: 600;
 }
 
