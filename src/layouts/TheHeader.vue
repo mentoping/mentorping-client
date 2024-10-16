@@ -25,6 +25,7 @@
 			<li>
 				<template v-if="isLoggedIn">
 					<RouterLink to="/mypage"><MyPageButton></MyPageButton></RouterLink>
+					<button @click="handleLogout">logout</button>
 				</template>
 				<template v-else>
 					<RouterLink to="/login">로그인</RouterLink>
@@ -37,11 +38,20 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
+import { useRouter } from 'vue-router';
 
 import MyPageButton from '@/components/mypage/myPageButton.vue';
 
+const router = useRouter();
 const authStore = useAuthStore();
 const { isLoggedIn } = storeToRefs(authStore);
+
+const handleLogout = () => {
+	authStore.logout();
+	router.push({
+		path: '/',
+	});
+};
 </script>
 
 <style scoped>
