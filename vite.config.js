@@ -13,5 +13,12 @@ export default defineConfig({
 	},
 	server: {
 		port: 3000, // 원하는 포트 번호로 설정
+		proxy: {
+			'/api': {
+				target: 'http://localhost:8089', // 백엔드 서버 주소
+				changeOrigin: true,
+				rewrite: path => path.replace(/^\/api/, ''),
+			},
+		},
 	},
 });
