@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8089';
-
 export const fetchQuestions = async () => {
-	//질문 목록 불러오기
+	//질문 목록 불러오기(처음)
 	try {
-		const response = await axios.get(`${BASE_URL}/q-0`);
+		const response = await axios.get('/api/questions', {
+			withCredentials: true,
+		});
 		return response.data;
 	} catch (error) {
 		console.error('Failed to fetch questions:', error);

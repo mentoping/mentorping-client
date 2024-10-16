@@ -21,7 +21,7 @@
 		</div>
 		<div class="question-content">
 			<h3 class="title">{{ question.title }}</h3>
-			<p class="content">{{ question.content }}</p>
+			<p class="content">{{ removeHtmlTags(question.content) }}</p>
 		</div>
 		<div class="question-footer">
 			<div class="hashtags">
@@ -80,6 +80,11 @@ const toggleLike = question => {
 		question.likedByCurrentUser = true;
 		question.likeCount++;
 	}
+};
+
+//태그 지우기
+const removeHtmlTags = htmlString => {
+	return htmlString.replace(/<\/?[^>]+(>|$)/g, '');
 };
 </script>
 
