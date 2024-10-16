@@ -18,6 +18,12 @@ export const useQandMStore = defineStore('questionStore', () => {
 	const currentQuestion = ref({}); //상세 질문 페이지에 현재 해당하는 question객체
 	const currentMentoring = ref({}); //상세 멘토링 페이지에 현재 해당하는 mentoring객체
 
+	const searchWord = ref(''); //검색어 저장
+
+	const clearSearchWord = () => {
+		searchWord.value = '';
+	};
+
 	const setQuestionList = newQuestions => {
 		questionList.value = newQuestions;
 		currentQuestionPage.value = String(
@@ -63,9 +69,11 @@ export const useQandMStore = defineStore('questionStore', () => {
 		orderCondition,
 		currentQuestion,
 		currentMentoring,
+		searchWord,
 		setQuestionList,
 		setMentoringList,
 		setQuestionDetail,
 		setMentoringDetail,
+		clearSearchWord,
 	};
 });
