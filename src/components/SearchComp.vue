@@ -23,6 +23,7 @@ import { useQandMStore } from '@/stores/questionAndMentoringStore';
 import { storeToRefs } from 'pinia';
 import { questionPagingSearch } from '@/api/question';
 import { useCategoryStore } from '@/stores/category';
+import { onUnmounted } from 'vue';
 
 const props = defineProps({
 	contentType: {
@@ -67,6 +68,10 @@ const handleSearch = async () => {
 		console.error('검색 중 오류가 발생했습니다:', error);
 	}
 };
+
+onUnmounted(() => {
+	clearSearchWord(); // searchWord를 초기화합니다.
+});
 </script>
 
 <style scoped>
