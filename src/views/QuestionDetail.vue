@@ -14,7 +14,9 @@
 			class="advertise-image"
 		/>
 	</div>
-	<button class="answer-button" @click="putAnswer">답변하기</button>
+	<button class="answer-button" @click="putAnswer" :disabled="!canAnswer">
+		답변하기
+	</button>
 	<div class="answer-count">
 		<span>{{ currentQuestion.answerCount }}</span> 개의 답변이 달렸어요!
 	</div>
@@ -25,6 +27,8 @@
 import { onMounted, onUnmounted, ref, nextTick } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useQandMStore } from '@/stores/questionAndMentoringStore';
+import { useAuthStore } from '@/stores/auth';
+import { computed } from 'vue';
 import axios from 'axios';
 
 import QuestionDetailComp from '@/components/QuestionDetailComp.vue';
@@ -40,6 +44,9 @@ const { id } = defineProps({
 
 // Pinia 스토어 사용
 const questionStore = useQandMStore();
+const authStore = useAuthStore();
+
+const { userInfo } = storeToRefs(authStore);
 
 const { currentQuestion } = storeToRefs(questionStore);
 
@@ -88,6 +95,14 @@ onMounted(() => {
 
 onUnmounted(() => {
 	window.removeEventListener('scroll', handleScroll);
+});
+
+const canAnswer = computed(() => {
+	return (
+		currentQuestion.value &&
+		currentQuestion.value.author &&
+		currentQuestion.value.author.id !== userInfo.value.id
+	);
 });
 </script>
 
@@ -167,5 +182,10 @@ onUnmounted(() => {
 
 .answer-box {
 	margin-top: 40px;
+}
+
+.answer-button:disabled {
+	background-color: grey;
+	cursor: not-allowed;
 }
 </style>

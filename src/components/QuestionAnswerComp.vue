@@ -24,7 +24,12 @@
 				<p v-html="answer.content"></p>
 			</div>
 			<div class="answer-footer">
-				<button class="adopt-button">채택하기</button>
+				<button
+					class="adopt-button"
+					v-if="currentQuestion.author.id === userInfo.id"
+				>
+					채택하기
+				</button>
 				<div class="footer-right">
 					<p class="footer-text">더 자세한 사항을 멘토와 상의해보세요</p>
 					<button
