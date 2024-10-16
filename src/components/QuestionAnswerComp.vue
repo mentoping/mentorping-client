@@ -20,8 +20,8 @@
 				</div>
 				<button class="report-button">🚨</button>
 			</div>
-			<div class="answer-content">
-				<p>{{ answer.content }}</p>
+			<div class="answer-content content">
+				<p v-html="answer.content"></p>
 			</div>
 			<div class="answer-footer">
 				<button class="adopt-button">채택하기</button>
