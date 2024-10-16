@@ -87,4 +87,8 @@ const closeModal = () => {
 .question-button {
 	color: white;
 }
+
+.question-button:hover {
+	background-color: #246140;
+}
 </style>
