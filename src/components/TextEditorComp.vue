@@ -68,8 +68,19 @@ const editorOptions = {
 			['bold', 'italic', 'underline', 'strike'],
 			[{ list: 'ordered' }, { list: 'bullet' }],
 			[{ align: [] }],
-			['link', 'image'],
+			['link'],
 		],
+		clipboard: {
+			matchers: [
+				[
+					'img',
+					() => {
+						// 이미지 태그를 제거하여 붙여넣기가 되지 않도록 처리
+						return '';
+					},
+				],
+			],
+		},
 	},
 };
 </script>
