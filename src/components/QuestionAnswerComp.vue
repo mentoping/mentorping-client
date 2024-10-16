@@ -25,8 +25,12 @@
 			</div>
 			<div class="answer-footer">
 				<button
+					@click="handleButtonClick(answer.id)"
 					class="adopt-button"
-					v-if="currentQuestion.author.id === userInfo.id"
+					v-if="
+						currentQuestion.author.id === userInfo.id &&
+						!currentQuestion.selected
+					"
 				>
 					채택하기
 				</button>
@@ -53,6 +57,11 @@
 				</p>
 			</div>
 		</div>
+		<SelectAnswerComp
+			v-if="showModal"
+			@close="closeModal"
+			:selectedAnswerId="selectedAnswerId"
+		></SelectAnswerComp>
 	</div>
 </template>
 
@@ -63,6 +72,9 @@ import { useRouter } from 'vue-router';
 import { db } from '@/firebaseConfig';
 import { useAuthStore } from '@/stores/auth';
 import { collection, query, where, getDocs, addDoc } from 'firebase/firestore';
+import { ref } from 'vue';
+
+import SelectAnswerComp from './SelectAnswerComp.vue';
 
 const router = useRouter();
 
@@ -146,6 +158,18 @@ async function goToChatRoom(mentorId, mentorName, mentorProfileurl) {
 		console.error('Error accessing or creating chat room:', error);
 	}
 }
+const selectedAnswerId = ref(null);
+
+const showModal = ref(false);
+
+const closeModal = () => {
+	showModal.value = false;
+};
+
+const handleButtonClick = answerId => {
+	selectedAnswerId.value = answerId;
+	showModal.value = true;
+};
 </script>
 
 <style scoped>
