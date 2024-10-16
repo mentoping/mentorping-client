@@ -34,5 +34,10 @@ export const useCategoryStore = defineStore('category', () => {
 		return rows;
 	});
 
-	return { categories, selectedCategory, setSelectedCategory, splitCategories };
+	return {
+		categories,
+		selectedCategory,
+		setSelectedCategory,
+		splitCategories,
+	};
 });

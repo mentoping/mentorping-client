@@ -2,7 +2,9 @@
 	<div class="editor-container">
 		<QuillEditor
 			theme="snow"
-			v-model="content"
+			ref="quillEditorRef"
+			:value="content"
+			@text-change="onEditorTextChange"
 			:options="editorOptions"
 			:style="{ minHeight: height + 'px' }"
 		/>
@@ -10,7 +12,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { QuillEditor } from '@vueup/vue-quill';
 import Quill from 'quill';
 
@@ -18,8 +20,6 @@ import Quill from 'quill';
 const Size = Quill.import('attributors/style/size');
 Size.whitelist = ['small', 'large', 'huge'];
 Quill.register(Size, true);
-
-const content = ref('');
 
 const props = defineProps({
 	placeholder: {
@@ -30,7 +30,34 @@ const props = defineProps({
 		type: Number,
 		default: 200,
 	},
+	modelValue: {
+		type: String,
+		default: '',
+	},
 });
+
+const emit = defineEmits(['update:modelValue']);
+
+const content = ref(props.modelValue);
+const quillEditorRef = ref(null);
+
+// Watch for changes in parent's modelValue and update local content
+watch(
+	() => props.modelValue,
+	newValue => {
+		if (newValue !== content.value) {
+			content.value = newValue; // Update local content if parent's value changes
+		}
+	},
+);
+
+// Handle editor's text change event and update parent's modelValue
+const onEditorTextChange = () => {
+	if (quillEditorRef.value) {
+		const editorContent = quillEditorRef.value.getHTML(); // Get HTML content from Quill editor
+		emit('update:modelValue', editorContent);
+	}
+};
 
 const editorOptions = {
 	theme: 'snow',
@@ -40,10 +67,8 @@ const editorOptions = {
 			[{ size: ['small', 'large', 'huge'] }],
 			['bold', 'italic', 'underline', 'strike'],
 			[{ list: 'ordered' }, { list: 'bullet' }],
-			[{ header: [1, 2, 3, false] }],
 			[{ align: [] }],
-			['link', 'image', 'video', 'code-block'],
-			['clean'],
+			['link', 'image'],
 		],
 	},
 };
