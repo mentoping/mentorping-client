@@ -28,20 +28,42 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, defineProps, defineEmits, watch } from 'vue';
+
+const props = defineProps({
+	modelValue: {
+		type: Array,
+		default: () => [],
+	},
+});
+
+const emit = defineEmits(['update:modelValue']);
 
 const inputValue = ref('');
-const tags = ref([]);
+const tags = ref([...props.modelValue]);
 
+// props.modelValue가 변경될 때 tags 업데이트
+watch(
+	() => props.modelValue,
+	newTags => {
+		tags.value = [...newTags];
+	},
+	{ immediate: true },
+);
+
+// 새로운 해시태그를 추가하는 함수
 function addTag() {
 	if (inputValue.value.trim() !== '' && tags.value.length < 3) {
 		tags.value.push(inputValue.value.trim());
 		inputValue.value = '';
+		emit('update:modelValue', tags.value);
 	}
 }
 
+// 해시태그를 제거하는 함수
 function removeTag(index) {
 	tags.value.splice(index, 1);
+	emit('update:modelValue', tags.value);
 }
 </script>
 

@@ -16,4 +16,17 @@ a:hover {
   color: #03451e; /* 마우스 오버 시 색상 변경 */
 }
 
+.ql-size-small {
+	font-size: 25px !important;
+}
+.ql-size-large {
+	font-size: 35px !important;
+}
+.ql-size-huge {
+	font-size: 50px !important;
+}
+.ql-editor {
+	font-size: 25px !important;
+}
+
 

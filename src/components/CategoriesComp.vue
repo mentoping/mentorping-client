@@ -13,7 +13,7 @@
 					'category-button',
 					{ active: selectedCategory === category.value },
 				]"
-				@click="selectCategory(category)"
+				@click="handleCategoryClick(category)"
 				:disabled="selectedCategory === category.value"
 			>
 				{{ category.label }}
@@ -25,14 +25,36 @@
 <script setup>
 import { onMounted } from 'vue';
 import { useCategoryStore } from '@/stores/category';
+import { useQandMStore } from '@/stores/questionAndMentoringStore';
 import { storeToRefs } from 'pinia';
+import { questionCategorySearch } from '@/api/question';
+
+const props = defineProps({
+	contextType: {
+		type: String,
+		required: false,
+		default: 'default',
+	},
+});
 
 const categoryStore = useCategoryStore();
 const { selectedCategory, splitCategories } = storeToRefs(categoryStore);
 
-// 선택된 카테고리 설정
-function selectCategory(category) {
+const questionStore = useQandMStore();
+
+async function handleCategoryClick(category) {
 	categoryStore.setSelectedCategory(category.value);
+	// contextType에 따라 다른 로그 출력
+	if (props.contextType === 'question') {
+		const questionlist = await questionCategorySearch(
+			categoryStore.selectedCategory,
+			questionStore.orderCondition,
+			questionStore.searchWord,
+		);
+		questionStore.setQuestionList(questionlist);
+	} else if (props.contextType === 'mentoring') {
+		console.log('Mentoring context: 카테고리 선택됨', category);
+	}
 }
 
 onMounted(() => {
