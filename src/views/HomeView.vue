@@ -1,6 +1,10 @@
 <template>
 	<div class="homepage-container">
-		<div class="advertise-container"></div>
+		<div class="advertise-container">
+			<img ref="adImage" :src="images[currentIndex]" alt="" id="ad-image" />
+			<button ref="prevBtn" class="prev-btn">&lt;</button>
+			<button ref="nextBtn" class="next-btn">&gt;</button>
+		</div>
 		<div class="explain">
 			<div class="explain-title">Mentain</div>
 			<div class="explain-detail">
@@ -122,7 +126,37 @@
 	</div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref, onMounted } from 'vue';
+
+// 이미지 배열
+const images = [
+	new URL('@/assets/Banner1.png', import.meta.url).href,
+	new URL('@/assets/Banner2.png', import.meta.url).href,
+];
+let currentIndex = ref(0); // 이미지 인덱스 관리
+
+// DOM 요소를 참조할 ref 선언
+const adImage = ref(null);
+const prevBtn = ref(null);
+const nextBtn = ref(null);
+
+onMounted(() => {
+	// DOM 요소에 접근할 때는 .value 사용
+	if (prevBtn.value && nextBtn.value && adImage.value) {
+		prevBtn.value.addEventListener('click', () => {
+			currentIndex.value =
+				(currentIndex.value - 1 + images.length) % images.length;
+			adImage.value.src = images[currentIndex.value];
+		});
+
+		nextBtn.value.addEventListener('click', () => {
+			currentIndex.value = (currentIndex.value + 1) % images.length;
+			adImage.value.src = images[currentIndex.value];
+		});
+	}
+});
+</script>
 
 <style scoped>
 .homepage-container {
@@ -133,11 +167,46 @@
 }
 
 .advertise-container {
-	height: 450px;
-	width: 80%;
+	position: relative;
+	height: 600px;
+	width: 75%;
 	border-radius: 20px;
 	margin-top: 40px;
 	background-color: #16a1ef;
+}
+
+.advertise-container img {
+	width: 100%;
+	height: 100%;
+	object-fit: fill;
+	border-radius: 20px;
+}
+
+.prev-btn,
+.next-btn {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	color: rgba(0, 0, 0, 0.24);
+	border: none;
+	padding: 10px;
+	cursor: pointer;
+	font-size: 40px;
+	background-color: transparent;
+}
+
+.prev-btn {
+	left: 10px; /* 왼쪽 버튼 */
+}
+
+.next-btn {
+	right: 10px; /* 오른쪽 버튼 */
+}
+
+.prev-btn:hover,
+.next-btn:hover {
+	font-size: 50px;
+	color: black;
 }
 
 .explain {
