@@ -1,7 +1,8 @@
 <template>
 	<QuestionDetailComp class="shared-width question-detail"></QuestionDetailComp>
-	<div class="answer-explain">답변 작성</div>
+	<div class="answer-explain">멘토만 답변 작성이 가능합니다</div>
 	<TextEditorComp
+		v-model="answerContent"
 		class="shared-width text-editor"
 		:placeholder="'답변을 작성해보세요.'"
 		:height="150"
@@ -13,7 +14,9 @@
 			class="advertise-image"
 		/>
 	</div>
-	<button class="answer-button">답변하기</button>
+	<button class="answer-button" @click="putAnswer" :disabled="!canAnswer">
+		답변하기
+	</button>
 	<div class="answer-count">
 		<span>{{ currentQuestion.answerCount }}</span> 개의 답변이 달렸어요!
 	</div>
@@ -21,9 +24,12 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref, nextTick } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useQandMStore } from '@/stores/questionAndMentoringStore';
+import { useAuthStore } from '@/stores/auth';
+import { computed } from 'vue';
+import axios from 'axios';
 
 import QuestionDetailComp from '@/components/QuestionDetailComp.vue';
 import TextEditorComp from '@/components/TextEditorComp.vue';
@@ -38,15 +44,47 @@ const { id } = defineProps({
 
 // Pinia 스토어 사용
 const questionStore = useQandMStore();
+const authStore = useAuthStore();
+
+const { userInfo } = storeToRefs(authStore);
 
 const { currentQuestion } = storeToRefs(questionStore);
 
 const advertiseBox = ref(null);
+const answerContent = ref('');
 
 const handleScroll = () => {
 	if (advertiseBox.value) {
 		const offset = Math.max(265, window.scrollY + 200);
 		advertiseBox.value.style.top = `${offset}px`;
+	}
+};
+
+const putAnswer = async () => {
+	try {
+		if (answerContent.value.trim() === '') {
+			alert('답변을 작성해주세요.');
+			return;
+		}
+		await axios.post(
+			`/api/answers`,
+			{
+				postId: id,
+				content: answerContent.value,
+			},
+			{
+				withCredentials: true,
+			},
+		);
+		alert('답변이 성공적으로 등록되었습니다.');
+
+		// 답변 완료 후 텍스트 에디터 내용 초기화
+		answerContent.value = '';
+		await nextTick(); // Vue 상태 업데이트 보장
+		questionStore.setQuestionDetail(id); // 질문 정보 업데이트
+	} catch (error) {
+		console.error('답변 등록 중 오류 발생:', error);
+		alert('답변 등록에 실패했습니다. 다시 시도해주세요.');
 	}
 };
 
@@ -57,6 +95,14 @@ onMounted(() => {
 
 onUnmounted(() => {
 	window.removeEventListener('scroll', handleScroll);
+});
+
+const canAnswer = computed(() => {
+	return (
+		currentQuestion.value &&
+		currentQuestion.value.author &&
+		currentQuestion.value.author.id !== userInfo.value.id
+	);
 });
 </script>
 
@@ -136,5 +182,10 @@ onUnmounted(() => {
 
 .answer-box {
 	margin-top: 40px;
+}
+
+.answer-button:disabled {
+	background-color: grey;
+	cursor: not-allowed;
 }
 </style>

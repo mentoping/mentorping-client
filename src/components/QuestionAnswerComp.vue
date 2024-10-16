@@ -20,11 +20,20 @@
 				</div>
 				<button class="report-button">🚨</button>
 			</div>
-			<div class="answer-content">
-				<p>{{ answer.content }}</p>
+			<div class="answer-content content">
+				<p v-html="answer.content"></p>
 			</div>
 			<div class="answer-footer">
-				<button class="adopt-button">채택하기</button>
+				<button
+					@click="handleButtonClick(answer.id)"
+					class="adopt-button"
+					v-if="
+						currentQuestion.author.id === userInfo.id &&
+						!currentQuestion.selected
+					"
+				>
+					채택하기
+				</button>
 				<div class="footer-right">
 					<p class="footer-text">더 자세한 사항을 멘토와 상의해보세요</p>
 					<button
@@ -48,6 +57,11 @@
 				</p>
 			</div>
 		</div>
+		<SelectAnswerComp
+			v-if="showModal"
+			@close="closeModal"
+			:selectedAnswerId="selectedAnswerId"
+		></SelectAnswerComp>
 	</div>
 </template>
 
@@ -58,6 +72,9 @@ import { useRouter } from 'vue-router';
 import { db } from '@/firebaseConfig';
 import { useAuthStore } from '@/stores/auth';
 import { collection, query, where, getDocs, addDoc } from 'firebase/firestore';
+import { ref } from 'vue';
+
+import SelectAnswerComp from './SelectAnswerComp.vue';
 
 const router = useRouter();
 
@@ -141,6 +158,18 @@ async function goToChatRoom(mentorId, mentorName, mentorProfileurl) {
 		console.error('Error accessing or creating chat room:', error);
 	}
 }
+const selectedAnswerId = ref(null);
+
+const showModal = ref(false);
+
+const closeModal = () => {
+	showModal.value = false;
+};
+
+const handleButtonClick = answerId => {
+	selectedAnswerId.value = answerId;
+	showModal.value = true;
+};
 </script>
 
 <style scoped>

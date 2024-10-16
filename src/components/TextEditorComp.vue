@@ -3,7 +3,7 @@
 		<QuillEditor
 			theme="snow"
 			ref="quillEditorRef"
-			:value="content"
+			v-model="content"
 			@text-change="onEditorTextChange"
 			:options="editorOptions"
 			:style="{ minHeight: height + 'px' }"
@@ -50,6 +50,12 @@ watch(
 		}
 	},
 );
+
+watch(content, newValue => {
+	if (quillEditorRef.value && newValue !== quillEditorRef.value.getHTML()) {
+		quillEditorRef.value.setHTML(newValue); // 에디터 내용 업데이트
+	}
+});
 
 // Handle editor's text change event and update parent's modelValue
 const onEditorTextChange = () => {
