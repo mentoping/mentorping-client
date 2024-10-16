@@ -11,7 +11,7 @@
 			</ExplainComp>
 		</div>
 		<div><SearchComp></SearchComp></div>
-		<div><CategoriesComp></CategoriesComp></div>
+		<div><CategoriesComp contextType="question"></CategoriesComp></div>
 		<div class="order"><OrderConditonComp></OrderConditonComp></div>
 		<div><QuestionBoxComp></QuestionBoxComp></div>
 		<div><QuestionPagingComp></QuestionPagingComp></div>
