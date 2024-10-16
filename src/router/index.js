@@ -126,6 +126,15 @@ const routes = [
 const router = createRouter({
 	history: createWebHistory('/'),
 	routes,
+	scrollBehavior(to, from, savedPosition) {
+		if (savedPosition) {
+			// 뒤로가기 했을 때는 이전 위치로 스크롤
+			return savedPosition;
+		} else {
+			// 페이지 이동 시 스크롤을 맨 위로
+			return { top: 0 };
+		}
+	},
 });
 
 export default router;

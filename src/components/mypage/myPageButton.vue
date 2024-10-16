@@ -19,13 +19,12 @@ const { userInfo } = storeToRefs(authStore);
 
 <style scoped>
 .myPage-container {
-	border: 1px solid black;
 	display: flex; /* 가로 배치 */
 	align-items: center; /* 수직 가운데 정렬 */
-	border: 2px solid rgb(6, 89, 28);
+	border: 3px solid rgb(6, 89, 28);
 	padding: 0.5vw; /* 약간의 내부 여백 추가 */
 	gap: 10px; /* 이미지와 닉네임 사이의 간격 */
-	border-radius: 50px;
+	border-radius: 20px;
 	font-weight: 600;
 }
 
