@@ -74,9 +74,9 @@ const editorOptions = {
 			matchers: [
 				[
 					'img',
-					() => {
-						// 이미지 태그를 제거하여 붙여넣기가 되지 않도록 처리
-						return '';
+					(node, delta) => {
+						// 이미지 태그를 빈 Delta로 대체하여 이미지만 제거
+						return new Quill.import('delta')();
 					},
 				],
 			],
