@@ -34,7 +34,10 @@
 					<!-- 프로필과 사용자 이름, 전송 시간 표시 -->
 					<div class="message-header">
 						<img
-							src="https://via.placeholder.com/40"
+							:src="
+								room.chatProfiles[msg.senderId] ||
+								'https://via.placeholder.com/40'
+							"
 							alt="Profile Picture"
 							class="profile-pic"
 						/>
@@ -175,6 +178,15 @@ export default {
 			},
 			{ immediate: true }, // 컴포넌트가 마운트될 때 즉시 실행
 		);
+
+		// 프로필 이미지 가져오는 함수 추가
+		const getProfileUrlBySenderId = senderId => {
+			// senderId에 해당하는 사용자의 프로필 URL을 찾아 반환 (예시로 userStore의 chatProfiles에서 가져온다고 가정)
+			// const userStore = useUserStore();
+			const profileUrl =
+				userStore.chatProfiles[senderId] || 'https://via.placeholder.com/100';
+			return profileUrl;
+		};
 
 		// 방에 입장할 때 Presence 상태 업데이트
 		const enterRoomPresence = async roomId => {
@@ -387,7 +399,7 @@ export default {
 			}
 
 			// 상대방의 방 참여 여부 확인
-			// let receiverInRoom = false;
+			let receiverInRoom = false;
 			const roomUsersRef = dbRef(database, `rooms/${props.roomId}/users`);
 			try {
 				await new Promise(resolve => {
@@ -419,7 +431,7 @@ export default {
 				senderName: userName.value,
 				content: messageContent.value,
 				timestamp: Date.now(),
-				// isRead: receiverInRoom, // 상대방이 방에 있는지 여부에 따라 isRead 설정
+				isRead: receiverInRoom, // 상대방이 방에 있는지 여부에 따라 isRead 설정
 			};
 
 			// 파일이 있는 경우 메시지에 URL 포함
@@ -470,6 +482,7 @@ export default {
 			triggerFileInput,
 			isImageFile, // 이미지 파일 여부 확인
 			previewImage, // 미리보기 이미지 데이터
+			getProfileUrlBySenderId,
 		};
 	},
 };

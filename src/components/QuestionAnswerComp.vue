@@ -11,7 +11,7 @@
 			<div class="answer-header">
 				<img
 					:src="answer.author.profileUrl"
-					alt="프로필 이미지"
+					alt="장원석석석석"
 					class="profile-img"
 				/>
 				<div class="author-info">
@@ -29,7 +29,13 @@
 					<p class="footer-text">더 자세한 사항을 멘토와 상의해보세요</p>
 					<button
 						class="chat-button"
-						@click="goToChatRoom(answer.author.id, answer.author.name)"
+						@click="
+							goToChatRoom(
+								answer.author.id,
+								answer.author.name,
+								answer.author.profileUrl,
+							)
+						"
 					>
 						채팅하러 가기
 					</button>
@@ -48,7 +54,6 @@
 <script setup>
 import { useQandMStore } from '@/stores/questionAndMentoringStore';
 import { storeToRefs } from 'pinia';
-
 import { useRouter } from 'vue-router';
 import { db } from '@/firebaseConfig';
 import { useAuthStore } from '@/stores/auth';
@@ -62,14 +67,19 @@ const { currentQuestion } = storeToRefs(questionStore);
 const authStore = useAuthStore();
 const { userInfo } = storeToRefs(authStore);
 
-async function goToChatRoom(mentorId, mentorName) {
+async function goToChatRoom(mentorId, mentorName, mentorProfileurl) {
 	try {
 		const receiverId = mentorId;
 		const receiverName = mentorName; //받는사람 이름 설정
+		const receiverProfileUrl = mentorProfileurl;
+
 		const senderId = userInfo.value.id;
 		const senderName = userInfo.value.name; // 보내는사람(로그인유저)이름 설정
-		console.log(senderName);
-		// Firestore의 'rooms' 컬렉션에서 senderId와 receiverId 조합의 방을 검색
+		const senderProfileUrl = userInfo.value.profile;
+
+		console.log('senderProfileUrl:', senderProfileUrl); // 값 확인
+		console.log('receiverProfileUrl:', receiverProfileUrl); // Firestore의 'rooms' 컬렉션에서 senderId와 receiverId 조합의 방을 검색
+
 		const roomsCollection = collection(db, 'rooms');
 		let q = query(
 			roomsCollection,
@@ -93,6 +103,9 @@ async function goToChatRoom(mentorId, mentorName) {
 		});
 		if (querySnapshot.empty) {
 			// 채팅방이 존재하지 않으면 새 채팅방 생성
+			console.log('senderProfileUrl:', senderProfileUrl);
+			console.log('receiverProfileUrl:', receiverProfileUrl);
+
 			const newRoom = await addDoc(roomsCollection, {
 				senderId: parseInt(senderId), // 현재 사용자 ID를 senderId로 저장
 				receiverId: parseInt(receiverId), // 답변 작성자의 ID를 receiverId로 저장
@@ -103,6 +116,15 @@ async function goToChatRoom(mentorId, mentorName) {
 				},
 				lastMessage: '',
 				lastMessageTimestamp: Date.now(),
+				// senderProfile: authStore.profile,
+				// receiverProfile: receiverProfileUrl,
+				chatProfiles: {
+					// chatProfiles 필드 추가
+					[senderId]: receiverProfileUrl || 'https://via.placeholder.com/100', // 상대방의 프로필 이미지
+
+					[receiverId]:
+						userInfo.value.profile || 'https://via.placeholder.com/100', // 로그인한 사용자의 프로필 이미지
+				},
 				createdAt: Date.now(),
 			});
 			console.log('new rooommmmmmmmm ::  ', newRoom);
