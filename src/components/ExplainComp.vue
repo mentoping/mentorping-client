@@ -11,16 +11,23 @@
 		</div>
 
 		<!-- 버튼을 받는 slot -->
-		<div class="question-button">
-			<RouterLink :to="buttonRoute" class="button-color">
-				<slot name="button"></slot>
-			</RouterLink>
+		<div class="question-button" @click="handleButtonClick">
+			<slot name="button"></slot>
 		</div>
+
+		<!-- 모달 컴포넌트 -->
+		<LoginModalComp v-if="showModal" @close="closeModal" />
 	</div>
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router';
+import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '@/stores/auth';
+import LoginModalComp from '@/components/LoginModalComp.vue';
+
+const authStore = useAuthStore();
+const { isLoggedIn } = storeToRefs(authStore);
 
 const props = defineProps({
 	buttonRoute: {
@@ -30,6 +37,21 @@ const props = defineProps({
 });
 
 const buttonRoute = props.buttonRoute;
+const showModal = ref(false);
+
+const handleButtonClick = () => {
+	if (isLoggedIn.value) {
+		// 로그인 되어 있으면 해당 경로로 이동
+		window.location.href = buttonRoute;
+	} else {
+		// 로그인 되어 있지 않으면 모달 표시
+		showModal.value = true;
+	}
+};
+
+const closeModal = () => {
+	showModal.value = false;
+};
 </script>
 
 <style scoped>
@@ -59,9 +81,10 @@ const buttonRoute = props.buttonRoute;
 	align-items: center; /* 세로 중앙 정렬 */ /* 버튼 글자 색 */
 	font-weight: bold; /* 글자 굵게 */
 	margin-top: 2vh;
+	cursor: pointer;
 }
 
-.button-color {
+.question-button {
 	color: white;
 }
 </style>
