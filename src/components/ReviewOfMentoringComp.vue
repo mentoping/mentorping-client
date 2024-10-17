@@ -1,7 +1,10 @@
 <template>
 	<div class="modal-overlay" @click.self="closeModal">
 		<div class="modal-content">
-			<p>멘토링 후기</p>
+			<div>멘토링 후기</div>
+			<div class="review-container">
+				<div class="review"></div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -39,10 +42,10 @@ const closeModal = () => {
 	height: 70vh;
 }
 
-.modal-content p {
-	margin-top: 15%;
+.modal-content div {
+	margin-top: 3%;
 	font-weight: 800;
-	font-size: 50px;
+	font-size: 40px;
 	margin-bottom: 10%;
 }
 
