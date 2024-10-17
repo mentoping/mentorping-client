@@ -13,10 +13,28 @@ export const useAuthStore = defineStore('auth', () => {
 		window.location.href = 'http://localhost:8089/oauth2/authorization/kakao';
 	};
 
-	const logout = () => {
-		isLoggedIn.value = false;
-		userInfo.value = null;
-		// Cookies.remove('Authorization');나중에 api호출로 쿠키 지워야함
+	const logout = async () => {
+		try {
+			const response = await axios.post(
+				'/api/logout',
+				{},
+				{
+					withCredentials: true,
+				},
+			);
+
+			if (response.status === 200) {
+				isLoggedIn.value = false;
+				userInfo.value = null;
+				mentorInfo.value = null;
+
+				localStorage.removeItem('user');
+
+				console.log('Successfully logged out');
+			}
+		} catch (error) {
+			console.error('Error during logout:', error);
+		}
 	};
 
 	const initializeAuth = async () => {
