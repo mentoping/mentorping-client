@@ -121,7 +121,7 @@ const handleSave = async () => {
 		alert('멘토링에 대한 요약 내용을 입력해주세요.');
 		return;
 	}
-	if (!price.value) {
+	if (price.value === null || price.value === undefined || price.value === '') {
 		alert('가격을 입력해주세요.');
 		return;
 	}

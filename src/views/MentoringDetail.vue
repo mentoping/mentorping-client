@@ -21,7 +21,10 @@
 		</div>
 		<div class="mento-summary">{{ currentMentoring.summary }}</div>
 		<div class="mento-price">
-			1회 / {{ currentMentoring.price === 0 ? '무료' : currentMentoring.price }}
+			1회 /
+			{{
+				currentMentoring.price === 0 ? '무료' : currentMentoring.price + '원'
+			}}
 		</div>
 		<div class="hashtags">
 			<div class="hashtag-container">
@@ -37,7 +40,9 @@
 		<div class="mento-thumbnail">
 			<img :src="currentMentoring.thumbnailUrl" alt="" />
 		</div>
-		<div class="mento-content">{{ currentMentoring.content }}</div>
+		<div class="mento-content content">
+			<p v-html="currentMentoring.content"></p>
+		</div>
 		<div class="mento-buttons">
 			<button class="apply-button">지원하기</button>
 			<button class="chat-button">
@@ -65,7 +70,6 @@ const { currentMentoring } = storeToRefs(mentoringStore); //현재 상세페이�
 
 onMounted(() => {
 	mentoringStore.setMentoringDetail(id);
-	console.log('끝');
 });
 </script>
 

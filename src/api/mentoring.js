@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8089';
-
 export const fetchMentorings = async () => {
 	//멘토링 목록 불러오기
 	try {
@@ -68,8 +66,9 @@ export const mentoringPagingSearch = async (category, sort, page, keyword) => {
 
 export const fetchDetailMentoring = async mentoringId => {
 	try {
-		const response = await axios.get(`${BASE_URL}/mentoring-detail/`);
-		console.log(mentoringId); //에러 때문에 넣어본거. 잘 넘어오는지 확인
+		const response = await axios.get(`/api/mentorings/${mentoringId}`, {
+			withCredentials: true,
+		});
 		return response.data;
 	} catch (error) {
 		console.error('Error fetching question detail:', error);
