@@ -1,5 +1,5 @@
 <template>
-	<h3>멘토 통계</h3>
+	<h3></h3>
 </template>
 
 <script>

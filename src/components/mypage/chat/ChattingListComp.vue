@@ -9,8 +9,8 @@
 				:class="['chatlist-box', { active: selectedRoomId === room.id }]"
 			>
 				<img
-					src="https://picsum.photos/200/300"
-					alt="Profile"
+					:src="room.chatProfiles[room.receiverId]"
+					alt="Profile Picture"
 					class="profile-pic"
 				/>
 				<div class="chat-info">
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { db, realtimeDb } from '@/firebaseConfig';
 import {
@@ -47,6 +47,7 @@ import {
 	getDocs,
 } from 'firebase/firestore';
 import { ref as dbRef, onValue } from 'firebase/database';
+import { useRoute } from 'vue-router';
 
 export default {
 	name: 'ChatRoomList',
@@ -55,10 +56,21 @@ export default {
 		const search = ref('');
 		const chatRooms = ref([]);
 		const selectedRoomId = ref(null);
+		const route = useRoute();
 
 		const userStore = useAuthStore();
 		const userId = computed(() =>
 			userStore.userInfo ? userStore.userInfo.id : null,
+		);
+
+		// URL에서 roomId 쿼리 파라미터 읽기
+		selectedRoomId.value = route.query.roomId || null;
+
+		watch(
+			() => route.query.roomId,
+			newRoomId => {
+				selectedRoomId.value = newRoomId;
+			},
 		);
 
 		const formatTimestamp = timestamp => {
@@ -129,13 +141,23 @@ export default {
 			});
 		});
 
-		// 검색 기능을 추가한 필터링된 채팅방 리스트 (수정된 부분)
+		// 현재 사용자가 속한 채팅방만 필터링 ( 현재 사용자 채팅방 필터링 후 검색 필터링 적용)
 		const filteredChatRooms = computed(() => {
 			const searchValue = search.value.trim().toLowerCase();
+
+			// 먼저 현재 사용자가 참여한 채팅방만 필터링
+			const userRooms = chatRooms.value.filter(room => {
+				return (
+					room.receiverId === userId.value || room.senderId === userId.value
+				);
+			});
+
+			// 검색어가 없으면 필터링된 참여 채팅방 목록을 반환
 			if (searchValue === '') {
-				return chatRooms.value;
+				return userRooms;
 			}
-			return chatRooms.value.filter(room => {
+			// 검색어가 있으면 참여 채팅방 중 검색어에 맞는 채팅방을 추가로 필터링
+			return userRooms.filter(room => {
 				const chatRoomName = room.chatRoomNames?.[userId.value] || room.name;
 				return chatRoomName && chatRoomName.toLowerCase().includes(searchValue);
 			});
