@@ -35,7 +35,7 @@
 <script>
 import { ref, onMounted, computed } from 'vue';
 import { useUserStore } from '../stores/userStore';
-import { useAuthStore } from '@/stores/auth';
+// import { useAuthStore } from '@/stores/auth';
 import { db, realtimeDb } from '../firebaseConfig';
 import {
 	collection,
@@ -57,8 +57,8 @@ export default {
 
 		// 현재 사용자 정보 가져오기
 		const userStore = useUserStore();
-		const authStore = useAuthStore();
-		const authUser = computed(() => authStore.user);
+		// const authStore = useAuthStore();
+		// const authUser = computed(() => authStore.user);
 		const userId = computed(() => (userStore.user ? userStore.user.id : null));
 
 		// 날짜 및 시간 포맷팅 함수
