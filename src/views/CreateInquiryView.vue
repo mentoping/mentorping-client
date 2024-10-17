@@ -61,7 +61,7 @@ const sendInquiry = async () => {
 		alert('문의가 성공적으로 전송되었습니다.');
 
 		// 마이페이지나 다른 페이지로 이동
-		router.push('/mypage'); // 적절한 경로로 수정하세요.
+		router.push('/'); // 적절한 경로로 수정하세요.
 	} catch (error) {
 		// 오류 처리
 		console.error('Error sending inquiry:', error);
