@@ -2,10 +2,14 @@
 	<div class="login-container">
 		<div class="title">Login</div>
 		<div class="explain">일반 회원 로그인</div>
-		<div @click="handleLogin" class="login-button">
-			<img src="@/assets/kakao.png" alt="" />
-			<span>카카오 계정으로 로그인</span>
-		</div>
+
+		<img
+			class="login-button"
+			src="@/assets/kakao.png"
+			alt=""
+			@click="handleLogin"
+		/>
+
 		<div class="end-line">
 			<div class="ask-content">
 				admin 이십니까?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -68,9 +72,6 @@ const handleLogin = async () => {
 
 .login-button {
 	margin-top: 80px;
-	border: 1px solid #c4c4c4;
-	border-radius: 10px;
-	padding: 15px 70px;
 	font-weight: 800;
 	font-size: 25px;
 	display: flex; /* 플렉스 컨테이너로 설정 */
