@@ -77,3 +77,29 @@ export const fetchDetailQuestion = async questionId => {
 		throw error;
 	}
 };
+
+export const menteeProfileQuestions = async () => {
+	try {
+		const response = await axios.get('/api/questions/my-questions', {
+			withCredentials: true,
+		});
+		console.log(response.data);
+		return response.data;
+	} catch (error) {
+		console.error('Failed to fetch questions:', error);
+		throw error;
+	}
+};
+
+export const mentorProfileQuestions = async () => {
+	try {
+		const response = await axios.get('/api/questions/answered', {
+			withCredentials: true,
+		});
+		console.log(response.data);
+		return response.data;
+	} catch (error) {
+		console.error('Failed to fetch questions:', error);
+		throw error;
+	}
+};

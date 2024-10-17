@@ -75,3 +75,31 @@ export const fetchDetailMentoring = async mentoringId => {
 		throw error;
 	}
 };
+
+export const menteeProfileMentoring = async () => {
+	// 내가 신청한 멘토링 목록 불러오기
+	try {
+		const response = await axios.get('/api/mentorings/applied/approved', {
+			withCredentials: true,
+		});
+		console.log(response.data);
+		return response.data;
+	} catch (error) {
+		console.error('Failed to fetch Mentorings:', error);
+		throw error;
+	}
+};
+
+export const mentorProfileMentoring = async () => {
+	// 내가 개설한 멘토링 목록 불러오기
+	try {
+		const response = await axios.get('/api/mentorings/my-mentorings', {
+			withCredentials: true,
+		});
+		console.log(response.data);
+		return response.data;
+	} catch (error) {
+		console.error('Failed to fetch Mentorings:', error);
+		throw error;
+	}
+};
