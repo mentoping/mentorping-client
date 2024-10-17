@@ -29,12 +29,17 @@
 import { computed, ref } from 'vue';
 import { useQandMStore } from '@/stores/questionAndMentoringStore';
 import { storeToRefs } from 'pinia';
+import { useCategoryStore } from '@/stores/category';
+
+import { mentoringPagingSearch } from '@/api/mentoring';
+
+const categoryStore = useCategoryStore();
 
 const questionStore = useQandMStore();
 const { currentMentoringTotalPages } = storeToRefs(questionStore);
 
 const currentPage = ref(1);
-const maxVisiblePages = 5;
+const maxVisiblePages = 8;
 
 // Calculate the visible page numbers based on currentPage and maxVisiblePages
 const visiblePages = computed(() => {
@@ -51,21 +56,44 @@ const visiblePages = computed(() => {
 });
 
 // Go to a specific page
-const goToPage = page => {
+const goToPage = async page => {
 	currentPage.value = page;
+	await fetchMentorings();
 };
 
 // Go to the previous page
-const prevPage = () => {
+const prevPage = async () => {
 	if (currentPage.value > 1) {
 		currentPage.value--;
+		await fetchMentorings();
 	}
 };
 
 // Go to the next page
-const nextPage = () => {
+const nextPage = async () => {
 	if (currentPage.value < currentMentoringTotalPages.value) {
 		currentPage.value++;
+		await fetchMentorings();
+	}
+};
+
+// Fetch questions based on the current page
+const fetchMentorings = async () => {
+	try {
+		const category = categoryStore.selectedCategory;
+		const sort = questionStore.orderCondition; // 필요한 정렬 조건을 설정하세요.
+		const page = currentPage.value - 1; // API에서 페이지는 0부터 시작하므로 -1 해줍니다.
+		const keyword = questionStore.searchWord;
+		const mentorings = await mentoringPagingSearch(
+			category,
+			sort,
+			page,
+			keyword,
+		);
+		// 질문 목록을 store 또는 컴포넌트 상태에 업데이트합니다.
+		questionStore.setMentoringList(mentorings);
+	} catch (error) {
+		console.error('Failed to fetch questions:', error);
 	}
 };
 </script>

@@ -28,6 +28,7 @@ import { useCategoryStore } from '@/stores/category';
 import { useQandMStore } from '@/stores/questionAndMentoringStore';
 import { storeToRefs } from 'pinia';
 import { questionCategorySearch } from '@/api/question';
+import { mentoringCategorySearch } from '@/api/mentoring';
 
 const props = defineProps({
 	contextType: {
@@ -53,7 +54,12 @@ async function handleCategoryClick(category) {
 		);
 		questionStore.setQuestionList(questionlist);
 	} else if (props.contextType === 'mentoring') {
-		console.log('Mentoring context: 카테고리 선택됨', category);
+		const mentoringlist = await mentoringCategorySearch(
+			categoryStore.selectedCategory,
+			questionStore.orderCondition,
+			questionStore.searchWord,
+		);
+		questionStore.setMentoringList(mentoringlist);
 	}
 }
 

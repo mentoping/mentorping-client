@@ -6,7 +6,14 @@
 			</div>
 			<div class="mento-category">{{ currentMentoring.category }}</div>
 			<div class="mento-active">
-				<div class="active-status">
+				<div
+					v-if="
+						userInfo &&
+						currentMentoring.author &&
+						userInfo.id === currentMentoring.author.id
+					"
+					class="active-status"
+				>
 					<span v-if="currentMentoring.active">활성화</span>
 					<span v-else>비활성화</span>
 					<label class="toggle-switch">
@@ -21,7 +28,10 @@
 		</div>
 		<div class="mento-summary">{{ currentMentoring.summary }}</div>
 		<div class="mento-price">
-			1회 / {{ currentMentoring.price === 0 ? '무료' : currentMentoring.price }}
+			1회 /
+			{{
+				currentMentoring.price === 0 ? '무료' : currentMentoring.price + '원'
+			}}
 		</div>
 		<div class="hashtags">
 			<div class="hashtag-container">
@@ -37,9 +47,33 @@
 		<div class="mento-thumbnail">
 			<img :src="currentMentoring.thumbnailUrl" alt="" />
 		</div>
-		<div class="mento-content">{{ currentMentoring.content }}</div>
+		<div class="mento-content content">
+			<p v-html="currentMentoring.content"></p>
+		</div>
 		<div class="mento-buttons">
-			<button class="apply-button">지원하기</button>
+			<!-- userInfo와 currentMentoring.author가 존재하는지 확인 -->
+			<button
+				v-if="
+					userInfo &&
+					currentMentoring.author &&
+					userInfo.id === currentMentoring.author.id
+				"
+				class="manage-button"
+			>
+				지원자 관리
+			</button>
+			<button
+				v-else-if="
+					userInfo &&
+					currentMentoring.author &&
+					userInfo.id !== currentMentoring.author.id &&
+					currentMentoring.active
+				"
+				class="apply-button"
+			>
+				지원하기
+			</button>
+			<buttonv v-else-if="currentMentoring.active">지원취소</buttonv>
 			<button class="chat-button">
 				<span class="chat-icon">?</span> 채팅 문의
 			</button>
@@ -50,8 +84,12 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
+import { useAuthStore } from '@/stores/auth';
 
 import { useQandMStore } from '@/stores/questionAndMentoringStore';
+
+const authStore = useAuthStore();
+const { userInfo } = storeToRefs(authStore);
 
 const { id } = defineProps({
 	id: {
@@ -65,7 +103,6 @@ const { currentMentoring } = storeToRefs(mentoringStore); //현재 상세페이�
 
 onMounted(() => {
 	mentoringStore.setMentoringDetail(id);
-	console.log('끝');
 });
 </script>
 
@@ -275,5 +312,17 @@ input:checked + .slider:before {
 
 .chat-icon {
 	font-size: 18px;
+}
+
+.manage-button {
+	background-color: #3b946f;
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 10px;
+	font-size: 16px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
 }
 </style>
