@@ -50,7 +50,7 @@
 		<div class="mento-content content">
 			<p v-html="currentMentoring.content"></p>
 		</div>
-		<div class="mento-buttons">
+		<div v-if="userInfo" class="mento-buttons">
 			<!-- userInfo와 currentMentoring.author가 존재하는지 확인 -->
 			<button
 				v-if="
@@ -70,6 +70,7 @@
 					currentMentoring.active
 				"
 				class="apply-button"
+				@click="handleButtonClick"
 			>
 				지원하기
 			</button>
@@ -78,6 +79,10 @@
 				<span class="chat-icon">?</span> 채팅 문의
 			</button>
 		</div>
+		<ApplyMentoringModal
+			v-if="showModal"
+			@close="closeModal"
+		></ApplyMentoringModal>
 	</div>
 </template>
 
@@ -85,8 +90,11 @@
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
 import { useAuthStore } from '@/stores/auth';
+import { ref } from 'vue';
 
 import { useQandMStore } from '@/stores/questionAndMentoringStore';
+
+import ApplyMentoringModal from '@/components/ApplyMentoringModal.vue';
 
 const authStore = useAuthStore();
 const { userInfo } = storeToRefs(authStore);
@@ -104,6 +112,16 @@ const { currentMentoring } = storeToRefs(mentoringStore); //현재 상세페이�
 onMounted(() => {
 	mentoringStore.setMentoringDetail(id);
 });
+
+const showModal = ref(false);
+
+const handleButtonClick = () => {
+	showModal.value = true;
+};
+
+const closeModal = () => {
+	showModal.value = false;
+};
 </script>
 
 <style scoped>
