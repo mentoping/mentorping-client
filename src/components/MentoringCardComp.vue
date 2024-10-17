@@ -266,6 +266,7 @@ const closeModal = () => {
 	padding: 5px 10px;
 	border: 1px solid #ddd;
 	border-radius: 10px;
+	background-color: white;
 }
 
 .author-name {

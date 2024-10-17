@@ -63,12 +63,29 @@ import QuestionBoxComp from '../QuestionBoxComp.vue';
 import QuestionPagingComp from '../QuestionPagingComp.vue';
 import MentoringCardComp from '../MentoringCardComp.vue';
 import MentoringPagingComp from '../MentoringPagingComp.vue';
-import { useAuthStore } from '@/stores/auth';
-
 import { storeToRefs } from 'pinia';
+import { useAuthStore } from '@/stores/auth';
+import { useQandMStore } from '@/stores/questionAndMentoringStore';
+import { onMounted } from 'vue';
+import { menteeProfileMentoring } from '@/api/mentoring';
+import { menteeProfileQuestions } from '@/api/question';
+
+const qnmstore = useQandMStore();
+const qnmstore2 = useQandMStore();
 
 const authStore = useAuthStore();
 const { userInfo } = storeToRefs(authStore);
+
+onMounted(async () => {
+	try {
+		const mentoringsData = await menteeProfileMentoring();
+		const questionsData = await menteeProfileQuestions();
+		qnmstore.setMentoringList(mentoringsData);
+		qnmstore2.setQuestionList(questionsData);
+	} catch (error) {
+		console.error('Failed to fetch mentorings:', error);
+	}
+});
 
 // 이미지 변경 핸들러
 const handleImageChange = event => {
