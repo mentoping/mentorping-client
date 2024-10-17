@@ -56,7 +56,7 @@
 						<div class="author-name">{{ mentoring.author.name }} 멘토</div>
 						<div class="mentoring-price">1회 {{ mentoring.price }}원</div>
 					</div>
-					<div class="author-rating">
+					<div class="author-rating" @click.stop="handleButtonClick">
 						<span class="rating-star">⭐</span>
 						{{ Math.round(mentoring.averageRating * 10) / 10 }}
 					</div>
@@ -64,6 +64,10 @@
 			</div>
 		</div>
 	</div>
+	<ReviewOfMentoringComp
+		v-if="showModal"
+		@close="closeModal"
+	></ReviewOfMentoringComp>
 </template>
 
 <script setup>
@@ -72,6 +76,9 @@ import { useCategoryStore } from '@/stores/category';
 import { useRouter } from 'vue-router';
 import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
+import { ref } from 'vue';
+
+import ReviewOfMentoringComp from './ReviewOfMentoringComp.vue';
 
 const mentoringStore = useQandMStore();
 const { mentoringList } = storeToRefs(mentoringStore);
@@ -104,6 +111,16 @@ const { categories } = storeToRefs(categoryStore);
 const getCategoryLabel = value => {
 	const category = categories.value.find(cat => cat.value === value);
 	return category ? category.label : value;
+};
+
+const showModal = ref(false);
+
+const handleButtonClick = () => {
+	showModal.value = true;
+};
+
+const closeModal = () => {
+	showModal.value = false;
 };
 </script>
 
