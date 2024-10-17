@@ -125,28 +125,31 @@ const handleSave = async () => {
 		alert('가격을 입력해주세요.');
 		return;
 	}
-	if (!thumbnailUrl.value.trim()) {
+	if (!thumbnailInput.value.files.length) {
 		alert('썸네일을 등록해주세요.');
 		return;
 	}
 
+	const file = thumbnailInput.value.files[0];
+	const formData = new FormData();
+
+	formData.append('title', title.value);
+	formData.append('content', content.value);
+	formData.append('category', selectedCategory.value);
+	formData.append('hashtags', hashtags.value);
+	formData.append('price', price.value);
+	formData.append('summary', summary.value);
+	formData.append('thumbnailFile', file); // 파일 추가
+
 	try {
 		// API 요청 보내기
-		await axios.post(
-			'/api//mentorings',
-			{
-				title: title.value,
-				content: content.value,
-				category: selectedCategory.value,
-				hashtags: hashtags.value,
-				price: price.value,
-				thumbnailUrl: thumbnailUrl.value,
-				summary: summary.value,
+		await axios.post('/api/mentorings', formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
 			},
-			{
-				withCredentials: true, // withCredentials는 세 번째 인자로 전달해야 함
-			},
-		);
+			withCredentials: true,
+		});
+
 		// 저장 성공 후 페이지 이동
 		alert('멘토링이 성공적으로 생성되었습니다.');
 		router.push('/mentoring');
