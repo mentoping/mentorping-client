@@ -61,7 +61,7 @@
 						</template>
 						<!-- 파일이 없을 경우 일반 텍스트 메시지 보여줌 -->
 						<template v-else>
-							{{ msg.content }}
+							<div v-html="msg.content"></div>
 						</template>
 					</div>
 				</div>

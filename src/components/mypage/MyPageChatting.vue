@@ -6,6 +6,7 @@
 		<div class="content-body">
 			<ChattingListComp @select-room="selectChatRoom"></ChattingListComp>
 			<ChatWindow
+				v-if="selectedRoom.id"
 				:room="selectedRoom"
 				:roomId="selectedRoom.id"
 				:roomName="selectedRoom.name"
