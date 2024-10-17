@@ -12,13 +12,13 @@
 				<template #button> 개설하기 </template>
 			</ExplainComp>
 		</div>
-		<div><SearchComp></SearchComp></div>
-		<div><CategoriesComp></CategoriesComp></div>
+		<div><SearchComp contentType="mentoring"></SearchComp></div>
+		<div><CategoriesComp contextType="mentoring"></CategoriesComp></div>
 		<div class="order"><OrderConditonComp></OrderConditonComp></div>
 		<div class="card-view">
 			<MentoringCardComp></MentoringCardComp>
 		</div>
-		<div class="page-move"><MentoringPagingComp></MentoringPagingComp>></div>
+		<div class="page-move"><MentoringPagingComp></MentoringPagingComp></div>
 	</div>
 </template>
 

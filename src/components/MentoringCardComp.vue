@@ -58,7 +58,7 @@
 					</div>
 					<div class="author-rating">
 						<span class="rating-star">⭐</span>
-						{{ Math.round(mentoring.rating * 10) / 10 }}
+						{{ Math.round(mentoring.averageRating * 10) / 10 }}
 					</div>
 				</div>
 			</div>

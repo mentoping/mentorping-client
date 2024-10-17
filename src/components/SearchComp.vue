@@ -22,6 +22,7 @@ import { watch } from 'vue';
 import { useQandMStore } from '@/stores/questionAndMentoringStore';
 import { storeToRefs } from 'pinia';
 import { questionPagingSearch } from '@/api/question';
+import { mentoringPagingSearch } from '@/api/mentoring';
 import { useCategoryStore } from '@/stores/category';
 import { onUnmounted } from 'vue';
 
@@ -62,7 +63,13 @@ const handleSearch = async () => {
 			);
 			searchStore.setQuestionList(response);
 		} else if (props.contentType === 'mentoring') {
-			console.log('멘토링 검색');
+			const response = await mentoringPagingSearch(
+				categoryStore.selectedCategory,
+				sort,
+				page,
+				keyword,
+			);
+			searchStore.setMentoringList(response);
 		}
 	} catch (error) {
 		console.error('검색 중 오류가 발생했습니다:', error);
