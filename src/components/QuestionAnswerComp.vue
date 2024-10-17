@@ -11,7 +11,7 @@
 			<div class="answer-header">
 				<img
 					:src="answer.author.profileUrl"
-					alt="장원석석석석"
+					alt="profile"
 					class="profile-img"
 				/>
 				<div class="author-info">
@@ -43,6 +43,9 @@
 								answer.author.id,
 								answer.author.name,
 								answer.author.profileUrl,
+								answer,
+								currentQuestion.title, // question의 title 전달
+								currentQuestion.content, // question의 content 전달
 							)
 						"
 					>
@@ -84,7 +87,14 @@ const { currentQuestion } = storeToRefs(questionStore);
 const authStore = useAuthStore();
 const { userInfo } = storeToRefs(authStore);
 
-async function goToChatRoom(mentorId, mentorName, mentorProfileurl) {
+async function goToChatRoom(
+	mentorId,
+	mentorName,
+	mentorProfileurl,
+	answer,
+	questionTitle,
+	questionContent,
+) {
 	try {
 		const receiverId = mentorId;
 		const receiverName = mentorName; //받는사람 이름 설정
@@ -120,6 +130,8 @@ async function goToChatRoom(mentorId, mentorName, mentorProfileurl) {
 		});
 		let roomId;
 		if (querySnapshot.empty) {
+			const plainTextContent = answer.content.replace(/<[^>]*>?/gm, ''); // HTML 태그 제거
+
 			// 채팅방이 존재하지 않으면 새 채팅방 생성
 			const newRoom = await addDoc(roomsCollection, {
 				senderId: parseInt(senderId), // 현재 사용자 ID를 senderId로 저장
@@ -128,8 +140,7 @@ async function goToChatRoom(mentorId, mentorName, mentorProfileurl) {
 					[senderId]: `${receiverName}`, // 현재 사용자가 볼 이름
 					[receiverId]: `${senderName}`, // 상대방이 볼 이름
 				},
-				// lastMessage: `답변을 보고 왔어요: ${answer.title} - ${answer.content.slice(0, 50)}...`,
-				lastMessage: ``,
+				lastMessage: `답변을 보고 왔어요: ${plainTextContent.slice(0, 150)}...`,
 				lastMessageTimestamp: Date.now(),
 				chatProfiles: {
 					// chatProfiles 필드 추가
@@ -139,21 +150,30 @@ async function goToChatRoom(mentorId, mentorName, mentorProfileurl) {
 				},
 				createdAt: Date.now(),
 			});
-			console.log('new rooommmmmmmmm ::  ', newRoom);
-			// 새로 생성한 채팅방으로 이동
-			// router.push({
-			// 	path: '/mypage/chatting',
-			// 	query: { roomId: newRoom.id },
-			// });
 			roomId = newRoom.id;
 		} else {
-			// const existingRoomId = querySnapshot.docs[0].id;
-			// router.push({
-			// 	path: '/mypage/chatting',
-			// 	query: { roomId: existingRoomId },
-			// });
 			roomId = querySnapshot.docs[0].id;
 		}
+
+		// const plainQuestionContent = questionContent.replace(/<[^>]*>?/gm, ''); // HTML 태그 제거
+
+		// messages 서브컬렉션에 메시지 추가
+		const messagesCollection = collection(db, `rooms/${roomId}/messages`);
+		await addDoc(messagesCollection, {
+			senderId: parseInt(senderId),
+			senderName: senderName,
+			content: `
+    <div>
+      <span style="font-size: 1.4em; font-weight: bold;">질문 제목:</span><br/>
+      <span>${questionTitle}</span><br/><br/>
+      <span style="font-size: 1.4em; font-weight: bold;">질문 내용:</span><br/>
+      <span>${questionContent.slice(0, 200)}...</span><br/><br/>
+      <span style="font-size: 1.4em; font-weight: bold;">답변 내용:</span><br/>
+      <span>${answer.content.slice(0, 200)}...</span><br/><br/>
+    </div>`, // HTML 태그를 사용한 스타일 적용
+			timestamp: Date.now(),
+			isRead: false, // 수신자가 메시지를 읽었는지 여부
+		});
 
 		router.push({
 			path: '/mypage/chatting',
