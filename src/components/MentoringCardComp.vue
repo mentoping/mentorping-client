@@ -186,19 +186,31 @@ const closeModal = () => {
 }
 
 .mentoring-title {
-	font-size: 1.3em;
+	font-size: 1.2em;
 	font-weight: bold;
 	margin: 5px 0;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 설정 */
+	overflow: hidden; /* 넘치는 텍스트를 숨김 처리 */
+	text-overflow: ellipsis; /* 넘치는 텍스트에 ... 표시 */
+	width: 80%; /* 텍스트가 박스의 가로 80%만 차지하도록 설정 */
+	/* 위의 스타일은 길어질 때 제목이 잘리지 않고 ...으로 표시되도록 함 */
 }
 
 .mentoring-summary {
-	font-size: 13px;
+	font-size: 12px;
 	color: #444;
 	margin-bottom: 26px;
 	margin-left: 5px;
+	overflow: hidden; /* 넘치는 텍스트를 숨김 처리 */
+	text-overflow: ellipsis; /* 넘치는 텍스트에 ... 표시 */
+	display: -webkit-box; /* Flexbox와 유사한 스타일로 표시 */
+	-webkit-line-clamp: 2; /* 최대 2줄까지만 표시하고 잘린 텍스트는 ... 처리 */
+	-webkit-box-orient: vertical; /* 수직 방향으로 클램프 적용 */
+	width: 80%; /* 텍스트가 박스의 가로 80%만 차지하도록 설정 */
+	/* 위의 스타일은 요약이 너무 길어질 경우 줄바꿈 후 ...으로 표시되도록 함 */
 }
 
 .author-info {
