@@ -1,8 +1,14 @@
 <template>
 	<div class="center-container">
 		<SelectCategoryComp></SelectCategoryComp>
-		<input type="text" class="large-input" placeholder="제목을 입력하세요" />
+		<input
+			type="text"
+			class="large-input"
+			placeholder="제목을 입력하세요"
+			v-model="title"
+		/>
 		<textarea
+			v-model="summary"
 			class="medium-textarea"
 			placeholder="개설하시는 멘토링에 대해서 간략한 설명을 기입해주세요"
 		></textarea>
@@ -13,9 +19,10 @@
 				placeholder="무료이면 0을 입력해주세요"
 				min="0"
 				step="1"
+				v-model="price"
 			/>
 		</div>
-		<SelectHashTagComp></SelectHashTagComp>
+		<SelectHashTagComp v-model="hashtags"></SelectHashTagComp>
 		<div class="thumbnail-container">
 			<p class="thumbnail-title">썸네일 등록</p>
 			<p class="thumbnail-explain">
@@ -45,6 +52,7 @@
 			</div>
 		</div>
 		<TextEditorComp
+			v-model="content"
 			class="text-editor"
 			:placeholder="'질문내용을 입력해주세요'"
 			:height="600"
@@ -53,18 +61,31 @@
 			<router-link to="/question">
 				<button class="cancel-button">취소</button>
 			</router-link>
-			<router-link to="/question">
-				<button class="save-button">저장</button>
-			</router-link>
+			<button class="save-button" @click="handleSave">저장</button>
 		</div>
 	</div>
 </template>
 
 <script setup>
+import axios from 'axios';
+import { useRouter } from 'vue-router';
 import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useCategoryStore } from '@/stores/category';
 import SelectCategoryComp from '@/components/SelectCategoryComp.vue';
 import SelectHashTagComp from '@/components/SelectHashTagComp.vue';
 import TextEditorComp from '@/components/TextEditorComp.vue';
+
+const router = useRouter();
+const categoryStore = useCategoryStore();
+
+const { selectedCategory } = storeToRefs(categoryStore); //현재 선택된 카테고리
+
+const title = ref(''); //질문 제목
+const hashtags = ref([]); // 해시태그 배열
+const summary = ref('');
+const content = ref('');
+const price = ref('');
 
 const thumbnailUrl = ref(null);
 const thumbnailInput = ref(null); // 파일 입력 요소를 참조하는 변수
@@ -80,6 +101,58 @@ const removeThumbnail = () => {
 	thumbnailUrl.value = null;
 	if (thumbnailInput.value) {
 		thumbnailInput.value.value = ''; // 파일 입력 요소 초기화
+	}
+};
+
+const handleSave = async () => {
+	if (selectedCategory.value === 'ALL') {
+		alert('카테고리를 선택해주세요.');
+		return;
+	}
+	if (!title.value.trim()) {
+		alert('제목을 입력해주세요.');
+		return;
+	}
+	if (!content.value.trim()) {
+		alert('멘토링 내용을 입력해주세요.');
+		return;
+	}
+	if (!summary.value.trim()) {
+		alert('멘토링에 대한 요약 내용을 입력해주세요.');
+		return;
+	}
+	if (!price.value) {
+		alert('가격을 입력해주세요.');
+		return;
+	}
+	if (!thumbnailUrl.value.trim()) {
+		alert('썸네일을 등록해주세요.');
+		return;
+	}
+
+	try {
+		// API 요청 보내기
+		await axios.post(
+			'/api//mentorings',
+			{
+				title: title.value,
+				content: content.value,
+				category: selectedCategory.value,
+				hashtags: hashtags.value,
+				price: price.value,
+				thumbnailUrl: thumbnailUrl.value,
+				summary: summary.value,
+			},
+			{
+				withCredentials: true, // withCredentials는 세 번째 인자로 전달해야 함
+			},
+		);
+		// 저장 성공 후 페이지 이동
+		alert('멘토링이 성공적으로 생성되었습니다.');
+		router.push('/mentoring');
+	} catch (error) {
+		console.error('멘토링 생성 중 오류가 발생했습니다:', error);
+		alert('멘토링 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
 	}
 };
 </script>
@@ -113,7 +186,7 @@ const removeThumbnail = () => {
 	border: none;
 	font-weight: 800;
 	font-size: 23px;
-	text-align: left;
+	text-align: center;
 	outline: none;
 	resize: none; /* 크기 조절 불가능하도록 설정 */
 	padding: 1rem;
