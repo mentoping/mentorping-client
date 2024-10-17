@@ -50,7 +50,7 @@
 		<div class="mento-content content">
 			<p v-html="currentMentoring.content"></p>
 		</div>
-		<div class="mento-buttons">
+		<div v-if="userInfo" class="mento-buttons">
 			<!-- userInfo와 currentMentoring.author가 존재하는지 확인 -->
 			<button
 				v-if="

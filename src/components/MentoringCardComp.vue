@@ -67,6 +67,7 @@
 	<ReviewOfMentoringComp
 		v-if="showModal"
 		@close="closeModal"
+		:mentoringId="selectedMentoringId"
 	></ReviewOfMentoringComp>
 </template>
 
@@ -112,6 +113,8 @@ const getCategoryLabel = value => {
 	const category = categories.value.find(cat => cat.value === value);
 	return category ? category.label : value;
 };
+
+const selectedMentoringId = ref(null);
 
 const showModal = ref(false);
 
