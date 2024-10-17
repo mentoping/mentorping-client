@@ -3,7 +3,8 @@
 		<h2>문의 상세 내역</h2>
 		<div class="inquiry-info">
 			<p><strong>작성자:</strong> {{ selectedInquiry.userName }}</p>
-			<p><strong>내용:</strong> {{ selectedInquiry.inquiryContent }}</p>
+			<p><strong>내용:</strong></p>
+			<div v-html="selectedInquiry.inquiryContent"></div>
 			<p><strong>날짜:</strong> {{ selectedInquiry.date }}</p>
 
 			<!-- 삭제 버튼 -->
