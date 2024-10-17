@@ -8,7 +8,7 @@
 		<div class="explain">
 			<div class="explain-title">Mentain</div>
 			<div class="explain-detail">
-				Menain은 멘토링(Mentoring)과 마운틴(Mountain)의 합성어로<br />멘토링을
+				Mentain은 멘토링(Mentoring)과 마운틴(Mountain)의 합성어로<br />멘토링을
 				통해 큰 산을 넘거나 멘토와 함께 성장의 고지를 향해<br />나아간다는
 				의미를 담고 있습니다.
 			</div>
